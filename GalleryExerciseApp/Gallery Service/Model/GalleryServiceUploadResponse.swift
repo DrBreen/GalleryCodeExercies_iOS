@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct GallertServiceUploadResponse: Codable {
+struct GalleryServiceUploadResponse: Codable {
     let imageId: String
 }

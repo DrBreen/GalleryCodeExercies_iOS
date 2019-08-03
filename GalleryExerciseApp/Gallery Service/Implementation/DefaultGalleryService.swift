@@ -42,16 +42,42 @@ class DefaultGalleryService: GalleryService {
             .map { response in response as? [String] ?? [] }
     }
     
-    func upload(data: Data, mimeType: String) -> Observable<GallertServiceUploadResponse> {
-        return Observable.never()
+    func upload(data: Data) -> Observable<GalleryServiceUploadResponse> {
+        return networkRequestSender
+            .upload(url: url(path: DefaultGalleryService.galleryPath), body: data, headers: nil)
+            .map { data in
+                
+                guard let dict = data as? [AnyHashable : Any] else {
+                    throw NSError(domain: "DefaultGalleryService.upload",
+                                  code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey : "Failed to convert server response to dictionary"])
+                }
+                
+                guard let rawData = try? JSONSerialization.data(withJSONObject: dict, options: []) else {
+                    throw NSError(domain: "DefaultGalleryService.upload",
+                                  code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey : "Failed to convert dictionary to data"])
+                }
+                
+                let decoder = JSONDecoder()
+                guard let response = try? decoder.decode(GalleryServiceUploadResponse.self, from: rawData) else {
+                    throw NSError(domain: "DefaultGalleryService",
+                                  code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey : "Failed to convert data to image"])
+                }
+                
+                return response
+            }
     }
     
     func image(id: String) -> Observable<UIImage> {
         return networkRequestSender
-            .get(url: url(path: DefaultGalleryService.galleryPath, id), query: nil, headers: nil)
+            .getData(url: url(path: DefaultGalleryService.galleryPath, id), query: nil, headers: nil)
             .map { data in
-                guard let data = data as? Data, let image = UIImage(data: data) else {
-                    throw NSError(domain: "DefaultGalleryService", code: 1, userInfo: nil)
+                guard let image = UIImage(data: data) else {
+                    throw NSError(domain: "DefaultGalleryService",
+                                  code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey : "Failed to convert data to image"])
                 }
                 
                 return image

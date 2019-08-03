@@ -10,6 +10,7 @@ import XCTest
 import RxSwift
 import InstantMock
 
+//TODO: add error tests
 class GalleryServiceTest: XCTestCase {
     
     private static let offsetResult = ["1", "2", "3"]
@@ -43,10 +44,17 @@ class GalleryServiceTest: XCTestCase {
         let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
         let catImageData = catImage.pngData()!
         mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery/testId")!),
+            .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery/testId")!),
                                                query: Arg.any(),
                                                headers: Arg.any()))
-            .andReturn(Observable<Any>.just(catImageData))
+            .andReturn(Observable<Data>.just(catImageData))
+        
+        //for POST /gallery return JSON with { imageId: "testId" }
+        mockNetworkRequestSender.stub()
+            .call(mockNetworkRequestSender.upload(url: Arg.eq(URL(string: "https://test.com/gallery")!),
+                                               body: Arg.any(),
+                                               headers: Arg.any()))
+            .andReturn(Observable<Any>.just(["imageId" : "testId"]))
     }
     
     override func tearDown() {
@@ -77,6 +85,7 @@ class GalleryServiceTest: XCTestCase {
         wait(for: [gotResponseExpectation], timeout: 1.0)
     }
     
+    //should receive UIImage
     func test_image() {
         let gotResponseExpectation = XCTestExpectation()
         
@@ -87,4 +96,15 @@ class GalleryServiceTest: XCTestCase {
         wait(for: [gotResponseExpectation], timeout: 1.0)
     }
     
+    //should upload successfully and receive GallertServiceUploadResponse with imageId == "testId"
+    func test_upload() {
+        let gotResponseExpectation = XCTestExpectation()
+        
+        galleryService.upload(data: Data()).subscribe(onNext: { response in
+            XCTAssertEqual(response.imageId, "testId");
+            gotResponseExpectation.fulfill()
+        }).disposed(by: disposeBag!)
+        
+        wait(for: [gotResponseExpectation], timeout: 1.0)
+    }
 }

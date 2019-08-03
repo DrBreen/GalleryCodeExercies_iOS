@@ -172,13 +172,6 @@
 			path = "MockUsable Extensions";
 			sourceTree = "<group>";
 		};
-		38027AF722F5FC39006AC8E4 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		38027AFA22F6007F006AC8E4 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +203,6 @@
 		3818F00422F59F93004DC09A /* GalleryExerciseApp */ = {
 			isa = PBXGroup;
 			children = (
-				38027AF722F5FC39006AC8E4 /* Utils */,
 				38027ACC22F5E874006AC8E4 /* Gallery Service */,
 				38027AC522F5E27F006AC8E4 /* Networking */,
 				3818F00522F59F93004DC09A /* AppDelegate.swift */,

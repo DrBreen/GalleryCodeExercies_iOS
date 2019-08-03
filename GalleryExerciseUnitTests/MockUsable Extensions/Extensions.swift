@@ -10,6 +10,24 @@ import Foundation
 import RxSwift
 import InstantMock
 
+// MARK: Data
+extension Data: MockUsable {
+    
+    public static var anyValue: MockUsable {
+        return Data()
+    }
+    
+    public func equal(to: MockUsable?) -> Bool {
+        guard let data = to as? Data else {
+            return false
+        }
+        
+        return self == data
+    }
+
+}
+
+// MARK: Observable
 extension Observable: MockUsable {
     
     public static var anyValue: MockUsable {
@@ -26,6 +44,7 @@ extension Observable: MockUsable {
     
 }
 
+// MARK: URL
 extension URL: MockUsable {
     
     public static var anyValue: MockUsable {

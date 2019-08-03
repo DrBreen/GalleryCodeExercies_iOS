@@ -12,6 +12,14 @@ import RxSwift
 
 class MockNetworkRequestSender: Mock, NetworkRequestSender {
     
+    func getData(url: URL, query: [String : Any]?, headers: [String : String]?) -> Observable<Data> {
+        return super.call(url, query, headers)!
+    }
+    
+    func upload(url: URL, body: Data, headers: [String : String]?) -> Observable<Any> {
+        return super.call(url, body, headers)!
+    }
+    
     func get(url: URL, query: [String : Any]?, headers: [String : String]?) -> Observable<Any> {
         return super.call(url, query, headers)!
     }

@@ -12,6 +12,6 @@ import RxSwift
 
 protocol GalleryService {
     func getGallery(offset: Int?, count: Int?) -> Observable<[String]>
-    func upload(data: Data, mimeType: String) -> Observable<GallertServiceUploadResponse>
+    func upload(data: Data) -> Observable<GalleryServiceUploadResponse>
     func image(id: String) -> Observable<UIImage>
 }

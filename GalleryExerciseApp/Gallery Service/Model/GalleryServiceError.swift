@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct GalleryServiceError: Codable {
+struct GalleryServiceError: Codable, Error {
     let error: String
 }

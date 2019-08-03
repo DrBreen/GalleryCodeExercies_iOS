@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 
+//TODO: add parsing of error
 class DefaultGalleryService: GalleryService {
     
     private static let galleryPath = "gallery"

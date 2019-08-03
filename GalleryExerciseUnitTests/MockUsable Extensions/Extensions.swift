@@ -48,7 +48,7 @@ extension Observable: MockUsable {
 extension URL: MockUsable {
     
     public static var anyValue: MockUsable {
-        return URL(string: "")!
+        return URL(string: "http://any.com")!
     }
     
     public func equal(to: MockUsable?) -> Bool {

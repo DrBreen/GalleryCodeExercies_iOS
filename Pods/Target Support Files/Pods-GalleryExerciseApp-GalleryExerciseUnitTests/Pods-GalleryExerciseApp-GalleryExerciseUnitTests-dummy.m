@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_GalleryExerciseApp_GalleryExerciseUnitTests : NSObject
+@end
+@implementation PodsDummy_Pods_GalleryExerciseApp_GalleryExerciseUnitTests
+@end

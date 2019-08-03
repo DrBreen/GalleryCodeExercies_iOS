@@ -1,0 +1,6 @@
+framework module Pods_GalleryExerciseApp {
+  umbrella header "Pods-GalleryExerciseApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

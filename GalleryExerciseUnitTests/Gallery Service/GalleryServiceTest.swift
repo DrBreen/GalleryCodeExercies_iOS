@@ -13,8 +13,10 @@ import InstantMock
 //TODO: add error tests
 class GalleryServiceTest: XCTestCase {
     
-    private static let offsetResult = ["1", "2", "3"]
-    private static let noOffsetResult = ["2"]
+    private static let offsetResult = GalleryListResponse(count: 3, imageIds: ["1", "2", "3"])
+    private static let offsetResultJson = try! JSONSerialization.data(withJSONObject: ["count": 3, "imageIds": ["1", "2", "3"]], options: [])
+    private static let noOffsetResult = GalleryListResponse(count: 1, imageIds: ["2"])
+    private static let noOffsetResultJson = try! JSONSerialization.data(withJSONObject: ["count": 1, "imageIds": ["2"]], options: []) 
     
     var disposeBag: DisposeBag?
     
@@ -29,16 +31,16 @@ class GalleryServiceTest: XCTestCase {
         
         //for no offset and count return ["1", "2", "3"]
         mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
+            .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
                                                query: Arg.any(),
-                                               headers: Arg.any())).andReturn(Observable<Any>.just(GalleryServiceTest.noOffsetResult))
+                                               headers: Arg.any())).andReturn(Observable<Data>.just(GalleryServiceTest.noOffsetResultJson))
         
         //for offset == 1 and count == 1 return ["2"]
         mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
+            .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
                                                query: Arg.eq(["offset" : 1, "count" : 1]),
                                                headers: Arg.any()))
-            .andReturn(Observable<Any>.just(GalleryServiceTest.offsetResult))
+            .andReturn(Observable<Data>.just(GalleryServiceTest.offsetResultJson))
         
         //for /gallery/testId return data that is an image
         let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!

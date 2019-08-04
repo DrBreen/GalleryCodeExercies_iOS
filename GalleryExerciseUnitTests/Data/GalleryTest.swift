@@ -190,15 +190,17 @@ class GalleryTest: XCTestCase {
         XCTAssertTrue(gallery.fetchedAll)
     }
     
-    //test full fetch that marks gallery as fully fetched
+    //test partial fetch that marks gallery as fully fetched
     func test_fetchImagesPartialMarksAsFullyFetched() {
         
-        let gallery = createMockGallery(prePopulatedStorage: nil, isStorageFullyFetched: false)
+        let galleryContent = [GalleryImage(id: "t1", image: createCatImage(), showPlaceholder: false)]
+        let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
         
         //first, let's mock the listing
-        let galleryContent = [String]()
-        setMockData(gallery: galleryContent)
-        performTestFetch(gallery: gallery, offset: 0, count: 1, expectedUpdatesCount: 1)
+        let serverGalleryContent = ["t2"]
+        setMockData(gallery: serverGalleryContent, count: 2)
+        setMockData(images: ["t2" : true])
+        performTestFetch(gallery: gallery, offset: 1, count: 1, expectedUpdatesCount: 2)
         
         XCTAssertTrue(gallery.fetchedAll)
     }
@@ -239,15 +241,28 @@ class GalleryTest: XCTestCase {
     
     //sets mock data for whole gallery
     //if gallery is nil, send error instead of gallery
-    private func setMockData(gallery: [String]?) {
+    private func setMockData(gallery: [String]?, count: Int? = nil) {
         let stub = mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
+            .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
                                                query: Arg.any(),
                                                headers: Arg.any()))
         if let gallery = gallery {
-            stub.andReturn(Observable<Any>.just(gallery))
+            let totalCount: Int
+            if let count = count {
+                totalCount = count
+            } else {
+                totalCount = gallery.count
+            }
+            
+            let json: [String: Any] = [
+                "count" : totalCount,
+                "imageIds" : gallery
+            ]
+            
+            let data = try! JSONSerialization.data(withJSONObject: json, options: [])
+            stub.andReturn(Observable<Data>.just(data))
         } else {
-            let errorObservable = Observable<Any>.error(GalleryServiceError(error: "Test error"))
+            let errorObservable = Observable<Data>.error(GalleryServiceError(error: "Test error"))
             stub.andReturn(errorObservable)
         }
     }
@@ -335,7 +350,7 @@ class GalleryTest: XCTestCase {
             expectations.append(observableCompletesExpectation)
         }
         
-        wait(for: expectations, timeout: 2000.0)
+        wait(for: expectations, timeout: 2.0)
         
         //verify contents of gallery
         loadedContent?.forEach {

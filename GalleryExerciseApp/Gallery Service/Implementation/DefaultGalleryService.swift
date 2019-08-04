@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 
-//TODO: add parsing of error
 class DefaultGalleryService: GalleryService {
     
     private static let galleryPath = "gallery"
@@ -26,7 +25,7 @@ class DefaultGalleryService: GalleryService {
         return URL(string: path.joined(separator: "/"), relativeTo: galleryServiceURL)!.absoluteURL
     }
     
-    func getGallery(offset: Int?, count: Int?) -> Observable<[String]> {
+    func getGallery(offset: Int?, count: Int?) -> Observable<GalleryListResponse> {
         
         let query: [String : Any]?
         if let count = count, let offset = offset {
@@ -39,8 +38,11 @@ class DefaultGalleryService: GalleryService {
         }
         
         return networkRequestSender
-            .get(url: url(path: DefaultGalleryService.galleryPath), query: query, headers: nil)
-            .map { response in response as? [String] ?? [] }
+            .getData(url: url(path: DefaultGalleryService.galleryPath), query: query, headers: nil)
+            .map { response in
+                let decoder = JSONDecoder()
+                return (try? decoder.decode(GalleryListResponse.self, from: response)) ?? GalleryListResponse(count: 0, imageIds: [])
+            }
     }
     
     func upload(data: Data) -> Observable<GalleryServiceUploadResponse> {

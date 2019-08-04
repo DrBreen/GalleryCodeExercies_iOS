@@ -14,6 +14,8 @@ import RxSwift
 class Gallery: GalleryProtocol {
     
     private var storage: [GalleryImage]
+    
+    //TODO: refactor this and use server-provided value instead
     private(set) var fetchedAll = false
     
     private let galleryService: GalleryService
@@ -37,25 +39,14 @@ class Gallery: GalleryProtocol {
         
         //this observable should be only subscribed to after we have some content in storage
         //what it does? It launches image request for every image, updates images and notifies the subscriber on every image download event
-        let updatesObservable = Observable.deferred { [weak self] in Observable.just(self?.storage ?? []) }
-            .concatMap { [weak self] _ in Observable<GalleryImage>.from(self?.storage ?? []) }
-            .flatMap { [weak self] (galleryImage: GalleryImage) -> Observable<(String?, UIImage?)> in
-                guard let strongSelf = self else {
-                    //this object is dead, it doesn't matter anymore
-                    return Observable<(String?, UIImage?)>.never()
-                }
-                
+        let updatesObservable = Observable.deferred { Observable.just(self.storage) }
+            .concatMap { _ in Observable<GalleryImage>.from(self.storage) }
+            .filter { $0.image == nil && $0.showPlaceholder == true }
+            .flatMap { (galleryImage: GalleryImage) -> Observable<(String?, UIImage?)> in
                 //send request to server and transform response to pair of ID/Image so we'll know what image to update
-                
-                if let _ = galleryImage.image, galleryImage.showPlaceholder == false {
-                    //we already have image, no further update needed
-                    return Observable<(String?, UIImage?)>.just((nil, nil))
-                }
-                
                 let id = galleryImage.id
-                return strongSelf.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil))
+                return self.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil)).debug("\(id) request", trimOutput: true)
             }
-            .filter { (id, image) in id != nil }
             .do(onNext: { [weak self] (id: String?, image: UIImage?) in
                 //update placeholders with actual images
                 guard let idx = self?.storage.firstIndex(where: { $0.id == id }) else {
@@ -66,6 +57,7 @@ class Gallery: GalleryProtocol {
                 self?.storage[idx].image = image
             })
             .map { _ in self.storage }
+            .debug("gallery -> updates", trimOutput: true)
         
         if let offset = offset, let count = count {
             
@@ -77,11 +69,11 @@ class Gallery: GalleryProtocol {
             } else {
                 let galleryObservable = galleryService
                     .getGallery(offset: offset, count: count)
-                    .do(onNext: { [weak self] ids in
+                    .do(onNext: { [weak self] galleryListResponse in
                         //create collection to insert to storage
                         var insertedContent = [GalleryImage]()
                         
-                        for id in ids {
+                        for id in galleryListResponse.imageIds {
                             insertedContent.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
                         }
                         
@@ -93,10 +85,10 @@ class Gallery: GalleryProtocol {
                                 
                                 if actualCount > 0 {
                                     strongSelf.storage.extendingReplaceSubrange(offset..<offset + count, with: insertedContent)
-                                } else {
-                                    strongSelf.fetchedAll = true
                                 }
                             }
+                            
+                            strongSelf.fetchedAll = strongSelf.storage.count == galleryListResponse.count
                         }
                     })
                     .map { [weak self] _ in self?.storage ?? [] } //this is needed so that we'll return first update with all images as placeholders
@@ -104,7 +96,7 @@ class Gallery: GalleryProtocol {
                 //this observable will emit:
                 //1) Immediately after fetching of image list - it will emit placeholders
                 //2) After every image update
-                return galleryObservable.concat(updatesObservable)
+                return galleryObservable.debug("gallery", trimOutput: true).concat(updatesObservable).debug("updates", trimOutput: true)
             }
         } else {
             //requested the whole gallery
@@ -118,12 +110,12 @@ class Gallery: GalleryProtocol {
             //this observable will fetch gallery and then transform it into models with placeholder images
             let galleryObservable = galleryService
                 .getGallery(offset: nil, count: nil)
-                .do(onNext: { [weak self] ids in
+                .do(onNext: { [weak self] galleryListResponse in
                     self?.fetchedAll = true
                     
                     self?.storage = []
                     
-                    for id in ids {
+                    for id in galleryListResponse.imageIds {
                         self?.storage.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
                     }
                 })

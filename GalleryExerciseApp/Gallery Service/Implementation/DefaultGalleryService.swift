@@ -62,7 +62,7 @@ class DefaultGalleryService: GalleryService {
                 
                 let decoder = JSONDecoder()
                 guard let response = try? decoder.decode(GalleryServiceUploadResponse.self, from: rawData) else {
-                    throw NSError(domain: "DefaultGalleryService",
+                    throw NSError(domain: "DefaultGalleryService.upload",
                                   code: 1,
                                   userInfo: [NSLocalizedDescriptionKey : "Failed to convert data to image"])
                 }

@@ -8,6 +8,7 @@
 
 import Foundation
 
+//TODO: don't forget about cropping/rotating
 class GalleryScreenPresenter {
     
     private let gallery: GalleryProtocol

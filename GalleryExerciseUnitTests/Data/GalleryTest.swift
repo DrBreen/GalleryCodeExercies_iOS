@@ -15,9 +15,6 @@ class GalleryTest: XCTestCase {
     
     private let mockNetworkRequestSender = MockNetworkRequestSender()
     
-    //TODO: test partial fetch when it's from web
-    //TODO: test partial fetch when it overlaps
-    
     override func setUp() {
         super.setUp()
         
@@ -119,8 +116,123 @@ class GalleryTest: XCTestCase {
         }
     }
     
+    //test fetch that brings partial cached values from the web, and they do overlap with current values
+    func test_fetchImagesFromWebPartial() {
+        //first of all, let's build the gallery ourselves
+        let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map {
+            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+        }
+        
+        let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
+        
+        //mock gallery response
+        setMockData(gallery: ["t6", "t7"])
+        setMockData(images: [
+            "t1" : true,
+            "t2" : true,
+            "t3" : true,
+            "t4" : true,
+            "t5" : true,
+            "t6" : true,
+            "t7" : true
+            ])
+        
+        let expectedIds = ["t1", "t2", "t3", "t4", "t5", "t6", "t7"]
+        let result = performTestFetch(gallery: gallery, offset: 5, count: 2, expectedUpdatesCount: 3, prePopulatedStorage: galleryContent, isStorageFullyFetched: true, imageVerifier: {
+            XCTAssertFalse($0.showPlaceholder)
+            XCTAssertNotNil($0.image)
+        }, expectComplete: true)
+        
+        XCTAssertEqual(result?.map { $0.id }, expectedIds)
+    }
+    
+    //test fetch that brings partial cached values from the web, and they do overlap with current values
+    func test_fetchImagesFromWebPartialWithOverlap() {
+        //first of all, let's build the gallery ourselves
+        let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map { id -> GalleryImage in
+            let hasImage = id != "t4"
+            return GalleryImage(id: id, image: hasImage ? createCatImage() : nil, showPlaceholder: !hasImage)
+        }
+        
+        let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
+        
+        //mock gallery response
+        setMockData(gallery: ["t4", "t5", "t6", "t7"])
+        setMockData(images: [
+            "t1" : true,
+            "t2" : true,
+            "t3" : true,
+            "t4" : true,
+            "t5" : true,
+            "t6" : true,
+            "t7" : true
+            ])
+        
+        let expectedIds = ["t1", "t2", "t3", "t4", "t5", "t6", "t7"]
+        let result = performTestFetch(gallery: gallery, offset: 3, count: 4, expectedUpdatesCount: 5, prePopulatedStorage: galleryContent, isStorageFullyFetched: true, imageVerifier: {
+            XCTAssertFalse($0.showPlaceholder)
+            XCTAssertNotNil($0.image)
+        }, expectComplete: true)
+        
+        XCTAssertEqual(result?.map { $0.id }, expectedIds)
+    }
+    
+    //test full fetch that marks gallery as fully fetched
+    func test_fetchImagesFullMarksAsFullyFetched() {
+        
+        let gallery = createMockGallery(prePopulatedStorage: nil, isStorageFullyFetched: false)
+        
+        //first, let's mock the listing
+        let galleryContent = [String]()
+        setMockData(gallery: galleryContent)
+        performTestFetch(gallery: gallery, expectedUpdatesCount: 1)
+        
+        XCTAssertTrue(gallery.fetchedAll)
+    }
+    
+    //test full fetch that marks gallery as fully fetched
+    func test_fetchImagesPartialMarksAsFullyFetched() {
+        
+        let gallery = createMockGallery(prePopulatedStorage: nil, isStorageFullyFetched: false)
+        
+        //first, let's mock the listing
+        let galleryContent = [String]()
+        setMockData(gallery: galleryContent)
+        performTestFetch(gallery: gallery, offset: 0, count: 1, expectedUpdatesCount: 1)
+        
+        XCTAssertTrue(gallery.fetchedAll)
+    }
+    
+    //test that clear() after full fetch will force next fetch to not be made from storage
+    func test_fetchImagesAfterClear() {
+        //first of all, let's build the gallery ourselves
+        let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map {
+            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+        }
+        
+        let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: true)
+        XCTAssertTrue(gallery.fetchedAll)
+        gallery.clear()
+        XCTAssertFalse(gallery.fetchedAll)
+        
+        //mock gallery response
+        setMockData(gallery: ["t1", "t2"])
+        setMockData(images: [
+            "t1" : true,
+            "t2" : true
+            ])
+        
+        let result = performTestFetch(gallery: gallery, expectedUpdatesCount: 3, imageVerifier: {
+            XCTAssertNotNil($0.image)
+            XCTAssertFalse($0.showPlaceholder)
+        })?.map { $0.id }
+        
+        XCTAssertTrue(gallery.fetchedAll)
+        XCTAssertEqual(["t1", "t2"], result)
+    }
+    
     // MARK: Helpers
-    private func createMockGallery(prePopulatedStorage: [GalleryImage]?, isStorageFullyFetched: Bool) -> Gallery {
+    private func createMockGallery(prePopulatedStorage: [GalleryImage]?, isStorageFullyFetched: Bool) -> GalleryProtocol {
         let galleryService = DefaultGalleryService(galleryServiceURL: URL(string: "https://test.com")!, networkRequestSender: mockNetworkRequestSender)
         return Gallery(galleryService: galleryService, prePopulatedStorage: prePopulatedStorage, storageFullyFetched: isStorageFullyFetched)
     }
@@ -167,7 +279,8 @@ class GalleryTest: XCTestCase {
     }
     
     @discardableResult
-    private func performTestFetch(offset: Int? = nil,
+    private func performTestFetch(gallery providedGallery: GalleryProtocol? = nil,
+                                  offset: Int? = nil,
                                   count: Int? = nil,
                                   expectedUpdatesCount: Int? = nil,
                                   prePopulatedStorage: [GalleryImage]? = nil,
@@ -176,7 +289,12 @@ class GalleryTest: XCTestCase {
                                   expectComplete: Bool = true,
                                   expectError: Bool = false) -> [GalleryImage]? {
         
-        let gallery = createMockGallery(prePopulatedStorage: prePopulatedStorage, isStorageFullyFetched: isStorageFullyFetched)
+        let gallery: GalleryProtocol
+        if let providedGallery = providedGallery {
+            gallery = providedGallery
+        } else {
+            gallery = createMockGallery(prePopulatedStorage: prePopulatedStorage, isStorageFullyFetched: isStorageFullyFetched)
+        }
         
         //set up expectations
         let observableCompletesExpectation = XCTestExpectation(description: "Observable completes") //it's expected that Observable completes
@@ -199,8 +317,11 @@ class GalleryTest: XCTestCase {
         gallery.fetchImages(offset: offset, count: count).subscribe(onNext: { content in
             loadedContent = content
             gotResponseExpectation.fulfill()
-        }, onError: { _ in observableErrorsOutExpectation.fulfill() },
-           onCompleted: { observableCompletesExpectation.fulfill() }).disposed(by: disposeBag)
+        }, onError: { _ in
+            observableErrorsOutExpectation.fulfill()
+        },onCompleted: {
+            observableCompletesExpectation.fulfill()
+        }).disposed(by: disposeBag)
         
         var expectations = [XCTestExpectation]()
         if let _ = expectedUpdatesCount {
@@ -214,7 +335,7 @@ class GalleryTest: XCTestCase {
             expectations.append(observableCompletesExpectation)
         }
         
-        wait(for: expectations, timeout: 2.0)
+        wait(for: expectations, timeout: 2000.0)
         
         //verify contents of gallery
         loadedContent?.forEach {

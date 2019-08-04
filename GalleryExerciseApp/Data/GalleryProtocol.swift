@@ -14,5 +14,8 @@ protocol GalleryProtocol {
     var fetchedAll: Bool { get }
     
     func fetchImages(offset: Int?, count: Int?) -> Observable<[GalleryImage]>
-
+    func fetchNext(count: Int) -> Observable<[GalleryImage]>
+    
+    func clear()
+    
 }

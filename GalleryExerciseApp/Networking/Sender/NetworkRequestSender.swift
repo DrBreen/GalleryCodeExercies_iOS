@@ -11,6 +11,8 @@ import RxSwift
 
 protocol NetworkRequestSender {
     
+    var errorMapper: NetworkRequestErrorMapper? { get set }
+    
     func get(url: URL,
         query: [String: Any]?,
         headers: [String: String]?) -> Observable<Any>

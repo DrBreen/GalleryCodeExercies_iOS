@@ -12,6 +12,8 @@ import RxSwift
 
 class MockNetworkRequestSender: Mock, NetworkRequestSender {
     
+    var errorMapper: NetworkRequestErrorMapper?
+    
     func getData(url: URL, query: [String : Any]?, headers: [String : String]?) -> Observable<Data> {
         return super.call(url, query, headers)!
     }

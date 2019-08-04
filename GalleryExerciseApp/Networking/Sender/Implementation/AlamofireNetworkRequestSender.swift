@@ -12,11 +12,7 @@ import RxSwift
 
 class AlamofireNetworkRequestSender: NetworkRequestSender {
     
-    private let errorMapper: NetworkRequestErrorMapper?
-    
-    init(errorMapper: NetworkRequestErrorMapper?) {
-        self.errorMapper = errorMapper
-    }
+    var errorMapper: NetworkRequestErrorMapper?
     
     private static func createJSONCallback(observer: AnyObserver<Any>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Any>) -> Void) {
         return { response in

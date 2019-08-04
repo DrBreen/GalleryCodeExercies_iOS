@@ -283,7 +283,7 @@ class GalleryTest: XCTestCase {
                 
                 //randomly delay emission of images
                 let randomDelayCatObservable = Observable<Data>.just(catImageData)
-                    .delay(DispatchTimeInterval.milliseconds(Int.random(in: (500...1000))), scheduler: MainScheduler.instance)
+                    .delay(DispatchTimeInterval.milliseconds(Int.random(in: (50...100))), scheduler: MainScheduler.instance)
                 
                 stub.andReturn(randomDelayCatObservable)
             } else {

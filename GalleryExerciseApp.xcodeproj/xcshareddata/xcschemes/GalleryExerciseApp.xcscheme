@@ -26,25 +26,26 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3818F00122F59F93004DC09A"
+            BuildableName = "GalleryExerciseApp.app"
+            BlueprintName = "GalleryExerciseApp"
+            ReferencedContainer = "container:GalleryExerciseApp.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3818F01522F59F96004DC09A"
-               BuildableName = "GalleryExerciseAppTests.xctest"
-               BlueprintName = "GalleryExerciseAppTests"
-               ReferencedContainer = "container:GalleryExerciseApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3818F02022F59F96004DC09A"
-               BuildableName = "GalleryExerciseAppUITests.xctest"
-               BlueprintName = "GalleryExerciseAppUITests"
+               BlueprintIdentifier = "38027AE422F5F0FD006AC8E4"
+               BuildableName = "GalleryExerciseUnitTests.xctest"
+               BlueprintName = "GalleryExerciseUnitTests"
                ReferencedContainer = "container:GalleryExerciseApp.xcodeproj">
             </BuildableReference>
          </TestableReference>

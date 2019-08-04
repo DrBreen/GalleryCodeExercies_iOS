@@ -33,11 +33,6 @@ class Gallery: GalleryProtocol {
                 return Observable<[GalleryImage]>.just(storage)
             }
             
-            //this observable will emit whole array for every update of image
-            //currently it does not send initial update when every image is a placeholder
-            //IMPROVE: add initial update
-            
-            
             //this observable will fetch gallery and then transform it into models with placeholder images
             let galleryObservable = galleryService
                 .getGallery(offset: nil, count: nil)
@@ -46,7 +41,7 @@ class Gallery: GalleryProtocol {
                         self?.storage.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
                     }
                 })
-                .map { [weak self] _ in self?.storage ?? [] }
+                .map { [weak self] _ in self?.storage ?? [] } //this is needed so that we'll return first update with all images as placeholders
             
             let updatesObservable = Observable.deferred { [weak self] in Observable.just(self?.storage ?? []) }
                 .concatMap { [weak self] _ in Observable<GalleryImage>.from(self?.storage ?? []) }
@@ -71,6 +66,9 @@ class Gallery: GalleryProtocol {
                 })
                 .map { _ in self.storage }
             
+            //this observable will emit:
+            //1) Immediately after fetching of image list - it will emit placeholders
+            //2) After every image update
             return galleryObservable.concat(updatesObservable)
         }
     }

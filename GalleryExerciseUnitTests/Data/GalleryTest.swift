@@ -11,7 +11,6 @@ import XCTest
 import RxSwift
 import InstantMock
 
-//TODO: refactor this, it's dangerous for human eye to read this
 class GalleryTest: XCTestCase {
     
     private let mockNetworkRequestSender = MockNetworkRequestSender()
@@ -26,114 +25,42 @@ class GalleryTest: XCTestCase {
         
         continueAfterFailure = false
     }
-    
+
     //test full fetch
     func test_fetchImagesEmptyStorageFullFetch() {
-        let galleryService = DefaultGalleryService(galleryServiceURL: URL(string: "https://test.com")!, networkRequestSender: mockNetworkRequestSender)
-        
-        let gallery = Gallery(galleryService: galleryService)
-        
-        //let's mock the gallery service
-        
         //first, let's mock the listing
         let galleryContent = ["t1", "t2", "t3", "t4", "t5"]
-        mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
-                                               query: Arg.any(),
-                                               headers: Arg.any())).andReturn(Observable<Any>.just(galleryContent))
+        setMockData(gallery: galleryContent)
         
         //second, let's mock the actual image response
-        let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
-        let catImageData = catImage.pngData()!
+        setMockData(images: [
+            "t1" : true,
+            "t2" : true,
+            "t3" : true,
+            "t4" : true,
+            "t5" : true])
         
-        //randomly delay emission of images
-        let randomDelayCatObservable = Observable<Data>.just(catImageData)
-            .delay(DispatchTimeInterval.milliseconds(Int.random(in: (500...1000))), scheduler: MainScheduler.instance)
-        
-        mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.getData(url: Arg.verify { (arg: URL) in arg.absoluteString.starts(with: "https://test.com/gallery/t") },
-                                                   query: Arg.any(),
-                                                   headers: Arg.any()))
-            .andReturn(randomDelayCatObservable)
-        
-        var loadedContent: [GalleryImage]?
-        
-        let observableCompletesExpectation = XCTestExpectation(description: "Observable completes") //it's expected that Observable completes
-        let gotResponseExpectation = XCTestExpectation(description: "Correct amount of responses") //it's expected that we have correct number of updates for response
-        gotResponseExpectation.assertForOverFulfill = true
-        gotResponseExpectation.expectedFulfillmentCount = galleryContent.count + 1
-        
-        let disposeBag = DisposeBag()
-        var howMuch = 0
-        gallery.fetchImages(offset: nil, count: nil).subscribe(onNext: { content in
-            loadedContent = content
-            gotResponseExpectation.fulfill()
-            howMuch += 1
-        }, onCompleted: { observableCompletesExpectation.fulfill() }).disposed(by: disposeBag)
-        
-        wait(for: [gotResponseExpectation], timeout: 2.0)
-        wait(for: [observableCompletesExpectation], timeout: 2.0)
-        
-        loadedContent!.forEach {
+        performTestFetch(offset: nil, count: nil, expectedUpdatesCount: galleryContent.count + 1, imageVerifier: {
             XCTAssertEqual($0.showPlaceholder, false)
             XCTAssertTrue($0.image != nil)
-        }
+        })
     }
     
     //test fetch when some images fail to load
     func test_fetchImagesEmptyStorageFullFetchWithSomeImageFailures() {
-        let galleryService = DefaultGalleryService(galleryServiceURL: URL(string: "https://test.com")!, networkRequestSender: mockNetworkRequestSender)
-        
-        let gallery = Gallery(galleryService: galleryService)
-        
-        //let's mock the gallery service
-        
         //first, let's mock the listing
         let galleryContent = ["t1", "t2", "t3", "t4", "t5"]
-        mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
-                                               query: Arg.any(),
-                                               headers: Arg.any())).andReturn(Observable<Any>.just(galleryContent))
+        setMockData(gallery: galleryContent)
         
-        //second, let's mock the actual image response. t3 should fail
-        let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
-        let catImageData = catImage.pngData()!
+        //second, let's mock the actual image response
+        setMockData(images: [
+            "t1" : true,
+            "t2" : true,
+            "t3" : false,
+            "t4" : true,
+            "t5" : true])
         
-        //randomly delay emission of images
-        let randomDelayCatObservable = Observable<Data>.just(catImageData)
-            .delay(DispatchTimeInterval.milliseconds(Int.random(in: (500...1000))), scheduler: MainScheduler.instance)
-        
-        //mock valid images
-        mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.getData(url: Arg.verify { (arg: URL) in arg.absoluteString != "https://test.com/gallery/t3" && arg.absoluteString.starts(with: "https://test.com/gallery/t") },
-                                                   query: Arg.any(),
-                                                   headers: Arg.any()))
-            .andReturn(randomDelayCatObservable)
-        
-        //mock failed image t3
-        mockNetworkRequestSender.stub()
-            .call(mockNetworkRequestSender.getData(url: Arg.verify { (arg: URL) in arg.absoluteString == "https://test.com/gallery/t3" },
-                                                   query: Arg.any(),
-                                                   headers: Arg.any()))
-            .andReturn(Observable<Data>.error(NSError(domain: "test", code: 1, userInfo: nil)))
-        
-        var loadedContent: [GalleryImage]?
-        
-        let observableCompletesExpectation = XCTestExpectation(description: "Observable completes") //it's expected that Observable completes
-        let gotResponseExpectation = XCTestExpectation(description: "Correct amount of responses") //it's expected that we have correct number of updates for response
-        gotResponseExpectation.assertForOverFulfill = true
-        gotResponseExpectation.expectedFulfillmentCount = galleryContent.count + 1
-        
-        let disposeBag = DisposeBag()
-        gallery.fetchImages(offset: nil, count: nil).subscribe(onNext: { content in
-            loadedContent = content
-            gotResponseExpectation.fulfill()
-        }, onCompleted: { observableCompletesExpectation.fulfill() }).disposed(by: disposeBag)
-        
-        wait(for: [gotResponseExpectation], timeout: 2.0)
-        wait(for: [observableCompletesExpectation], timeout: 2.0)
-        
-        loadedContent!.forEach {
+        performTestFetch(offset: nil, count: nil, expectedUpdatesCount: galleryContent.count + 1, imageVerifier: {
             XCTAssertEqual($0.showPlaceholder, false)
             
             if ($0.id != "t3") {
@@ -141,43 +68,104 @@ class GalleryTest: XCTestCase {
             } else {
                 XCTAssertTrue($0.image == nil)
             }
-        }
+        })
     }
     
     //test fetch that brings empty listing
     func test_fetchImagesEmptyStorageFullFetchWithNoImagesOnServer() {
-        let galleryService = DefaultGalleryService(galleryServiceURL: URL(string: "https://test.com")!, networkRequestSender: mockNetworkRequestSender)
-        
-        let gallery = Gallery(galleryService: galleryService)
-        
-        //let's mock the gallery service
-        
         //first, let's mock the listing
         let galleryContent = [String]()
-        mockNetworkRequestSender.stub()
+        setMockData(gallery: galleryContent)
+        performTestFetch(offset: nil, count: nil, expectedUpdatesCount: 1, imageVerifier: nil)
+    }
+    
+    // MARK: Helpers
+    private func createMockGallery() -> Gallery {
+        let galleryService = DefaultGalleryService(galleryServiceURL: URL(string: "https://test.com")!, networkRequestSender: mockNetworkRequestSender)
+        return Gallery(galleryService: galleryService)
+    }
+    
+    //sets mock data for whole gallery
+    //if gallery is nil, send error instead of gallery
+    private func setMockData(gallery: [String]?) {
+        let stub = mockNetworkRequestSender.stub()
             .call(mockNetworkRequestSender.get(url: Arg.eq(URL(string: "https://test.com/gallery")!),
                                                query: Arg.any(),
-                                               headers: Arg.any())).andReturn(Observable<Any>.just(galleryContent))
-
+                                               headers: Arg.any()))
+        if let gallery = gallery {
+            stub.andReturn(Observable<Any>.just(gallery))
+        } else {
+            let errorObservable = Observable<Data>.error(NSError(domain: "test", code: 1, userInfo: nil))
+            stub.andReturn(errorObservable)
+        }
+    }
+    
+    //sets mock data according to images dictionary: true is "serve image", false is "error out"
+    private func setMockData(images: [String : Bool]) {
+        for id in images.keys {
+            
+            let shouldServeImage = images[id] ?? false
+            
+            let stub = mockNetworkRequestSender.stub()
+                .call(mockNetworkRequestSender.getData(url: Arg.verify { (arg: URL) in arg.absoluteString == "https://test.com/gallery/\(id)" },
+                                                       query: Arg.any(),
+                                                       headers: Arg.any()))
+            if shouldServeImage {
+                let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
+                let catImageData = catImage.pngData()!
+                
+                //randomly delay emission of images
+                let randomDelayCatObservable = Observable<Data>.just(catImageData)
+                    .delay(DispatchTimeInterval.milliseconds(Int.random(in: (500...1000))), scheduler: MainScheduler.instance)
+                
+                stub.andReturn(randomDelayCatObservable)
+            } else {
+                let errorObservable = Observable<Data>.error(NSError(domain: "test", code: 1, userInfo: nil))
+                stub.andReturn(errorObservable)
+            }
+        }
+    }
+    
+    private func performTestFetch(offset: Int?, count: Int?, expectedUpdatesCount: Int, imageVerifier: ((GalleryImage) -> Void)?, expectComplete: Bool = true, expectError: Bool = false) {
+        
+        let gallery = createMockGallery()
+        
+        //set up expectations
+        let observableCompletesExpectation = XCTestExpectation(description: "Observable completes") //it's expected that Observable completes
+        
+        let gotResponseExpectation = XCTestExpectation(description: "Correct amount of updates") //it's expected that we have correct number of updates for response
+        gotResponseExpectation.assertForOverFulfill = true
+        gotResponseExpectation.expectedFulfillmentCount = expectedUpdatesCount
+        
+        let observableErrorsOutExpectation = XCTestExpectation(description: "Observable errors out") //it's expected that Observable errors out
+        observableErrorsOutExpectation.assertForOverFulfill = true
+        observableErrorsOutExpectation.expectedFulfillmentCount = 1
+        
         var loadedContent: [GalleryImage]?
         
-        let observableCompletesExpectation = XCTestExpectation(description: "Observable completes") //it's expected that Observable completes
-        let gotResponseExpectation = XCTestExpectation(description: "Correct amount of responses") //it's expected that we have correct number of updates for response
-        gotResponseExpectation.assertForOverFulfill = true
-        gotResponseExpectation.expectedFulfillmentCount = 1
-        
+        //fetch and save the gallery
         let disposeBag = DisposeBag()
-        gallery.fetchImages(offset: nil, count: nil).subscribe(onNext: { content in
+        gallery.fetchImages(offset: offset, count: count).subscribe(onNext: { content in
             loadedContent = content
             gotResponseExpectation.fulfill()
-        }, onCompleted: {
-            observableCompletesExpectation.fulfill()
-        }).disposed(by: disposeBag)
+        }, onError: { _ in observableErrorsOutExpectation.fulfill() },
+           onCompleted: { observableCompletesExpectation.fulfill() }).disposed(by: disposeBag)
         
-        wait(for: [gotResponseExpectation], timeout: 2.0)
-        wait(for: [observableCompletesExpectation], timeout: 2.0)
+        var expectations = [gotResponseExpectation]
+        if expectError {
+            expectations.append(observableErrorsOutExpectation)
+        }
         
-        XCTAssertEqual(loadedContent?.count, 0)
+        if expectComplete {
+            expectations.append(observableCompletesExpectation)
+        }
+        
+        wait(for: expectations, timeout: 2.0)
+        
+        //verify contents of gallery
+        loadedContent?.forEach {
+            imageVerifier?($0)
+        }
     }
 
     

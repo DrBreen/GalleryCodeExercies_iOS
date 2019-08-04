@@ -17,6 +17,7 @@ target 'GalleryExerciseApp' do
     shared_pods
     
     pod 'InstantMock', '~> 2.5.1'
+    pod 'OHHTTPStubs', '~> 8.0.0'
     
   end
 

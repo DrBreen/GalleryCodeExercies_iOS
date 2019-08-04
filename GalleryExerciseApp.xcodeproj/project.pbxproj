@@ -38,6 +38,8 @@
 		38027B2422F74B4E006AC8E4 /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0C22F61317006AC8E4 /* Gallery.swift */; };
 		38027B2622F76F8A006AC8E4 /* GalleryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */; };
 		38027B2722F7718D006AC8E4 /* GalleryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */; };
+		38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */; };
+		38027B2A22F77F58006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027AC922F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00822F59F93004DC09A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00722F59F93004DC09A /* ViewController.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
@@ -82,6 +84,7 @@
 		38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ExtendingReplaceSubrange.swift"; sourceTree = "<group>"; };
 		38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ExtendingReplaceRangeTests.swift"; sourceTree = "<group>"; };
 		38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryListResponse.swift; sourceTree = "<group>"; };
+		38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkRequestSenderTest.swift; sourceTree = "<group>"; };
 		3818F00222F59F93004DC09A /* GalleryExerciseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalleryExerciseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3818F00522F59F93004DC09A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3818F00722F59F93004DC09A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -187,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				38027ADD22F5EE39006AC8E4 /* MockNetworkRequestSender.swift */,
+				38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -555,9 +559,11 @@
 				38027B1A22F718F3006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
 				38027AF322F5F3A6006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027AF122F5F278006AC8E4 /* GalleryService.swift in Sources */,
+				38027B2A22F77F58006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
 				38027AF022F5F138006AC8E4 /* NetworkRequestSender.swift in Sources */,
 				38027B1122F61B36006AC8E4 /* GalleryTest.swift in Sources */,
 				38027B1E22F74259006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
+				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
 				38027B2122F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift in Sources */,
 				38027AEE22F5F124006AC8E4 /* GalleryServiceTest.swift in Sources */,
 				38027AEF22F5F127006AC8E4 /* MockNetworkRequestSender.swift in Sources */,

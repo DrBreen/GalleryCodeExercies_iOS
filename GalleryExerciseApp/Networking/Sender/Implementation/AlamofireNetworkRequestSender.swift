@@ -12,6 +12,12 @@ import RxSwift
 
 class AlamofireNetworkRequestSender: NetworkRequestSender {
     
+    private let sessionManager: SessionManager
+    
+    init(sessionManager: SessionManager = SessionManager.default) {
+        self.sessionManager = sessionManager
+    }
+    
     var errorMapper: NetworkRequestErrorMapper?
     
     private static func createJSONCallback(observer: AnyObserver<Any>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Any>) -> Void) {
@@ -36,8 +42,8 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
     private static func createDataCallback(observer: AnyObserver<Data>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Data>) -> Void) {
         return { response in
             switch response.result {
-            case .success(let json):
-                observer.onNext(json)
+            case .success(let data):
+                observer.onNext(data)
                 observer.onCompleted()
             case .failure(let error):
                 let reportedError: Error
@@ -52,39 +58,19 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
         }
     }
     
-    func get(url: URL, query: [String : Any]?, headers: [String : String]?) -> Observable<Any> {
-        
-        //capture to avoid dealing with weak self
-        let errorMapper = self.errorMapper
-        
-        return Observable.create { observer in
-            
-            let request = Alamofire.request(url, method: .get, parameters: query, encoding: URLEncoding(), headers: headers).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: errorMapper))
-            
-            return Disposables.create { request.cancel() }
-        }
-        
-    }
-    
     func getData(url: URL, query: [String: Any]?, headers: [String: String]?) -> Observable<Data> {
-        //capture to avoid dealing with weak self
-        let errorMapper = self.errorMapper
         
         return Observable.create { observer in
             
-            let request = Alamofire.request(url, method: .get, parameters: query, encoding: URLEncoding(), headers: headers).responseData(completionHandler: AlamofireNetworkRequestSender.createDataCallback(observer: observer, errorMapper: errorMapper))
+            let request = self.sessionManager.request(url, method: .get, parameters: query, encoding: URLEncoding(), headers: headers).validate(statusCode: 200..<300).responseData(completionHandler: AlamofireNetworkRequestSender.createDataCallback(observer: observer, errorMapper: self.errorMapper))
             
             return Disposables.create { request.cancel() }
         }
     }
     
     func upload(url: URL, body: Data, headers: [String: String]?) -> Observable<Any> {
-        
-        //capture to avoid dealing with weak self
-        let errorMapper = self.errorMapper
-        
         return Observable.create { observer in
-            let request = Alamofire.upload(body, to: url).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: errorMapper))
+            let request = self.sessionManager.upload(body, to: url).validate(statusCode: 200..<300).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: self.errorMapper))
             
             return Disposables.create { request.cancel() }
         }

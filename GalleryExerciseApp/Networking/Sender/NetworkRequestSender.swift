@@ -13,10 +13,6 @@ protocol NetworkRequestSender {
     
     var errorMapper: NetworkRequestErrorMapper? { get set }
     
-    func get(url: URL,
-        query: [String: Any]?,
-        headers: [String: String]?) -> Observable<Any>
-    
     func getData(url: URL,
              query: [String: Any]?,
              headers: [String: String]?) -> Observable<Data>

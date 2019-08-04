@@ -11,19 +11,34 @@ import RxSwift
 
 class Gallery: GalleryProtocol {
     
-    private var storage = [GalleryImage]()
-    private var fetchedAll = false
+    private var storage: [GalleryImage]
+    private(set) var fetchedAll = false
     
     private let galleryService: GalleryService
     
-    init(galleryService: GalleryService) {
+    init(galleryService: GalleryService, prePopulatedStorage: [GalleryImage]? = nil, storageFullyFetched: Bool = false) {
         self.galleryService = galleryService
+        
+        var storage = [GalleryImage]()
+        if let prePopulatedStorage = prePopulatedStorage {
+            storage.append(contentsOf: prePopulatedStorage)
+            fetchedAll = storageFullyFetched
+        }
+        self.storage = storage
     }
     
     func fetchImages(offset: Int?, count: Int?) -> Observable<[GalleryImage]> {
         if let offset = offset, let count = count {
-            //TODO: implement
-            return Observable.never()
+            
+            //let's check if we're fetching cached values
+            let fetchingCached = offset + count <= storage.count
+            if fetchingCached {
+                let cachedSlice = Array<GalleryImage>(storage[offset..<offset + count])
+                return Observable<[GalleryImage]>.just(cachedSlice)
+            } else {
+                //TODO: implement
+                return Observable.never()
+            }
         } else {
             //requested the whole gallery
             //if we already reached the end of gallery, let's just return cached value
@@ -37,6 +52,8 @@ class Gallery: GalleryProtocol {
             let galleryObservable = galleryService
                 .getGallery(offset: nil, count: nil)
                 .do(onNext: { [weak self] ids in
+                    self?.fetchedAll = true
+                    
                     for id in ids {
                         self?.storage.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
                     }

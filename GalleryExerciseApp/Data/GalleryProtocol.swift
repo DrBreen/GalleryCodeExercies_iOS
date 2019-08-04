@@ -10,5 +10,9 @@ import Foundation
 import RxSwift
 
 protocol GalleryProtocol {
+    
+    var fetchedAll: Bool { get }
+    
     func fetchImages(offset: Int?, count: Int?) -> Observable<[GalleryImage]>
+
 }

@@ -30,6 +30,8 @@
 		38027B1322F61B51006AC8E4 /* GalleryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0922F6121A006AC8E4 /* GalleryProtocol.swift */; };
 		38027B1422F61B94006AC8E4 /* GalleryImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0622F60E1C006AC8E4 /* GalleryImage.swift */; };
 		38027B1622F6E8F2006AC8E4 /* cat.png in Resources */ = {isa = PBXBuildFile; fileRef = 38027B1522F6E8F2006AC8E4 /* cat.png */; };
+		38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027AD122F5E962006AC8E4 /* GalleryServiceError.swift */; };
+		38027B1922F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00822F59F93004DC09A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00722F59F93004DC09A /* ViewController.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
@@ -60,6 +62,7 @@
 		38027B0C22F61317006AC8E4 /* Gallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
 		38027B1022F61B36006AC8E4 /* GalleryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryTest.swift; sourceTree = "<group>"; };
 		38027B1522F6E8F2006AC8E4 /* cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat.png; sourceTree = "<group>"; };
+		38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestErrorMapper.swift; sourceTree = "<group>"; };
 		3818F00222F59F93004DC09A /* GalleryExerciseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalleryExerciseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3818F00522F59F93004DC09A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3818F00722F59F93004DC09A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		38027AC822F5E606006AC8E4 /* Implementation */ = {
 			isa = PBXGroup;
 			children = (
+				38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */,
 				38027AC922F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift */,
 			);
 			path = Implementation;
@@ -506,6 +510,7 @@
 				38027B1322F61B51006AC8E4 /* GalleryProtocol.swift in Sources */,
 				38027AF622F5F84A006AC8E4 /* Extensions.swift in Sources */,
 				38027B1422F61B94006AC8E4 /* GalleryImage.swift in Sources */,
+				38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */,
 				38027B1222F61B3C006AC8E4 /* Gallery.swift in Sources */,
 				38027AF322F5F3A6006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027AF122F5F278006AC8E4 /* GalleryService.swift in Sources */,
@@ -521,6 +526,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38027B1922F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
 				3818F00822F59F93004DC09A /* ViewController.swift in Sources */,
 				38027AC722F5E53A006AC8E4 /* NetworkRequestSender.swift in Sources */,
 				38027B0D22F61317006AC8E4 /* Gallery.swift in Sources */,

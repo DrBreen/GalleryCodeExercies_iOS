@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - DeepDiff (2.2.0)
   - InstantMock (2.5.1)
   - RxCocoa (5.0.0):
     - RxRelay (~> 5)
@@ -10,6 +11,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.1)
+  - DeepDiff (~> 2.2.0)
   - InstantMock (~> 2.5.1)
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
@@ -17,6 +19,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - DeepDiff
     - InstantMock
     - RxCocoa
     - RxRelay
@@ -24,11 +27,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  DeepDiff: e329bc46dd14ca788d8ec08d34420799ba1d77f2
   InstantMock: db6a8a973f2dc4d85996930cc214078200083fb0
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
 
-PODFILE CHECKSUM: db8bb43a46cff590dbf072f90ca6ec8eb34da8ab
+PODFILE CHECKSUM: acd275f6a1053ca27d6cf3cdf8fde59837651166
 
 COCOAPODS: 1.7.3

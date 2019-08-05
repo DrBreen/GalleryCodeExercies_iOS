@@ -1,5 +1,5 @@
 //
-//  GalleryScreenAssembly.swift
+//  GalleryScreenComponentAssembly
 //  GalleryExerciseApp
 //
 //  Created by Alexander Leontev on 05/08/2019.
@@ -9,7 +9,7 @@
 import Foundation
 import Swinject
 
-class GalleryScreenAssembly: Assembly {
+class GalleryScreenComponentAssembly: Assembly {
     
     typealias Assembled = GalleryScreenComponent
     

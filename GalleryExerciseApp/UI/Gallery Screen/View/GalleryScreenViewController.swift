@@ -78,7 +78,9 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
     
     private func buildNavigationBar() {
         uploadImageBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
-        navigationController?.navigationItem.rightBarButtonItem = uploadImageBarButtonItem
+        uploadImageBarButtonItem.tintColor = .white
+        
+        navigationItem.rightBarButtonItem = uploadImageBarButtonItem
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.barTintColor = .themeColor
         navigationController?.navigationBar.isTranslucent = false

@@ -67,13 +67,13 @@ class Gallery: GalleryProtocol {
             
             //let's check if we're fetching cached values
             let fetchingCached = offset + count <= storage.count
-            if fetchingCached {
-                let cachedSlice = Array<GalleryImage>(storage[offset..<offset + count])
+            if fetchingCached || fetchedAll {
+                let cachedSlice = Array<GalleryImage>(storage[offset..<min(offset + count, storage.count)])
                 return Observable<[GalleryImage]>.just(cachedSlice)
             } else {
                 let galleryObservable = galleryService
                     .getGallery(offset: offset, count: count)
-                    .do(onNext: { [weak self] galleryListResponse in
+                    .do(onNext: { galleryListResponse in
                         //create collection to insert to storage
                         var insertedContent = [GalleryImage]()
                         
@@ -81,21 +81,19 @@ class Gallery: GalleryProtocol {
                             insertedContent.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
                         }
                         
-                        if let strongSelf = self {
-                            if strongSelf.storage.count < offset {
-                                fatalError("Internal inconsistency - trying to use storage as sparse array; this is not supported, offset can't be larger than your current storage")
-                            } else {
-                                let actualCount = insertedContent.count
-                                
-                                if actualCount > 0 {
-                                    strongSelf.storage.extendingReplaceSubrange(offset..<offset + count, with: insertedContent)
-                                }
-                            }
+                        if self.storage.count < offset {
+                            fatalError("Internal inconsistency - trying to use storage as sparse array; this is not supported, offset can't be larger than your current storage")
+                        } else {
+                            let actualCount = insertedContent.count
                             
-                            strongSelf.fetchedAll = strongSelf.storage.count == galleryListResponse.count
+                            if actualCount > 0 {
+                                self.storage.extendingReplaceSubrange(offset..<offset + count, with: insertedContent)
+                            }
                         }
+                        
+                        self.fetchedAll = self.storage.count == galleryListResponse.count
                     })
-                    .map { [weak self] _ in self?.storage ?? [] } //this is needed so that we'll return first update with all images as placeholders
+                    .map { _ in self.storage } //this is needed so that we'll return first update with all images as placeholders
                 
                 //this observable will emit:
                 //1) Immediately after fetching of image list - it will emit placeholders
@@ -114,16 +112,16 @@ class Gallery: GalleryProtocol {
             //this observable will fetch gallery and then transform it into models with placeholder images
             let galleryObservable = galleryService
                 .getGallery(offset: nil, count: nil)
-                .do(onNext: { [weak self] galleryListResponse in
-                    self?.fetchedAll = true
+                .do(onNext: { galleryListResponse in
+                    self.fetchedAll = true
                     
-                    self?.storage = []
+                    self.storage = []
                     
                     for id in galleryListResponse.imageIds {
-                        self?.storage.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
+                        self.storage.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
                     }
                 })
-                .map { [weak self] _ in self?.storage ?? [] } //this is needed so that we'll return first update with all images as placeholders
+                .map { _ in self.storage  } //this is needed so that we'll return first update with all images as placeholders
             
             //this observable will emit:
             //1) Immediately after fetching of image list - it will emit placeholders

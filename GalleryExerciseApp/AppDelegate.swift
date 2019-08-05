@@ -8,6 +8,7 @@
 
 import UIKit
 
+//TODO: add Localizable.strings
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

@@ -10,9 +10,10 @@ import Foundation
 import RxSwift
 
 //TODO: don't forget about cropping/rotating
+//TODO: insert [unowned self] to blocks to avoid memory leaks
+//TODO: fix images being loaded on return to controller (and think of how we can reload after uploading)
 class GalleryScreenPresenter {
     
-    #warning("CHANGE BACK TO 100")
     private static let imageBatchSize = 20
     
     private let gallery: GalleryProtocol

@@ -52,9 +52,9 @@ extension RouterDestination: MockUsable {
             return 0
         case .upload:
             return 1
-        case .viewImage(let image):
+        case .viewImage(_):
             return 2
-        case .editImage(let image):
+        case .editImage(_):
             return 3
         }
     }

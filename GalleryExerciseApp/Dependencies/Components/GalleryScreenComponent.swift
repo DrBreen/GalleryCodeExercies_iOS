@@ -9,7 +9,7 @@
 import Foundation
 import Swinject
 
-class GalleryScreenComponent: Component {
+class GalleryScreenComponent: Component, GalleryScreenFactory {
     
     var galleryScreenViewController: GalleryScreenViewController {
         return GalleryScreenViewController(galleryScreenPresenter: container.resolve(GalleryScreenPresenter.self)!)

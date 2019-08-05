@@ -12,9 +12,15 @@ import UIKit
 class Router: RouterProtocol {
     
     private let navigationController: UINavigationController
+    private let galleryScreenFactory: GalleryScreenFactory
+    private let uploadScreenFactory: UploadScreenFactory
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController,
+         galleryScreenFactory: GalleryScreenFactory,
+         uploadScreenFactory: UploadScreenFactory) {
         self.navigationController = navigationController
+        self.uploadScreenFactory = uploadScreenFactory
+        self.galleryScreenFactory = galleryScreenFactory
     }
     
     func go(to destination: RouterDestination) {
@@ -33,12 +39,36 @@ class Router: RouterProtocol {
     }
     
     private func goToGallery() {
-        let controller = RootComponent.rootComponent.galleryScreenComponent.galleryScreenViewController
-        navigationController.setViewControllers([controller], animated: true)
+        
+        let openGallery = {
+            
+            if self.navigationController.viewControllers.count == 0 {
+                let controller = self.galleryScreenFactory.galleryScreenViewController
+                self.navigationController.setViewControllers([controller], animated: true)
+            } else {
+                
+                let controllersCountToRemove = self.navigationController.viewControllers.count - 1
+                var newViewControllers = self.navigationController.viewControllers
+                newViewControllers.removeLast(controllersCountToRemove)
+                
+                self.navigationController.setViewControllers(newViewControllers, animated: true)
+            }
+            
+            
+        }
+        
+        if let presentedController = navigationController.topViewController?.presentedViewController {
+            presentedController.dismiss(animated: true, completion: openGallery)
+        } else {
+            openGallery()
+        }
+        
     }
     
     private func goToUpload() {
-        
+        let controller = uploadScreenFactory.uploadScreenViewController
+        controller.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.navigationController.visibleViewController?.present(controller, animated: true, completion: nil)
     }
     
 }

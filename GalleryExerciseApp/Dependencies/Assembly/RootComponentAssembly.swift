@@ -18,20 +18,17 @@ class RootComponentAssembly: Assembly {
     func assemble() -> RootComponent {
         let container = Container()
         
-        container.register(RouterProtocol.self) { _ in
-            let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController as! UINavigationController
-            return Router(navigationController: controller)
-        }
-        
         //base service URL
-        container.register(URL.self, name: "baseUrl") { _ in URL(string: "http://localhost:4555")! }
+        container
+            .register(URL.self, name: "baseUrl") { _ in URL(string: "http://localhost:4555")! }
+            .inObjectScope(.container)
         
         //NetworkRequestSender implementation
         container.register(NetworkRequestSender.self) { _ in
             let sender = AlamofireNetworkRequestSender()
             sender.errorMapper = GalleryServiceErrorMapper()
             return sender
-        }
+        }.inObjectScope(.container)
         
         //GalleryService implementation
         container.register(GalleryService.self) { resolver in
@@ -39,16 +36,35 @@ class RootComponentAssembly: Assembly {
             let networkRequestSender = resolver.resolve(NetworkRequestSender.self)!
             
             return DefaultGalleryService(galleryServiceURL: url, networkRequestSender: networkRequestSender)
-        }
+        }.inObjectScope(.container)
         
         //GalleryProtocol implementation
         container.register(GalleryProtocol.self) { resolver in
             let galleryService = resolver.resolve(GalleryService.self)!
             
             return Gallery(galleryService: galleryService)
+        }.inObjectScope(.container)
+        
+        let rootComponent = RootComponent(parent: container)
+        
+        container.register(GalleryScreenFactory.self) { _ in
+            return rootComponent.galleryScreenComponent
         }
         
-        return RootComponent(parent: container)
+        container.register(UploadScreenFactory.self) { _ in
+            return rootComponent.uploadScreenComponent
+        }
+        
+        container.register(RouterProtocol.self) { resolver in
+            let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController as! UINavigationController
+            let galleryScreenFactory = resolver.resolve(GalleryScreenFactory.self)!
+            let uploadScreenFactory = resolver.resolve(UploadScreenFactory.self)!
+            return Router(navigationController: controller, galleryScreenFactory: galleryScreenFactory, uploadScreenFactory: uploadScreenFactory)
+            }.inObjectScope(.container)
+        
+        
+        
+        return rootComponent
     }
     
 }

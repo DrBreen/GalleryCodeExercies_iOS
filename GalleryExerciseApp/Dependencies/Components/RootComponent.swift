@@ -11,7 +11,11 @@ import Foundation
 class RootComponent: Component {
     
     var galleryScreenComponent: GalleryScreenComponent {
-        return GalleryScreenAssembly(parent: container).assemble()
+        return GalleryScreenComponentAssembly(parent: container).assemble()
+    }
+    
+    var uploadScreenComponent: UploadScreenComponent {
+        return UploadScreenComponentAssembly(parent: container).assemble()
     }
     
     var router: RouterProtocol {

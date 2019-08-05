@@ -50,15 +50,9 @@ class GalleryScreenPresenter {
             .debounce(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { pictures in
-                //after we've got some pictures, disable loading
-                self.galleryScreenView?.show(loadingMode: .none)
-                
-                self.galleryScreenView?.set(pictures: pictures)
+                self.update(pictures: pictures)
             }, onError: { error in
-                //after we've got error, disable loading
-                self.galleryScreenView?.show(loadingMode: .none)
-                
-                self.galleryScreenView?.show(error: "Sorry, failed to load images".localized)
+               self.show(error: error)
             }).disposed(by: disposeBag)
     }
     
@@ -93,12 +87,9 @@ class GalleryScreenPresenter {
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { pictures in
-                //after we've got some pictures, disable loading
-                self.galleryScreenView?.show(loadingMode: .none)
-                
-                self.galleryScreenView?.set(pictures: pictures)
+                self.update(pictures: pictures)
             }, onError: { error in
-                self.galleryScreenView?.show(error: "Sorry, failed to load new images".localized)
+                self.show(error: error)
             }).disposed(by: viewDisposeBag)
         
     }
@@ -108,4 +99,21 @@ class GalleryScreenPresenter {
         viewDisposeBag = DisposeBag()
     }
     
+    // MARK: Helpers
+    private func update(pictures: [GalleryImage]) {
+        //after we've got some pictures, disable loading
+        self.galleryScreenView?.show(loadingMode: .none)
+        
+        self.galleryScreenView?.set(pictures: pictures)
+    }
+    
+    private func show(error: Error) {
+        self.galleryScreenView?.show(loadingMode: .none)
+        
+        if let error = error as? GalleryServiceError {
+            self.galleryScreenView?.show(error: error.error)
+        } else {
+            self.galleryScreenView?.show(error: "Sorry, failed to load images".localized)
+        }
+    }
 }

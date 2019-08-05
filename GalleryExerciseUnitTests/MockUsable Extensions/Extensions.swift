@@ -42,7 +42,34 @@ extension GalleryScreenLoadingMode: MockUsable {
         
         return self == mode
     }
+}
+
+extension RouterDestination: MockUsable {
     
+    private var rawValue: Int {
+        switch self {
+        case .gallery:
+            return 0
+        case .upload:
+            return 1
+        case .viewImage(let image):
+            return 2
+        case .editImage(let image):
+            return 3
+        }
+    }
+    
+    static var anyValue: MockUsable {
+        return RouterDestination.gallery
+    }
+    
+    func equal(to: MockUsable?) -> Bool {
+        guard let destination = to as? RouterDestination else {
+            return false
+        }
+        
+        return destination.rawValue == self.rawValue
+    }
     
 }
 

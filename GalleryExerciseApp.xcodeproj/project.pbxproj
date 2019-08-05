@@ -46,7 +46,6 @@
 		38027B3922F79BE0006AC8E4 /* RootComponentAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */; };
 		38027B3B22F79C56006AC8E4 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3A22F79C56006AC8E4 /* Assembly.swift */; };
 		38027B3D22F79CB0006AC8E4 /* RootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3C22F79CB0006AC8E4 /* RootComponent.swift */; };
-		38027B4022F7A031006AC8E4 /* RootComponent+Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */; };
 		38027B4222F7A0A2006AC8E4 /* GalleryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */; };
 		38027B4722F7A35B006AC8E4 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */; };
 		38027B4A22F83027006AC8E4 /* GalleryScreenComponentAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4922F83027006AC8E4 /* GalleryScreenComponentAssembly.swift */; };
@@ -122,7 +121,6 @@
 		38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootComponentAssembly.swift; sourceTree = "<group>"; };
 		38027B3A22F79C56006AC8E4 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		38027B3C22F79CB0006AC8E4 /* RootComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootComponent.swift; sourceTree = "<group>"; };
-		38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Global.swift"; sourceTree = "<group>"; };
 		38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenViewController.swift; sourceTree = "<group>"; };
 		38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
 		38027B4922F83027006AC8E4 /* GalleryScreenComponentAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenComponentAssembly.swift; sourceTree = "<group>"; };
@@ -358,7 +356,6 @@
 			children = (
 				38027B7922F8D2E3006AC8E4 /* Components */,
 				38027B3722F79BCB006AC8E4 /* Assembly */,
-				38027B3E22F7A023006AC8E4 /* Utils */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";
@@ -372,14 +369,6 @@
 				38027B7422F8A92C006AC8E4 /* UploadScreenComponentAssembly.swift */,
 			);
 			path = Assembly;
-			sourceTree = "<group>";
-		};
-		38027B3E22F7A023006AC8E4 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		38027B4522F7A350006AC8E4 /* Router */ = {
@@ -765,7 +754,6 @@
 				38027ACE22F5E885006AC8E4 /* GalleryService.swift in Sources */,
 				38027B0722F60E1C006AC8E4 /* GalleryImage.swift in Sources */,
 				38027B0522F60DE3006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
-				38027B4022F7A031006AC8E4 /* RootComponent+Global.swift in Sources */,
 				38027B5022F8362B006AC8E4 /* UIColor+Theme.swift in Sources */,
 				38027B4C22F83155006AC8E4 /* Router.swift in Sources */,
 				38027B8222F8D40D006AC8E4 /* UploadScreenFactory.swift in Sources */,

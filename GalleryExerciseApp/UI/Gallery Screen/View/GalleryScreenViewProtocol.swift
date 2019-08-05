@@ -32,11 +32,11 @@ protocol GalleryScreenViewProtocol: class {
     //MARK: Events
     
     ///reached bottom part of screen - maybe we need to load additional images
-    func reachedScreenBottom() -> Signal<Void>
+    func reachedScreenBottom() -> ControlEvent<Void>
     
     ///did tap upload image button
-    func didTapUploadImage() -> Signal<Void>
+    func didTapUploadImage() -> ControlEvent<Void>
     
     ///did tap image
-    func didTapImage() -> Signal<GalleryImage>
+    func didTapImage() -> ControlEvent<GalleryImage>
 }

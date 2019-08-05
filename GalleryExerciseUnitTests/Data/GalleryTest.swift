@@ -86,7 +86,7 @@ class GalleryTest: XCTestCase {
         setMockData(gallery: nil)
         
         let gallery = ["t1", "t2", "t3", "t4", "t5"].map {
-            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+            GalleryImage(id: $0, imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)
         }
         performTestFetch(expectedUpdatesCount: 1, prePopulatedStorage: gallery, isStorageFullyFetched: true, expectComplete: true, expectError: false)
     }
@@ -97,7 +97,7 @@ class GalleryTest: XCTestCase {
         setMockData(gallery: nil)
         
         let gallery = ["t1", "t2", "t3", "t4", "t5"].map {
-            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+            GalleryImage(id: $0, imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)
         }
         
         let offset = 1
@@ -120,7 +120,7 @@ class GalleryTest: XCTestCase {
     func test_fetchImagesFromWebPartial() {
         //first of all, let's build the gallery ourselves
         let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map {
-            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+            GalleryImage(id: $0, imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)
         }
         
         let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
@@ -151,7 +151,7 @@ class GalleryTest: XCTestCase {
         //first of all, let's build the gallery ourselves
         let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map { id -> GalleryImage in
             let hasImage = id != "t4"
-            return GalleryImage(id: id, image: hasImage ? createCatImage() : nil, showPlaceholder: !hasImage)
+            return GalleryImage(id: id, imageThumbnail: hasImage ? UIImage.catImageThumbnail : nil, image: hasImage ? UIImage.catImage : nil, showPlaceholder: !hasImage)
         }
         
         let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
@@ -193,7 +193,7 @@ class GalleryTest: XCTestCase {
     //test partial fetch that marks gallery as fully fetched
     func test_fetchImagesPartialMarksAsFullyFetched() {
         
-        let galleryContent = [GalleryImage(id: "t1", image: createCatImage(), showPlaceholder: false)]
+        let galleryContent = [GalleryImage(id: "t1", imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)]
         let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: false)
         
         //first, let's mock the listing
@@ -209,7 +209,7 @@ class GalleryTest: XCTestCase {
     func test_fetchImagesAfterClear() {
         //first of all, let's build the gallery ourselves
         let galleryContent = ["t1", "t2", "t3", "t4", "t5"].map {
-            GalleryImage(id: $0, image: createCatImage(), showPlaceholder: false)
+            GalleryImage(id: $0, imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)
         }
         
         let gallery = createMockGallery(prePopulatedStorage: galleryContent, isStorageFullyFetched: true)
@@ -278,7 +278,7 @@ class GalleryTest: XCTestCase {
                                                        query: Arg.any(),
                                                        headers: Arg.any()))
             if shouldServeImage {
-                let catImage = createCatImage()
+                let catImage = UIImage.catImage
                 let catImageData = catImage.pngData()!
                 
                 //randomly delay emission of images
@@ -358,10 +358,6 @@ class GalleryTest: XCTestCase {
         }
         
         return loadedContent
-    }
-    
-    private func createCatImage() -> UIImage {
-        return UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
     }
 
     

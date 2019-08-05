@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import InstantMock
 
 // MARK: Data
@@ -27,6 +28,24 @@ extension Data: MockUsable {
 
 }
 
+// MARK: GalleryScreenLoadingMode
+extension GalleryScreenLoadingMode: MockUsable {
+    
+    static var anyValue: MockUsable {
+        return GalleryScreenLoadingMode.none
+    }
+    
+    func equal(to: MockUsable?) -> Bool {
+        guard let mode = to as? GalleryScreenLoadingMode else {
+            return false
+        }
+        
+        return self == mode
+    }
+    
+    
+}
+
 // MARK: Observable
 extension Observable: MockUsable {
     
@@ -40,6 +59,19 @@ extension Observable: MockUsable {
         }
         
         return self === o
+    }
+    
+}
+
+// MARK: ControlEvent
+extension ControlEvent: MockUsable {
+    
+    public static var anyValue: MockUsable {
+        return ControlEvent(events: Observable.never())
+    }
+    
+    public func equal(to: MockUsable?) -> Bool {
+        return false
     }
     
 }

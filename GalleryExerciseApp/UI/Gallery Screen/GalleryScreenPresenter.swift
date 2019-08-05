@@ -12,7 +12,8 @@ import RxSwift
 //TODO: don't forget about cropping/rotating
 class GalleryScreenPresenter {
     
-    private static let imageBatchSize = 100
+    #warning("CHANGE BACK TO 100")
+    private static let imageBatchSize = 20
     
     private let gallery: GalleryProtocol
     
@@ -45,7 +46,7 @@ class GalleryScreenPresenter {
         
         //now let's fetch some images
         gallery
-            .fetchImages(offset: 0, count: GalleryScreenPresenter.imageBatchSize)
+            .fetchNext(count: GalleryScreenPresenter.imageBatchSize)
             .debounce(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { pictures in
@@ -54,20 +55,36 @@ class GalleryScreenPresenter {
                 
                 self.galleryScreenView?.set(pictures: pictures)
             }, onError: { error in
+                //after we've got error, disable loading
+                self.galleryScreenView?.show(loadingMode: .none)
+                
                 self.galleryScreenView?.show(error: "Sorry, failed to load images".localized)
             }).disposed(by: disposeBag)
     }
     
     private func startObservingView() {
-        //TODO: subscribe to observables for View
         
         //force unwrapping because at this point it should never be nil - if it is, that means
         //that's a programming error
         let view = galleryScreenView!
         
+        view
+            .didTapImage()
+            .subscribe(onNext: { image in
+                self.router.go(to: .viewImage(image: image))
+            })
+            .disposed(by: viewDisposeBag)
+        
+        view
+            .didTapUploadImage()
+            .subscribe(onNext: {
+                self.router.go(to: .upload)
+            })
+            .disposed(by: viewDisposeBag)
+        
         //when we reached bottom of the screen, let's load more images
         view.reachedScreenBottom()
-            .debounce(RxTimeInterval.milliseconds(250))
+            .debounce(RxTimeInterval.milliseconds(250), scheduler: MainScheduler.instance)
             .filter { !self.gallery.fetchedAll }
             .do(onNext: { self.galleryScreenView?.show(loadingMode: .newPictures) })
             .asObservable()
@@ -75,8 +92,11 @@ class GalleryScreenPresenter {
                 self.gallery.fetchNext(count: GalleryScreenPresenter.imageBatchSize)
             }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { images in
+            .subscribe(onNext: { pictures in
+                //after we've got some pictures, disable loading
+                self.galleryScreenView?.show(loadingMode: .none)
                 
+                self.galleryScreenView?.set(pictures: pictures)
             }, onError: { error in
                 self.galleryScreenView?.show(error: "Sorry, failed to load new images".localized)
             }).disposed(by: viewDisposeBag)

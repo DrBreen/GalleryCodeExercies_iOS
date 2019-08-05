@@ -53,6 +53,19 @@
 		38027B4C22F83155006AC8E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4B22F83155006AC8E4 /* Router.swift */; };
 		38027B5022F8362B006AC8E4 /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */; };
 		38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */; };
+		38027B5422F83AAC006AC8E4 /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5322F83AAC006AC8E4 /* UIImage+Thumbnail.swift */; };
+		38027B5622F84024006AC8E4 /* GalleryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5522F84024006AC8E4 /* GalleryViews.swift */; };
+		38027B5922F85C50006AC8E4 /* UploadScreenViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5822F85C50006AC8E4 /* UploadScreenViewProtocol.swift */; };
+		38027B5B22F85CFB006AC8E4 /* UIImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5322F83AAC006AC8E4 /* UIImage+Thumbnail.swift */; };
+		38027B5D22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5C22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift */; };
+		38027B5E22F85DB4006AC8E4 /* GalleryScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0122F60DB7006AC8E4 /* GalleryScreenPresenter.swift */; };
+		38027B5F22F85DEB006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0422F60DE3006AC8E4 /* GalleryScreenViewProtocol.swift */; };
+		38027B6022F85DF2006AC8E4 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */; };
+		38027B6322F85E1D006AC8E4 /* MockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B6222F85E1D006AC8E4 /* MockRouter.swift */; };
+		38027B6422F85E49006AC8E4 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2D22F79835006AC8E4 /* String+Localization.swift */; };
+		38027B6622F85E92006AC8E4 /* MockGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B6522F85E92006AC8E4 /* MockGallery.swift */; };
+		38027B6922F85F4A006AC8E4 /* MockGalleryScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B6822F85F4A006AC8E4 /* MockGalleryScreenView.swift */; };
+		38027B6B22F86106006AC8E4 /* UIImage+CatImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B6A22F86106006AC8E4 /* UIImage+CatImage.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
@@ -110,6 +123,14 @@
 		38027B4B22F83155006AC8E4 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryServiceErrorMapper.swift; sourceTree = "<group>"; };
+		38027B5322F83AAC006AC8E4 /* UIImage+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Thumbnail.swift"; sourceTree = "<group>"; };
+		38027B5522F84024006AC8E4 /* GalleryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViews.swift; sourceTree = "<group>"; };
+		38027B5822F85C50006AC8E4 /* UploadScreenViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadScreenViewProtocol.swift; sourceTree = "<group>"; };
+		38027B5C22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenPresenterTest.swift; sourceTree = "<group>"; };
+		38027B6222F85E1D006AC8E4 /* MockRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRouter.swift; sourceTree = "<group>"; };
+		38027B6522F85E92006AC8E4 /* MockGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGallery.swift; sourceTree = "<group>"; };
+		38027B6822F85F4A006AC8E4 /* MockGalleryScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGalleryScreenView.swift; sourceTree = "<group>"; };
+		38027B6A22F86106006AC8E4 /* UIImage+CatImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CatImage.swift"; sourceTree = "<group>"; };
 		3818F00222F59F93004DC09A /* GalleryExerciseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalleryExerciseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3818F00522F59F93004DC09A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3818F00C22F59F96004DC09A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -180,6 +201,7 @@
 			children = (
 				38027AD522F5EAD3006AC8E4 /* Implementation */,
 				38027AD022F5E957006AC8E4 /* Model */,
+				38027B0922F6121A006AC8E4 /* GalleryProtocol.swift */,
 				38027ACD22F5E885006AC8E4 /* GalleryService.swift */,
 			);
 			path = "Gallery Service";
@@ -188,6 +210,7 @@
 		38027AD022F5E957006AC8E4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				38027B0622F60E1C006AC8E4 /* GalleryImage.swift */,
 				38027AD122F5E962006AC8E4 /* GalleryServiceError.swift */,
 				38027AD322F5E99D006AC8E4 /* GalleryServiceUploadResponse.swift */,
 				38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */,
@@ -198,6 +221,7 @@
 		38027AD522F5EAD3006AC8E4 /* Implementation */ = {
 			isa = PBXGroup;
 			children = (
+				38027B0C22F61317006AC8E4 /* Gallery.swift */,
 				38027AD622F5EADF006AC8E4 /* DefaultGalleryService.swift */,
 			);
 			path = Implementation;
@@ -223,6 +247,8 @@
 		38027AE622F5F0FD006AC8E4 /* GalleryExerciseUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				38027B6122F85E14006AC8E4 /* Router */,
+				38027B5A22F85C7F006AC8E4 /* UI */,
 				38027B1F22F7453F006AC8E4 /* Utils */,
 				38027B0F22F61B29006AC8E4 /* Data */,
 				38027AFA22F6007F006AC8E4 /* Fixtures */,
@@ -254,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				38027B4E22F83621006AC8E4 /* Global */,
+				38027B5722F85B46006AC8E4 /* Upload Screen */,
 				38027B0022F60D8E006AC8E4 /* Gallery Screen */,
 			);
 			path = UI;
@@ -264,7 +291,6 @@
 			children = (
 				38027B0322F60DD1006AC8E4 /* View */,
 				38027B0122F60DB7006AC8E4 /* GalleryScreenPresenter.swift */,
-				38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */,
 			);
 			path = "Gallery Screen";
 			sourceTree = "<group>";
@@ -272,7 +298,9 @@
 		38027B0322F60DD1006AC8E4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */,
 				38027B0422F60DE3006AC8E4 /* GalleryScreenViewProtocol.swift */,
+				38027B5522F84024006AC8E4 /* GalleryViews.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -281,33 +309,15 @@
 			isa = PBXGroup;
 			children = (
 				38027ACC22F5E874006AC8E4 /* Gallery Service */,
-				38027B0E22F613CF006AC8E4 /* Model */,
-				38027B0B22F6130E006AC8E4 /* Implementation */,
-				38027B0922F6121A006AC8E4 /* GalleryProtocol.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		38027B0B22F6130E006AC8E4 /* Implementation */ = {
-			isa = PBXGroup;
-			children = (
-				38027B0C22F61317006AC8E4 /* Gallery.swift */,
-			);
-			path = Implementation;
-			sourceTree = "<group>";
-		};
-		38027B0E22F613CF006AC8E4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				38027B0622F60E1C006AC8E4 /* GalleryImage.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		38027B0F22F61B29006AC8E4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				38027B1022F61B36006AC8E4 /* GalleryTest.swift */,
+				38027B6522F85E92006AC8E4 /* MockGallery.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -317,6 +327,7 @@
 			children = (
 				38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */,
 				38027B2D22F79835006AC8E4 /* String+Localization.swift */,
+				38027B5322F83AAC006AC8E4 /* UIImage+Thumbnail.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -325,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */,
+				38027B6A22F86106006AC8E4 /* UIImage+CatImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -382,6 +394,39 @@
 				38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */,
 			);
 			path = Global;
+			sourceTree = "<group>";
+		};
+		38027B5722F85B46006AC8E4 /* Upload Screen */ = {
+			isa = PBXGroup;
+			children = (
+				38027B5822F85C50006AC8E4 /* UploadScreenViewProtocol.swift */,
+			);
+			path = "Upload Screen";
+			sourceTree = "<group>";
+		};
+		38027B5A22F85C7F006AC8E4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				38027B6722F85F32006AC8E4 /* Gallery Screen */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		38027B6122F85E14006AC8E4 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				38027B6222F85E1D006AC8E4 /* MockRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		38027B6722F85F32006AC8E4 /* Gallery Screen */ = {
+			isa = PBXGroup;
+			children = (
+				38027B5C22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift */,
+				38027B6822F85F4A006AC8E4 /* MockGalleryScreenView.swift */,
+			);
+			path = "Gallery Screen";
 			sourceTree = "<group>";
 		};
 		3818EFF922F59F93004DC09A = {
@@ -638,18 +683,28 @@
 				38027B1322F61B51006AC8E4 /* GalleryProtocol.swift in Sources */,
 				38027B2422F74B4E006AC8E4 /* Gallery.swift in Sources */,
 				38027AF622F5F84A006AC8E4 /* Extensions.swift in Sources */,
+				38027B6922F85F4A006AC8E4 /* MockGalleryScreenView.swift in Sources */,
 				38027B1422F61B94006AC8E4 /* GalleryImage.swift in Sources */,
 				38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */,
 				38027B1A22F718F3006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
+				38027B6322F85E1D006AC8E4 /* MockRouter.swift in Sources */,
+				38027B6022F85DF2006AC8E4 /* RouterProtocol.swift in Sources */,
+				38027B5D22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift in Sources */,
 				38027AF322F5F3A6006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027AF122F5F278006AC8E4 /* GalleryService.swift in Sources */,
 				38027B2A22F77F58006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
+				38027B6622F85E92006AC8E4 /* MockGallery.swift in Sources */,
 				38027AF022F5F138006AC8E4 /* NetworkRequestSender.swift in Sources */,
 				38027B1122F61B36006AC8E4 /* GalleryTest.swift in Sources */,
+				38027B6B22F86106006AC8E4 /* UIImage+CatImage.swift in Sources */,
+				38027B5B22F85CFB006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
 				38027B1E22F74259006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
 				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
 				38027B2122F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift in Sources */,
 				38027AEE22F5F124006AC8E4 /* GalleryServiceTest.swift in Sources */,
+				38027B6422F85E49006AC8E4 /* String+Localization.swift in Sources */,
+				38027B5F22F85DEB006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
+				38027B5E22F85DB4006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
 				38027AEF22F5F127006AC8E4 /* MockNetworkRequestSender.swift in Sources */,
 				38027AF222F5F27D006AC8E4 /* DefaultGalleryService.swift in Sources */,
 				38027B2722F7718D006AC8E4 /* GalleryListResponse.swift in Sources */,
@@ -666,6 +721,7 @@
 				38027B3522F79ADA006AC8E4 /* Component.swift in Sources */,
 				38027B1922F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
 				38027AC722F5E53A006AC8E4 /* NetworkRequestSender.swift in Sources */,
+				38027B5622F84024006AC8E4 /* GalleryViews.swift in Sources */,
 				38027B4722F7A35B006AC8E4 /* RouterProtocol.swift in Sources */,
 				38027B0D22F61317006AC8E4 /* Gallery.swift in Sources */,
 				38027ACE22F5E885006AC8E4 /* GalleryService.swift in Sources */,
@@ -676,6 +732,7 @@
 				38027B4C22F83155006AC8E4 /* Router.swift in Sources */,
 				38027B3B22F79C56006AC8E4 /* Assembly.swift in Sources */,
 				38027AD222F5E962006AC8E4 /* GalleryServiceError.swift in Sources */,
+				38027B5422F83AAC006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
 				38027AD722F5EADF006AC8E4 /* DefaultGalleryService.swift in Sources */,
 				38027B0222F60DB7006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
 				38027B2E22F79835006AC8E4 /* String+Localization.swift in Sources */,
@@ -684,6 +741,7 @@
 				38027B4A22F83027006AC8E4 /* GalleryScreenAssembly.swift in Sources */,
 				38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */,
 				38027ACA22F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
+				38027B5922F85C50006AC8E4 /* UploadScreenViewProtocol.swift in Sources */,
 				38027AD422F5E99D006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027B0A22F6121A006AC8E4 /* GalleryProtocol.swift in Sources */,
 				3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */,

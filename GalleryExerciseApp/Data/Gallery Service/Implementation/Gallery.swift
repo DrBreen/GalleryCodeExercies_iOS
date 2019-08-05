@@ -10,18 +10,22 @@ import Foundation
 import RxSwift
 
 
-//find a solution to potential race condition problems
+//TODO: find a solution to potential race condition problems
+//probably we can have some observable that blocks next one until current fetch returns
 class Gallery: GalleryProtocol {
+    
+    private static let defaultThumbnailSize: CGFloat = 100.0
     
     private var storage: [GalleryImage]
     
-    //TODO: refactor this and use server-provided value instead
     private(set) var fetchedAll = false
     
     private let galleryService: GalleryService
+    private let thumbnailSize: CGFloat
     
-    init(galleryService: GalleryService, prePopulatedStorage: [GalleryImage]? = nil, storageFullyFetched: Bool = false) {
+    init(galleryService: GalleryService, thumbnailSize: CGFloat = Gallery.defaultThumbnailSize, prePopulatedStorage: [GalleryImage]? = nil, storageFullyFetched: Bool = false) {
         self.galleryService = galleryService
+        self.thumbnailSize = thumbnailSize
         
         var storage = [GalleryImage]()
         if let prePopulatedStorage = prePopulatedStorage {
@@ -47,14 +51,15 @@ class Gallery: GalleryProtocol {
                 let id = galleryImage.id
                 return self.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil))
             }
-            .do(onNext: { [weak self] (id: String?, image: UIImage?) in
+            .do(onNext: { (id: String?, image: UIImage?) in
                 //update placeholders with actual images
-                guard let idx = self?.storage.firstIndex(where: { $0.id == id }) else {
+                guard let idx = self.storage.firstIndex(where: { $0.id == id }) else {
                     return
                 }
                 
-                self?.storage[idx].showPlaceholder = false
-                self?.storage[idx].image = image
+                self.storage[idx].imageThumbnail = image?.scaled(toWidth: self.thumbnailSize)
+                self.storage[idx].showPlaceholder = false
+                self.storage[idx].image = image
             })
             .map { _ in self.storage }
         
@@ -73,7 +78,7 @@ class Gallery: GalleryProtocol {
                         var insertedContent = [GalleryImage]()
                         
                         for id in galleryListResponse.imageIds {
-                            insertedContent.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
+                            insertedContent.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
                         }
                         
                         if let strongSelf = self {
@@ -115,7 +120,7 @@ class Gallery: GalleryProtocol {
                     self?.storage = []
                     
                     for id in galleryListResponse.imageIds {
-                        self?.storage.append(GalleryImage(id: id, image: nil, showPlaceholder: true))
+                        self?.storage.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
                     }
                 })
                 .map { [weak self] _ in self?.storage ?? [] } //this is needed so that we'll return first update with all images as placeholders

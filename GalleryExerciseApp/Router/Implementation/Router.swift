@@ -21,12 +21,24 @@ class Router: RouterProtocol {
         switch destination {
         case .gallery:
             goToGallery()
+        case .upload:
+            goToUpload()
+        case .viewImage(let image):
+            //TODO: implement
+            fatalError("NOT IMPLEMENTED")
+        case .editImage(let image):
+            //TODO: implement
+            fatalError("NOT IMPLEMENTED")
         }
     }
     
     private func goToGallery() {
         let controller = RootComponent.rootComponent.galleryScreenComponent.galleryScreenViewController
         navigationController.setViewControllers([controller], animated: true)
+    }
+    
+    private func goToUpload() {
+        
     }
     
 }

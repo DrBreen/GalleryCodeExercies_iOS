@@ -10,6 +10,9 @@ import Foundation
 
 enum RouterDestination {
     case gallery
+    case upload
+    case viewImage(image: GalleryImage)
+    case editImage(image: GalleryImage)
 }
 
 protocol RouterProtocol {

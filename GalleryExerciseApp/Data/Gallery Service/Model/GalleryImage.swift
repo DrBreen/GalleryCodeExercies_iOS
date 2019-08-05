@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 import DeepDiff
 
-//TODO: add thumbnail
 struct GalleryImage: DiffAware {
     
     typealias DiffId = String
     
     let id: String
+    var imageThumbnail: UIImage?
     var image: UIImage?
     var showPlaceholder: Bool
     

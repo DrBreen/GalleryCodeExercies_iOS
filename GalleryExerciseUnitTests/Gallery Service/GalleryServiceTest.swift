@@ -10,8 +10,6 @@ import XCTest
 import RxSwift
 import InstantMock
 
-//TODO: add error tests
-//TODO: add test for named upload
 class GalleryServiceTest: XCTestCase {
     
     private static let offsetResult = GalleryListResponse(count: 3, imageIds: ["1", "2", "3"])
@@ -58,6 +56,13 @@ class GalleryServiceTest: XCTestCase {
                                                body: Arg.any(),
                                                headers: Arg.any()))
             .andReturn(Observable<Any>.just(["imageId" : "testId"]))
+        
+        //for POST /gallery/testReplaceId return JSON with { imageId: "testReplaceId" }
+        mockNetworkRequestSender.stub()
+            .call(mockNetworkRequestSender.upload(url: Arg.eq(URL(string: "https://test.com/gallery/testReplaceId")!),
+                                                  body: Arg.any(),
+                                                  headers: Arg.any()))
+            .andReturn(Observable<Any>.just(["imageId" : "testReplaceId"]))
     }
     
     override func tearDown() {
@@ -104,7 +109,19 @@ class GalleryServiceTest: XCTestCase {
         let gotResponseExpectation = XCTestExpectation()
         
         galleryService.upload(image: UIImage.catImage, name: nil).subscribe(onNext: { response in
-            XCTAssertEqual(response.imageId, "testId");
+            XCTAssertEqual(response.imageId, "testId")
+            gotResponseExpectation.fulfill()
+        }).disposed(by: disposeBag!)
+        
+        wait(for: [gotResponseExpectation], timeout: 1.0)
+    }
+    
+    //should upload successfully and receive GallertServiceUploadResponse with imageId == "testId"
+    func test_uploadReplace() {
+        let gotResponseExpectation = XCTestExpectation()
+        
+        galleryService.upload(image: UIImage.catImage, name: "testReplaceId").subscribe(onNext: { response in
+            XCTAssertEqual(response.imageId, "testReplaceId")
             gotResponseExpectation.fulfill()
         }).disposed(by: disposeBag!)
         

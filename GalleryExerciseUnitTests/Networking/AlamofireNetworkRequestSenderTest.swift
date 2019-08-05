@@ -141,7 +141,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         
         let observable: Observable<T>
         if T.self == Any.self {
-            observable = sender.upload(url: URL(string: "http://test.com")!, body: Data(), headers: nil) as! Observable<T>
+            observable = sender.upload(url: URL(string: "http://test.com")!, body: [:], headers: nil) as! Observable<T>
         } else if T.self == Data.self {
             observable = sender.getData(url: URL(string: "http://test.com")!, query: nil, headers: nil) as! Observable<T>
         } else {

@@ -18,7 +18,7 @@ class MockNetworkRequestSender: Mock, NetworkRequestSender {
         return super.call(url, query, headers)!
     }
     
-    func upload(url: URL, body: Data, headers: [String : String]?) -> Observable<Any> {
+    func upload(url: URL, body: [String : MultipartFormDataDescription], headers: [String : String]?) -> Observable<Any> {
         return super.call(url, body, headers)!
     }
     

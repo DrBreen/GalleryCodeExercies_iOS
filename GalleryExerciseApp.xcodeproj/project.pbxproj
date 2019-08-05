@@ -280,6 +280,7 @@
 		38027B0822F611F8006AC8E4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				38027ACC22F5E874006AC8E4 /* Gallery Service */,
 				38027B0E22F613CF006AC8E4 /* Model */,
 				38027B0B22F6130E006AC8E4 /* Implementation */,
 				38027B0922F6121A006AC8E4 /* GalleryProtocol.swift */,
@@ -411,10 +412,9 @@
 				38027B1B22F74216006AC8E4 /* Utils */,
 				38027B0822F611F8006AC8E4 /* Data */,
 				38027AFF22F60D81006AC8E4 /* UI */,
-				38027ACC22F5E874006AC8E4 /* Gallery Service */,
 				38027AC522F5E27F006AC8E4 /* Networking */,
-				3818F00522F59F93004DC09A /* AppDelegate.swift */,
 				3818F00C22F59F96004DC09A /* Assets.xcassets */,
+				3818F00522F59F93004DC09A /* AppDelegate.swift */,
 				3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */,
 				3818F01122F59F96004DC09A /* Info.plist */,
 			);

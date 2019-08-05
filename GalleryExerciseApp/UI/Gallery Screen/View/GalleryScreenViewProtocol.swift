@@ -16,7 +16,7 @@ enum GalleryScreenLoadingMode {
     case initialLoading
 }
 
-protocol GalleryScreenViewProtocol {
+protocol GalleryScreenViewProtocol: class {
     
     //MARK: Commands
     
@@ -26,6 +26,9 @@ protocol GalleryScreenViewProtocol {
     ///set visibility for loading indicator
     func show(loadingMode: GalleryScreenLoadingMode)
     
+    ///show error
+    func show(error: String)
+    
     //MARK: Events
     
     ///reached bottom part of screen - maybe we need to load additional images
@@ -33,4 +36,7 @@ protocol GalleryScreenViewProtocol {
     
     ///did tap upload image button
     func didTapUploadImage() -> Signal<Void>
+    
+    ///did tap image
+    func didTapImage() -> Signal<GalleryImage>
 }

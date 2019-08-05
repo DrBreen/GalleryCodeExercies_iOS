@@ -40,8 +40,20 @@
 		38027B2722F7718D006AC8E4 /* GalleryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */; };
 		38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */; };
 		38027B2A22F77F58006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027AC922F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift */; };
+		38027B2E22F79835006AC8E4 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2D22F79835006AC8E4 /* String+Localization.swift */; };
+		38027B3122F799B1006AC8E4 /* GalleryScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3022F799B1006AC8E4 /* GalleryScreenComponent.swift */; };
+		38027B3522F79ADA006AC8E4 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3422F79ADA006AC8E4 /* Component.swift */; };
+		38027B3922F79BE0006AC8E4 /* RootComponentAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */; };
+		38027B3B22F79C56006AC8E4 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3A22F79C56006AC8E4 /* Assembly.swift */; };
+		38027B3D22F79CB0006AC8E4 /* RootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3C22F79CB0006AC8E4 /* RootComponent.swift */; };
+		38027B4022F7A031006AC8E4 /* RootComponent+Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */; };
+		38027B4222F7A0A2006AC8E4 /* GalleryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */; };
+		38027B4722F7A35B006AC8E4 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */; };
+		38027B4A22F83027006AC8E4 /* GalleryScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4922F83027006AC8E4 /* GalleryScreenAssembly.swift */; };
+		38027B4C22F83155006AC8E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4B22F83155006AC8E4 /* Router.swift */; };
+		38027B5022F8362B006AC8E4 /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */; };
+		38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
-		3818F00822F59F93004DC09A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00722F59F93004DC09A /* ViewController.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
 		69667785609B82D42B33E82C /* Pods_GalleryExerciseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D68F13C91E434E4C47760D2 /* Pods_GalleryExerciseApp.framework */; };
@@ -85,9 +97,21 @@
 		38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ExtendingReplaceRangeTests.swift"; sourceTree = "<group>"; };
 		38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryListResponse.swift; sourceTree = "<group>"; };
 		38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkRequestSenderTest.swift; sourceTree = "<group>"; };
+		38027B2D22F79835006AC8E4 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
+		38027B3022F799B1006AC8E4 /* GalleryScreenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenComponent.swift; sourceTree = "<group>"; };
+		38027B3422F79ADA006AC8E4 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
+		38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootComponentAssembly.swift; sourceTree = "<group>"; };
+		38027B3A22F79C56006AC8E4 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
+		38027B3C22F79CB0006AC8E4 /* RootComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootComponent.swift; sourceTree = "<group>"; };
+		38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Global.swift"; sourceTree = "<group>"; };
+		38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenViewController.swift; sourceTree = "<group>"; };
+		38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
+		38027B4922F83027006AC8E4 /* GalleryScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryScreenAssembly.swift; sourceTree = "<group>"; };
+		38027B4B22F83155006AC8E4 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
+		38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryServiceErrorMapper.swift; sourceTree = "<group>"; };
 		3818F00222F59F93004DC09A /* GalleryExerciseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalleryExerciseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3818F00522F59F93004DC09A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3818F00722F59F93004DC09A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3818F00C22F59F96004DC09A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3818F00F22F59F96004DC09A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3818F01122F59F96004DC09A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				38027AC922F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift */,
+				38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */,
 			);
 			path = Implementation;
 			sourceTree = "<group>";
@@ -228,6 +253,7 @@
 		38027AFF22F60D81006AC8E4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				38027B4E22F83621006AC8E4 /* Global */,
 				38027B0022F60D8E006AC8E4 /* Gallery Screen */,
 			);
 			path = UI;
@@ -238,6 +264,7 @@
 			children = (
 				38027B0322F60DD1006AC8E4 /* View */,
 				38027B0122F60DB7006AC8E4 /* GalleryScreenPresenter.swift */,
+				38027B4122F7A0A2006AC8E4 /* GalleryScreenViewController.swift */,
 			);
 			path = "Gallery Screen";
 			sourceTree = "<group>";
@@ -288,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */,
+				38027B2D22F79835006AC8E4 /* String+Localization.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -298,6 +326,61 @@
 				38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		38027B2F22F7998B006AC8E4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				38027B3E22F7A023006AC8E4 /* Utils */,
+				38027B3722F79BCB006AC8E4 /* Assembly */,
+				38027B3022F799B1006AC8E4 /* GalleryScreenComponent.swift */,
+				38027B3422F79ADA006AC8E4 /* Component.swift */,
+				38027B3C22F79CB0006AC8E4 /* RootComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		38027B3722F79BCB006AC8E4 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */,
+				38027B3A22F79C56006AC8E4 /* Assembly.swift */,
+				38027B4922F83027006AC8E4 /* GalleryScreenAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		38027B3E22F7A023006AC8E4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				38027B3F22F7A031006AC8E4 /* RootComponent+Global.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		38027B4522F7A350006AC8E4 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				38027B4822F7A3A9006AC8E4 /* Implementation */,
+				38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		38027B4822F7A3A9006AC8E4 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				38027B4B22F83155006AC8E4 /* Router.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		38027B4E22F83621006AC8E4 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				38027B4F22F8362B006AC8E4 /* UIColor+Theme.swift */,
+			);
+			path = Global;
 			sourceTree = "<group>";
 		};
 		3818EFF922F59F93004DC09A = {
@@ -323,13 +406,14 @@
 		3818F00422F59F93004DC09A /* GalleryExerciseApp */ = {
 			isa = PBXGroup;
 			children = (
+				38027B4522F7A350006AC8E4 /* Router */,
+				38027B2F22F7998B006AC8E4 /* Components */,
 				38027B1B22F74216006AC8E4 /* Utils */,
 				38027B0822F611F8006AC8E4 /* Data */,
 				38027AFF22F60D81006AC8E4 /* UI */,
 				38027ACC22F5E874006AC8E4 /* Gallery Service */,
 				38027AC522F5E27F006AC8E4 /* Networking */,
 				3818F00522F59F93004DC09A /* AppDelegate.swift */,
-				3818F00722F59F93004DC09A /* ViewController.swift */,
 				3818F00C22F59F96004DC09A /* Assets.xcassets */,
 				3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */,
 				3818F01122F59F96004DC09A /* Info.plist */,
@@ -576,17 +660,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38027B3122F799B1006AC8E4 /* GalleryScreenComponent.swift in Sources */,
+				38027B3D22F79CB0006AC8E4 /* RootComponent.swift in Sources */,
+				38027B3922F79BE0006AC8E4 /* RootComponentAssembly.swift in Sources */,
+				38027B3522F79ADA006AC8E4 /* Component.swift in Sources */,
 				38027B1922F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
-				3818F00822F59F93004DC09A /* ViewController.swift in Sources */,
 				38027AC722F5E53A006AC8E4 /* NetworkRequestSender.swift in Sources */,
+				38027B4722F7A35B006AC8E4 /* RouterProtocol.swift in Sources */,
 				38027B0D22F61317006AC8E4 /* Gallery.swift in Sources */,
 				38027ACE22F5E885006AC8E4 /* GalleryService.swift in Sources */,
 				38027B0722F60E1C006AC8E4 /* GalleryImage.swift in Sources */,
 				38027B0522F60DE3006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
+				38027B4022F7A031006AC8E4 /* RootComponent+Global.swift in Sources */,
+				38027B5022F8362B006AC8E4 /* UIColor+Theme.swift in Sources */,
+				38027B4C22F83155006AC8E4 /* Router.swift in Sources */,
+				38027B3B22F79C56006AC8E4 /* Assembly.swift in Sources */,
 				38027AD222F5E962006AC8E4 /* GalleryServiceError.swift in Sources */,
 				38027AD722F5EADF006AC8E4 /* DefaultGalleryService.swift in Sources */,
 				38027B0222F60DB7006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
+				38027B2E22F79835006AC8E4 /* String+Localization.swift in Sources */,
+				38027B4222F7A0A2006AC8E4 /* GalleryScreenViewController.swift in Sources */,
 				38027B1D22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
+				38027B4A22F83027006AC8E4 /* GalleryScreenAssembly.swift in Sources */,
+				38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */,
 				38027ACA22F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
 				38027AD422F5E99D006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027B0A22F6121A006AC8E4 /* GalleryProtocol.swift in Sources */,

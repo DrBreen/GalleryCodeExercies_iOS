@@ -45,7 +45,7 @@ class Gallery: GalleryProtocol {
             .flatMap { (galleryImage: GalleryImage) -> Observable<(String?, UIImage?)> in
                 //send request to server and transform response to pair of ID/Image so we'll know what image to update
                 let id = galleryImage.id
-                return self.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil)).debug("\(id) request", trimOutput: true)
+                return self.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil))
             }
             .do(onNext: { [weak self] (id: String?, image: UIImage?) in
                 //update placeholders with actual images
@@ -57,7 +57,6 @@ class Gallery: GalleryProtocol {
                 self?.storage[idx].image = image
             })
             .map { _ in self.storage }
-            .debug("gallery -> updates", trimOutput: true)
         
         if let offset = offset, let count = count {
             
@@ -96,7 +95,7 @@ class Gallery: GalleryProtocol {
                 //this observable will emit:
                 //1) Immediately after fetching of image list - it will emit placeholders
                 //2) After every image update
-                return galleryObservable.debug("gallery", trimOutput: true).concat(updatesObservable).debug("updates", trimOutput: true)
+                return galleryObservable.concat(updatesObservable)
             }
         } else {
             //requested the whole gallery
@@ -131,6 +130,10 @@ class Gallery: GalleryProtocol {
     func clear() {
         fetchedAll = false
         storage = []
+    }
+    
+    func invalidateFetchedStatus() {
+        fetchedAll = false
     }
 }
 

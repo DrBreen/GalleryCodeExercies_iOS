@@ -12,11 +12,19 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var rootComponent: RootComponent!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //TODO: set root window
+        window = UIWindow()
+        window!.rootViewController = UINavigationController()
+        rootComponent = RootComponentAssembly(parent: nil).assemble()
+        window!.makeKeyAndVisible()
+        
+        //start the application
+        rootComponent.router.go(to: .gallery)
+ 
         return true
     }
 

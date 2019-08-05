@@ -6,6 +6,7 @@ def shared_pods
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
   pod 'DeepDiff', '~> 2.2.0'
+  pod 'Swinject', '~> 2.6.2'
 end
 
 target 'GalleryExerciseApp' do

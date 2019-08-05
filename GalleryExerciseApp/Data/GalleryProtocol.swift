@@ -17,5 +17,6 @@ protocol GalleryProtocol {
     func fetchNext(count: Int) -> Observable<[GalleryImage]>
     
     func clear()
+    func invalidateFetchedStatus()
     
 }

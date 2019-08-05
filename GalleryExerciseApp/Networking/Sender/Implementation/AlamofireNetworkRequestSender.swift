@@ -68,9 +68,23 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
         }
     }
     
-    func upload(url: URL, body: Data, headers: [String: String]?) -> Observable<Any> {
+    func upload(url: URL, body: [String : MultipartFormDataDescription], headers: [String: String]?) -> Observable<Any> {
+        
+        let multipart = MultipartFormData()
+        for name in body.keys {
+            let description = body[name]!
+            multipart.append(description.data, withName: name, fileName: description.filename, mimeType: description.mimetype)
+        }
+        
+        let multipartData: Data
+        do {
+            multipartData = try multipart.encode()
+        } catch (let error) {
+            return Observable.error(error)
+        }
+        
         return Observable.create { observer in
-            let request = self.sessionManager.upload(body, to: url).validate(statusCode: 200..<300).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: self.errorMapper))
+            let request = self.sessionManager.upload(multipartData, to: url, headers: ["Content-Type" : multipart.contentType]).validate(statusCode: 200..<300).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: self.errorMapper))
             
             return Disposables.create { request.cancel() }
         }

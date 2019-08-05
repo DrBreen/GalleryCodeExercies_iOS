@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 //TODO: insert [unowned self] to blocks to avoid memory leaks
-//TODO: add tests for that
+//TODO: test it
 class UploadScreenPresenter {
     
     weak var uploadScreenView: UploadScreenViewProtocol? {
@@ -23,6 +23,8 @@ class UploadScreenPresenter {
             }
         }
     }
+    
+    private let userInitiatedScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
     
     private var viewDisposeBag = DisposeBag()
     private let disposeBag = DisposeBag()
@@ -55,6 +57,11 @@ class UploadScreenPresenter {
                 self.router.go(to: .gallery)
             }).disposed(by: viewDisposeBag)
         
+        view.didCancelImagePick()
+            .subscribe(onNext: { [unowned self] in
+                self.uploadScreenView?.showUploadModePicker()
+            }).disposed(by: viewDisposeBag)
+        
         view.didPickUploadMode()
             .subscribe(onNext: { [unowned self] uploadMode in
                 self.uploadScreenView?.showImagePicker(mode: uploadMode)
@@ -64,27 +71,33 @@ class UploadScreenPresenter {
             .do(onNext: { [unowned self] _ in
                 self.uploadScreenView?.setActivityIndicator(visible: true)
             })
-            .map { image in
-                return image.pngData()! //maybe we shouldn't force it. It needs additional checking
+            .observeOn(userInitiatedScheduler)
+            .flatMap { image in
+                self.galleryService.upload(image: image, name: nil)
             }
-            .flatMap { data in
-                self.galleryService.upload(data: data)
-            }
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.uploadScreenView?.setActivityIndicator(visible: true)
                 self.gallery.invalidateFetchedStatus()
                 self.router.go(to: .gallery)
             }, onError: { [unowned self] error in
-                self.uploadScreenView?.setActivityIndicator(visible: true)
+                self.uploadScreenView?.setActivityIndicator(visible: false)
                 
                 let message: String
                 if let error = error as? GalleryServiceError {
                     message = error.error
+                } else if let error = error as? GeneralError {
+                  message = error.text
                 } else {
                     message = "Something went wrong, please try again".localized
                 }
                 
                 self.uploadScreenView?.show(message: message)
+                
+                //TODO: fix that - present after dismissing
+                #warning("UNCOMMENT")
+                //self.uploadScreenView?.showUploadModePicker()
+                self.router.go(to: .gallery)
             }).disposed(by: viewDisposeBag)
     }
     

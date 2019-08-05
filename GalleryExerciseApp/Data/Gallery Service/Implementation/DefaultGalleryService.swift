@@ -11,6 +11,8 @@ import RxSwift
 
 class DefaultGalleryService: GalleryService {
     
+    private static let maximumImageSize: CGFloat = 1024.0
+    
     private static let galleryPath = "gallery"
     
     private let networkRequestSender: NetworkRequestSender
@@ -45,9 +47,33 @@ class DefaultGalleryService: GalleryService {
             }
     }
     
-    func upload(data: Data) -> Observable<GalleryServiceUploadResponse> {
+    func upload(image: UIImage, name: String?) -> Observable<GalleryServiceUploadResponse> {
+        
+        var sentImage = image
+        
+        let requestUrl: URL
+        if let name = name {
+            requestUrl = url(path: DefaultGalleryService.galleryPath, name)
+        } else {
+            requestUrl = url(path: DefaultGalleryService.galleryPath)
+        }
+        
+        if image.size.width > DefaultGalleryService.maximumImageSize {
+            sentImage = image.scaled(toWidth: DefaultGalleryService.maximumImageSize)
+        }
+        
+        if image.size.height > DefaultGalleryService.maximumImageSize {
+            sentImage = image.scaled(toHeight: DefaultGalleryService.maximumImageSize)
+        }
+        
+        guard let imageData = sentImage.pngData() else {
+            return Observable.error(GeneralError(text: "Invalid image, please select another one".localized))
+        }
+        
+        let multipartImageData = MultipartFormDataDescription(filename: "img", data: imageData, mimetype: "image/png")
+        
         return networkRequestSender
-            .upload(url: url(path: DefaultGalleryService.galleryPath), body: data, headers: nil)
+            .upload(url: requestUrl, body: ["image" : multipartImageData], headers: nil)
             .map { data in
                 
                 guard let dict = data as? [AnyHashable : Any] else {

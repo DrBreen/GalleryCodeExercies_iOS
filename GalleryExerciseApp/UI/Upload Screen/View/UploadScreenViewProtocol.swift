@@ -40,6 +40,9 @@ protocol UploadScreenViewProtocol: class {
     func didCancelUpload() -> ControlEvent<Void>
     
     ///user selected image
-    func didPickImageForUpload() -> ControlEvent<UIImage>
+    func didPickImageForUpload() -> Observable<UIImage>
+    
+    ///user cancelled image picking
+    func didCancelImagePick() -> ControlEvent<Void>
     
 }

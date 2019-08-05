@@ -40,27 +40,23 @@ class Router: RouterProtocol {
     
     private func goToGallery() {
         
-        let openGallery = {
-            
-            if self.navigationController.viewControllers.count == 0 {
-                let controller = self.galleryScreenFactory.galleryScreenViewController
-                self.navigationController.setViewControllers([controller], animated: true)
-            } else {
-                
-                let controllersCountToRemove = self.navigationController.viewControllers.count - 1
-                var newViewControllers = self.navigationController.viewControllers
-                newViewControllers.removeLast(controllersCountToRemove)
-                
-                self.navigationController.setViewControllers(newViewControllers, animated: true)
-            }
-            
-            
+        let presentedController = navigationController.visibleViewController
+        
+        var presentingController = presentedController?.presentingViewController
+        while presentingController != nil  {
+            presentingController?.dismiss(animated: true, completion: nil)
+            presentingController = presentingController?.presentingViewController
         }
         
-        if let presentedController = navigationController.topViewController?.presentedViewController {
-            presentedController.dismiss(animated: true, completion: openGallery)
+        if self.navigationController.viewControllers.count == 0 {
+            let controller = self.galleryScreenFactory.galleryScreenViewController
+            self.navigationController.setViewControllers([controller], animated: true)
         } else {
-            openGallery()
+            let controllersCountToRemove = self.navigationController.viewControllers.count - 1
+            var newViewControllers = self.navigationController.viewControllers
+            newViewControllers.removeLast(controllersCountToRemove)
+            
+            self.navigationController.setViewControllers(newViewControllers, animated: true)
         }
         
     }

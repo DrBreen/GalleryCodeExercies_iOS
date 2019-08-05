@@ -11,6 +11,7 @@ import RxSwift
 import InstantMock
 
 //TODO: add error tests
+//TODO: add test for named upload
 class GalleryServiceTest: XCTestCase {
     
     private static let offsetResult = GalleryListResponse(count: 3, imageIds: ["1", "2", "3"])
@@ -102,7 +103,7 @@ class GalleryServiceTest: XCTestCase {
     func test_upload() {
         let gotResponseExpectation = XCTestExpectation()
         
-        galleryService.upload(data: Data()).subscribe(onNext: { response in
+        galleryService.upload(image: UIImage.catImage, name: nil).subscribe(onNext: { response in
             XCTAssertEqual(response.imageId, "testId");
             gotResponseExpectation.fulfill()
         }).disposed(by: disposeBag!)

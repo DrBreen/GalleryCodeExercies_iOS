@@ -9,16 +9,22 @@
 import Foundation
 import RxSwift
 
+struct MultipartFormDataDescription {
+    let filename: String
+    let data: Data
+    let mimetype: String
+}
+
 protocol NetworkRequestSender {
     
     var errorMapper: NetworkRequestErrorMapper? { get set }
     
     func getData(url: URL,
-             query: [String: Any]?,
-             headers: [String: String]?) -> Observable<Data>
+                 query: [String: Any]?,
+                 headers: [String: String]?) -> Observable<Data>
     
     func upload(url: URL,
-              body: Data,
-              headers: [String: String]?) -> Observable<Any>
+                body: [String : MultipartFormDataDescription],
+                headers: [String: String]?) -> Observable<Any>
     
 }

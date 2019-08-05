@@ -11,7 +11,7 @@ import RxSwift
 
 //TODO: don't forget about cropping/rotating
 //TODO: insert [unowned self] to blocks to avoid memory leaks
-//TODO: fix images being loaded on return to controller (and think of how we can reload after uploading)
+//TODO: think of how we can reload after uploading
 class GalleryScreenPresenter {
     
     private static let imageBatchSize = 20

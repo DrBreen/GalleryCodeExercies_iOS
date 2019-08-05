@@ -11,7 +11,10 @@ import RxCocoa
 import RxSwift
 
 //TODO: add tests
-class UploadScreenViewController: UIViewController, UploadScreenViewProtocol {
+class UploadScreenViewController: UIViewController,
+    UploadScreenViewProtocol,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate {
     
     //presenter and everything related
     private let uploadScreenPresenter: UploadScreenPresenter
@@ -20,6 +23,15 @@ class UploadScreenViewController: UIViewController, UploadScreenViewProtocol {
     private let didCancelUploadSubject = PublishSubject<Void>()
     private let didPickImageForUploadSubject = PublishSubject<UIImage>()
     private let didPickUploadModeSubject = PublishSubject<UploadMode>()
+    private let didCancelImagePickSubject = PublishSubject<Void>()
+    
+    //views
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .whiteLarge)
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
     
     init(uploadScreenPresenter: UploadScreenPresenter) {
         self.uploadScreenPresenter = uploadScreenPresenter
@@ -40,17 +52,18 @@ class UploadScreenViewController: UIViewController, UploadScreenViewProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        uploadScreenPresenter.uploadScreenView = self
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        uploadScreenPresenter.uploadScreenView = nil
+        if uploadScreenPresenter.uploadScreenView == nil {
+            uploadScreenPresenter.uploadScreenView = self
+        }
     }
     
     private func buildView() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     // MARK: UploadScreenViewProtocol
@@ -73,26 +86,27 @@ class UploadScreenViewController: UIViewController, UploadScreenViewProtocol {
     }
     
     func setActivityIndicator(visible: Bool) {
-        //TODO: implement
-    }
-    
-    func showImagePicker(mode: UploadMode) {
-        switch mode {
-        case .pickFromGallery:
-            showGalleryPicker()
-        case .takePhoto:
-            showTakePhotoPicker()
+        if visible {
+            view.bringSubviewToFront(activityIndicator)
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
         }
     }
     
-    private func showTakePhotoPicker() {
-        //TODO: implement
-    }
-    
-    private func showGalleryPicker() {
-        //TODO: implement
+    func showImagePicker(mode: UploadMode) {
+        let sourceType: UIImagePickerController.SourceType
+        
+        switch mode {
+        case .pickFromGallery:
+            sourceType = .photoLibrary
+        case .takePhoto:
+            sourceType = .camera
+        }
+        
         let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
+        picker.sourceType = sourceType
+        picker.delegate = self
         present(picker, animated: true, completion: nil)
     }
     
@@ -110,9 +124,30 @@ class UploadScreenViewController: UIViewController, UploadScreenViewProtocol {
         return ControlEvent(events: didCancelUploadSubject)
     }
     
-    func didPickImageForUpload() -> ControlEvent<UIImage> {
-        //TODO: implement
-        return ControlEvent(events: Observable.never())
+    func didPickImageForUpload() -> Observable<UIImage> {
+        return didPickImageForUploadSubject.asObservable()
+    }
+    
+    func didCancelImagePick() -> ControlEvent<Void> {
+        return ControlEvent(events: didCancelImagePickSubject)
+    }
+    
+    // MARK: UIImagePickerControllerDelegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            didPickImageForUploadSubject.onError(GeneralError(text: "There was an error during image selection, please try again".localized))
+            return
+        }
+        
+        didPickImageForUploadSubject.onNext(image)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true) {
+            self.didCancelImagePickSubject.onNext(())
+        }
     }
     
 }

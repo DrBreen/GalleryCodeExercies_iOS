@@ -14,20 +14,12 @@ class MockGallery: Mock, GalleryProtocol {
     
     var fetchedAll = false
     
-    func fetchImages(offset: Int?, count: Int?) -> Observable<[GalleryImage]> {
-        return super.call(offset, count)!
+    func fetchImages() -> Observable<[GalleryImage]> {
+        return super.call()!
     }
     
-    func fetchNext(count: Int) -> Observable<[GalleryImage]> {
-        return super.call(count)!
-    }
-    
-    func clear() {
-        fetchedAll = false
-    }
-    
-    func invalidateFetchedStatus() {
-        fetchedAll = true
+    func invalidateCache() {
+        return super.call()!
     }
     
     

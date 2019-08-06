@@ -70,17 +70,13 @@ class GalleryScreenPresenterTest: XCTestCase {
     
     //test that all view observables are disposed on view detach
     func test_viewObservablesDisposed() {
-        expect(count: 3) { expectToDispose in
+        expect(count: 2) { expectToDispose in
             mockView.stub()
                 .call(mockView.didTapImage())
                 .andReturn(ControlEvent(events: Observable<GalleryImage>.never().do(onDispose: { expectToDispose.fulfill() })))
             
             mockView.stub()
                 .call(mockView.didTapUploadImage())
-                .andReturn(ControlEvent(events: Observable<Void>.never().do(onDispose: { expectToDispose.fulfill() })))
-            
-            mockView.stub()
-                .call(mockView.reachedScreenBottom())
                 .andReturn(ControlEvent(events: Observable<Void>.never().do(onDispose: { expectToDispose.fulfill() })))
             
             presenter.galleryScreenView = mockView
@@ -152,75 +148,15 @@ class GalleryScreenPresenterTest: XCTestCase {
         }
     }
     
-    //test that new images are loaded on scroll down
-    func test_loadNewOnScrollDown() {
-        expect(count: 1) { expectation in
-  
-            //set empty data so that initial load will return empty array and we will not try to check it
-            setMockData(gallery: [])
-            
-            //delay scrolled down event - just like in real life
-            let delayedScrollDownEvent = ControlEvent(events: Observable<Void>.just(()).delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance))
-            mockView.stub().call(mockView.reachedScreenBottom()).andReturn(delayedScrollDownEvent)
-            
-            //attach the view
-            presenter.galleryScreenView = mockView
-            
-            let galleryReturnAfterScroll = [
-                GalleryImage(id: "testId", imageThumbnail: .catImageThumbnail, image: .catImage, showPlaceholder: false),
-                GalleryImage(id: "testId2", imageThumbnail: .catImageThumbnail, image: .catImage, showPlaceholder: false)
-            ]
-            
-            setMockData(gallery: galleryReturnAfterScroll)
-            
-            mockView.expect().call(mockView.set(pictures: Arg.verify { images in
-                return images.count > 0
-            })).andDo { args in
-                let images = args[0] as! [GalleryImage]
-                
-                let expectedIds = galleryReturnAfterScroll.map { $0.id }
-                let receivedIds = images.map { $0.id }
-                XCTAssertEqual(receivedIds, expectedIds)
-                
-                expectation.fulfill()
-            }
-        }
-    }
-    
-    //test that error on scroll down loading will hide loading indicator and will also display correct error
-    func test_loadNewOnScrollDownError() {
-        expectMultiple(counts: [1, 1], ["Disable loading indicator", "Showed error"]) { expectations in
-            
-            setMockData(gallery: [])
-            
-            //delay scrolled down event - just like in real life
-            let delayedScrollDownEvent = ControlEvent(events: Observable<Void>.just(()).delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance))
-            mockView.stub().call(mockView.reachedScreenBottom()).andReturn(delayedScrollDownEvent)
-            
-            //attach the view
-            presenter.galleryScreenView = mockView
-            
-            setMockData(galleryError: GalleryServiceError(error: "Test error"))
-            
-            mockView.expect()
-                .call(mockView.show(loadingMode: Arg.eq(.none)))
-                .andDo { _ in expectations[0].fulfill() } //expect that show(loadingMode:) is called with .none argument
-            
-            mockView.expect()
-                .call(mockView.show(error: Arg.eq("Test error")))
-                .andDo { _ in expectations[1].fulfill() } //expect that show(error:) is called with correct error
-        }
-    }
-    
     // MARK: Helpers
     private func setMockData(gallery: [GalleryImage]) {
         mockGallery.resetStubs()
-        mockGallery.stub().call(mockGallery.fetchNext(count: Arg.any())).andReturn(Observable<[GalleryImage]>.just(gallery))
+        mockGallery.stub().call(mockGallery.fetchImages()).andReturn(Observable<[GalleryImage]>.just(gallery))
     }
     
     private func setMockData(galleryError: Error) {
         mockGallery.resetStubs()
-        mockGallery.stub().call(mockGallery.fetchNext(count: Arg.any())).andReturn(Observable<[GalleryImage]>.error(galleryError))
+        mockGallery.stub().call(mockGallery.fetchImages()).andReturn(Observable<[GalleryImage]>.error(galleryError))
     }
     
     private func expect(count: Int, _ action: (XCTestExpectation) -> Void) {

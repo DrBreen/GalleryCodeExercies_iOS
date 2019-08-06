@@ -25,10 +25,6 @@ class MockGalleryScreenView: Mock, GalleryScreenViewProtocol {
         super.call(error)
     }
     
-    func reachedScreenBottom() -> ControlEvent<Void> {
-        return super.call()!
-    }
-    
     func didTapUploadImage() -> ControlEvent<Void> {
         return super.call()!
     }

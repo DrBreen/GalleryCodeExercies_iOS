@@ -73,7 +73,7 @@ class GalleryServiceTest: XCTestCase {
     func test_getGalleryNoOffset() {
         let gotResponseExpectation = XCTestExpectation()
         
-        galleryService.getGallery(offset: nil, count: nil).subscribe(onNext: { imageIds in
+        galleryService.getGallery().subscribe(onNext: { imageIds in
             XCTAssertEqual(imageIds, GalleryServiceTest.noOffsetResult)
             gotResponseExpectation.fulfill()
         }).disposed(by: disposeBag!)
@@ -81,17 +81,6 @@ class GalleryServiceTest: XCTestCase {
         wait(for: [gotResponseExpectation], timeout: 1.0)
     }
     
-    //should return offset array when sending count and offset
-    func test_getGalleryWithOffset() {
-        let gotResponseExpectation = XCTestExpectation()
-        
-        galleryService.getGallery(offset: 1, count: 1).subscribe(onNext: { imageIds in
-            XCTAssertEqual(imageIds, GalleryServiceTest.offsetResult)
-            gotResponseExpectation.fulfill()
-        }).disposed(by: disposeBag!)
-        
-        wait(for: [gotResponseExpectation], timeout: 1.0)
-    }
     
     //should receive UIImage
     func test_image() {

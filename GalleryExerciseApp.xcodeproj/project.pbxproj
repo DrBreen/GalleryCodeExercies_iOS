@@ -32,9 +32,6 @@
 		38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027AD122F5E962006AC8E4 /* GalleryServiceError.swift */; };
 		38027B1922F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */; };
 		38027B1A22F718F3006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */; };
-		38027B1D22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */; };
-		38027B1E22F74259006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */; };
-		38027B2122F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */; };
 		38027B2422F74B4E006AC8E4 /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B0C22F61317006AC8E4 /* Gallery.swift */; };
 		38027B2622F76F8A006AC8E4 /* GalleryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */; };
 		38027B2722F7718D006AC8E4 /* GalleryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */; };
@@ -113,8 +110,6 @@
 		38027B1022F61B36006AC8E4 /* GalleryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryTest.swift; sourceTree = "<group>"; };
 		38027B1522F6E8F2006AC8E4 /* cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat.png; sourceTree = "<group>"; };
 		38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestErrorMapper.swift; sourceTree = "<group>"; };
-		38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ExtendingReplaceSubrange.swift"; sourceTree = "<group>"; };
-		38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ExtendingReplaceRangeTests.swift"; sourceTree = "<group>"; };
 		38027B2522F76F8A006AC8E4 /* GalleryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryListResponse.swift; sourceTree = "<group>"; };
 		38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkRequestSenderTest.swift; sourceTree = "<group>"; };
 		38027B2D22F79835006AC8E4 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
@@ -339,7 +334,6 @@
 		38027B1B22F74216006AC8E4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				38027B1C22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift */,
 				38027B2D22F79835006AC8E4 /* String+Localization.swift */,
 				38027B5322F83AAC006AC8E4 /* UIImage+Thumbnail.swift */,
 			);
@@ -349,7 +343,6 @@
 		38027B1F22F7453F006AC8E4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				38027B2022F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift */,
 				38027B6A22F86106006AC8E4 /* UIImage+CatImage.swift */,
 			);
 			path = Utils;
@@ -591,7 +584,6 @@
 				TargetAttributes = {
 					38027AE422F5F0FD006AC8E4 = {
 						CreatedOnToolsVersion = 10.2.1;
-						TestTargetID = 3818F00122F59F93004DC09A;
 					};
 					3818F00122F59F93004DC09A = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -742,9 +734,7 @@
 				38027B6B22F86106006AC8E4 /* UIImage+CatImage.swift in Sources */,
 				38027B5B22F85CFB006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
 				38027B8722F8F254006AC8E4 /* GeneralError.swift in Sources */,
-				38027B1E22F74259006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
 				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
-				38027B2122F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift in Sources */,
 				38027AEE22F5F124006AC8E4 /* GalleryServiceTest.swift in Sources */,
 				38027B6422F85E49006AC8E4 /* String+Localization.swift in Sources */,
 				38027B5F22F85DEB006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
@@ -787,7 +777,6 @@
 				38027B0222F60DB7006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
 				38027B2E22F79835006AC8E4 /* String+Localization.swift in Sources */,
 				38027B4222F7A0A2006AC8E4 /* GalleryScreenViewController.swift in Sources */,
-				38027B1D22F7422F006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
 				38027B4A22F83027006AC8E4 /* GalleryScreenComponentAssembly.swift in Sources */,
 				38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */,
 				38027ACA22F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
@@ -837,7 +826,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GalleryExerciseApp.app/GalleryExerciseApp";
 			};
 			name = Debug;
 		};
@@ -857,7 +845,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GalleryExerciseApp.app/GalleryExerciseApp";
 			};
 			name = Release;
 		};

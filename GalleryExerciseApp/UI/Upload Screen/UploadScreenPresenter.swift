@@ -71,7 +71,7 @@ class UploadScreenPresenter {
                 self.uploadScreenView?.setActivityIndicator(visible: true)
             })
             .observeOn(userInitiatedScheduler)
-            .flatMap { image in
+            .flatMap { [unowned self] image in
                 self.galleryService.upload(image: image, name: nil)
             }
             .observeOn(MainScheduler.instance)

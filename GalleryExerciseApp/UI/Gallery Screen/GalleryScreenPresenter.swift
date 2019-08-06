@@ -11,10 +11,7 @@ import RxSwift
 
 //TODO: don't forget about cropping/rotating
 //TODO: insert [unowned self] to blocks to avoid memory leaks
-//TODO: think of how we can reload after uploading
 class GalleryScreenPresenter {
-    
-    private static let imageBatchSize = 20
     
     private let gallery: GalleryProtocol
     
@@ -47,7 +44,7 @@ class GalleryScreenPresenter {
         
         //now let's fetch some images
         gallery
-            .fetchNext(count: GalleryScreenPresenter.imageBatchSize)
+            .fetchImages()
             .debounce(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { pictures in
@@ -76,23 +73,6 @@ class GalleryScreenPresenter {
                 self.router.go(to: .upload)
             })
             .disposed(by: viewDisposeBag)
-        
-        //when we reached bottom of the screen, let's load more images
-        view.reachedScreenBottom()
-            .debounce(RxTimeInterval.milliseconds(250), scheduler: MainScheduler.instance)
-            .filter { !self.gallery.fetchedAll }
-            .do(onNext: { self.galleryScreenView?.show(loadingMode: .newPictures) })
-            .asObservable()
-            .flatMapLatest { _ in
-                self.gallery.fetchNext(count: GalleryScreenPresenter.imageBatchSize)
-            }
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { pictures in
-                self.update(pictures: pictures)
-            }, onError: { error in
-                self.show(error: error)
-            }).disposed(by: viewDisposeBag)
-        
     }
     
     private func didDetachView() {

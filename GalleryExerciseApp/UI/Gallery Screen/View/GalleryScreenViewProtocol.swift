@@ -12,7 +12,6 @@ import RxCocoa
 
 enum GalleryScreenLoadingMode {
     case none
-    case newPictures
     case initialLoading
 }
 
@@ -30,9 +29,6 @@ protocol GalleryScreenViewProtocol: class {
     func show(error: String)
     
     //MARK: Events
-    
-    ///reached bottom part of screen - maybe we need to load additional images
-    func reachedScreenBottom() -> ControlEvent<Void>
     
     ///did tap upload image button
     func didTapUploadImage() -> ControlEvent<Void>

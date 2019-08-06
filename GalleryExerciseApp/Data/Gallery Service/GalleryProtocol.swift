@@ -11,12 +11,8 @@ import RxSwift
 
 protocol GalleryProtocol {
     
-    var fetchedAll: Bool { get }
+    func fetchImages() -> Observable<[GalleryImage]>
     
-    func fetchImages(offset: Int?, count: Int?) -> Observable<[GalleryImage]>
-    func fetchNext(count: Int) -> Observable<[GalleryImage]>
-    
-    func clear()
-    func invalidateFetchedStatus()
+    func invalidateCache()
     
 }

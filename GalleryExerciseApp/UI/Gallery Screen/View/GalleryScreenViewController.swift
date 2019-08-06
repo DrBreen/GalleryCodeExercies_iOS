@@ -11,12 +11,11 @@ import RxSwift
 import RxCocoa
 import DeepDiff
 
-//TODO: add loading view
+//TODO: add force reload
 class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //constants
     private static let galleryCellId = "galleryCell"
-    private static let galleryLoadingFooterId = "galleryLoadingFooter"
     private static let itemsPerRowCount = 5
  
     //presenter and related to it
@@ -41,9 +40,6 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    //state
-    private var showingSmallLoadingIndicator = false
     
     //everything reactive to report back to presenter
     private let reachedScreenBottomSubject = PublishSubject<Void>()
@@ -101,7 +97,6 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         galleryCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         
         galleryCollectionView.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryScreenViewController.galleryCellId)
-        galleryCollectionView.register(BottomLoadingIndicatorView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: GalleryScreenViewController.galleryLoadingFooterId)
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
     }
@@ -115,18 +110,6 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryScreenViewController.galleryCellId, for: indexPath) as! GalleryCell
         cell.set(image: imageDataSource[indexPath.row])
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: GalleryScreenViewController.galleryLoadingFooterId, for: indexPath) as! BottomLoadingIndicatorView
-        
-        if showingSmallLoadingIndicator {
-            footer.activityIndicator.startAnimating()
-        } else {
-            footer.activityIndicator.stopAnimating()
-        }
-        
-        return footer
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -165,15 +148,8 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         switch loadingMode {
         case .initialLoading:
             loadingIndicator.startAnimating()
-            showingSmallLoadingIndicator = false
             view.bringSubviewToFront(loadingIndicator)
-        case .newPictures:
-            //TODO: implement
-            showingSmallLoadingIndicator = true
-            loadingIndicator.stopAnimating()
         case .none:
-            //TODO: implement
-            showingSmallLoadingIndicator = false
             loadingIndicator.stopAnimating()
         }
     }

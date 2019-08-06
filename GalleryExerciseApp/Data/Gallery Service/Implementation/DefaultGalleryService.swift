@@ -27,20 +27,9 @@ class DefaultGalleryService: GalleryService {
         return URL(string: path.joined(separator: "/"), relativeTo: galleryServiceURL)!.absoluteURL
     }
     
-    func getGallery(offset: Int?, count: Int?) -> Observable<GalleryListResponse> {
-        
-        let query: [String : Any]?
-        if let count = count, let offset = offset {
-            query = [
-                "count" : count,
-                "offset" : offset
-            ]
-        } else {
-            query = nil
-        }
-        
+    func getGallery() -> Observable<GalleryListResponse> {
         return networkRequestSender
-            .getData(url: url(path: DefaultGalleryService.galleryPath), query: query, headers: nil)
+            .getData(url: url(path: DefaultGalleryService.galleryPath), query: nil, headers: nil)
             .map { response in
                 let decoder = JSONDecoder()
                 return (try? decoder.decode(GalleryListResponse.self, from: response)) ?? GalleryListResponse(count: 0, imageIds: [])

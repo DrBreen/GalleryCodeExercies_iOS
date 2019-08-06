@@ -77,7 +77,7 @@ class UploadScreenPresenter {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.uploadScreenView?.setActivityIndicator(visible: true)
-                self.gallery.invalidateFetchedStatus()
+                self.gallery.invalidateCache()
                 self.router.go(to: .gallery)
             }, onError: { [unowned self] error in
                 self.uploadScreenView?.setActivityIndicator(visible: false)

@@ -10,7 +10,6 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-//TODO: test upload from camera
 class UploadScreenViewController: UIViewController,
     UploadScreenViewProtocol,
     UIImagePickerControllerDelegate,

@@ -46,19 +46,6 @@ extension GalleryScreenLoadingMode: MockUsable {
 
 extension RouterDestination: MockUsable {
     
-    private var rawValue: Int {
-        switch self {
-        case .gallery:
-            return 0
-        case .upload:
-            return 1
-        case .viewImage(_):
-            return 2
-        case .editImage(_):
-            return 3
-        }
-    }
-    
     static var anyValue: MockUsable {
         return RouterDestination.gallery
     }
@@ -68,7 +55,7 @@ extension RouterDestination: MockUsable {
             return false
         }
         
-        return destination.rawValue == self.rawValue
+        return destination.id == self.id
     }
     
 }

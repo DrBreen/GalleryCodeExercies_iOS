@@ -9,11 +9,53 @@
 import Foundation
 import UIKit
 
+//TODO: add test for galleryId -> galleryId
+//TODO: add test for galleryId -> viewImageId
+//TODO: add test for galleryId -> uploadId
+//TODO: add test for galleryId -> any other ID 
+
+//TODO: add test for editImageId -> galleryId
+//TODO: add test for editImageId -> viewImageId
+//TODO: add test for editImageId -> any other ID
+
+//TODO: add test for uploadId -> galleryId
+//TODO: add test for uploadId -> any other ID
+
+//TODO: add test for viewImageId -> editImageId
+//TODO: add test for viewImageId -> galleryId
+//TODO: add test for viewImageId -> any other ID
 class Router: RouterProtocol {
+    
+    private static let dummyImage = GalleryImage(id: "", imageThumbnail: nil, image: nil, showPlaceholder: true)
+    
+    var validRoutes: [RouterDestination.Id : [RouterDestination.Id]] = [
+        RouterDestination.galleryId: [
+            RouterDestination.galleryId,
+            RouterDestination.viewImageId,
+            RouterDestination.uploadId
+        ],
+        
+        RouterDestination.editImageId: [
+            RouterDestination.galleryId,
+            RouterDestination.viewImageId
+        ],
+        
+        RouterDestination.uploadId: [
+            RouterDestination.galleryId
+        ],
+        
+        RouterDestination.viewImageId: [
+            RouterDestination.editImageId,
+            RouterDestination.galleryId
+        ]
+        
+    ]
     
     private let navigationController: UINavigationController
     private let galleryScreenFactory: GalleryScreenFactory
     private let uploadScreenFactory: UploadScreenFactory
+    
+    private var currentLocation: RouterDestination!
     
     init(navigationController: UINavigationController,
          galleryScreenFactory: GalleryScreenFactory,
@@ -24,6 +66,13 @@ class Router: RouterProtocol {
     }
     
     func go(to destination: RouterDestination) {
+        
+        if let currentLocation = currentLocation {
+            if !validRoutes[currentLocation.id]!.contains(destination.id) {
+                fatalError("Route \(currentLocation.id) -> \(destination.id) is not valid")
+            }
+        }
+        
         switch destination {
         case .gallery:
             goToGallery()
@@ -36,6 +85,8 @@ class Router: RouterProtocol {
             //TODO: implement
             fatalError("NOT IMPLEMENTED")
         }
+        
+        currentLocation = destination
     }
     
     private func goToGallery() {

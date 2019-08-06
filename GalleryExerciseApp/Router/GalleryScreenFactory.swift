@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import UIKit
 
 protocol GalleryScreenFactory {
-    var galleryScreenViewController: GalleryScreenViewController { get }
+    var galleryScreenViewController: UIViewController { get }
 }

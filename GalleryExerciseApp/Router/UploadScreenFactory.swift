@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import UIKit
 
 protocol UploadScreenFactory {
     
-    var uploadScreenViewController: UploadScreenViewController { get }
+    var uploadScreenViewController: UIViewController { get }
     
 }

@@ -11,7 +11,7 @@ import Swinject
 
 class UploadScreenComponent: Component, UploadScreenFactory {
     
-    var uploadScreenViewController: UploadScreenViewController {
+    var uploadScreenViewController: UIViewController {
         return UploadScreenViewController(uploadScreenPresenter: container.resolve(UploadScreenPresenter.self)!)
     }
     

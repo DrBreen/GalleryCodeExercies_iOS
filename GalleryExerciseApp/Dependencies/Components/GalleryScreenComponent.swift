@@ -11,7 +11,7 @@ import Swinject
 
 class GalleryScreenComponent: Component, GalleryScreenFactory {
     
-    var galleryScreenViewController: GalleryScreenViewController {
+    var galleryScreenViewController: UIViewController {
         return GalleryScreenViewController(galleryScreenPresenter: container.resolve(GalleryScreenPresenter.self)!)
     }
     

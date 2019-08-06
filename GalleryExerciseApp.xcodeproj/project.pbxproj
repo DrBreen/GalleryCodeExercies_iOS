@@ -72,6 +72,7 @@
 		38027B8022F8D3B4006AC8E4 /* GalleryScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B7F22F8D3B4006AC8E4 /* GalleryScreenFactory.swift */; };
 		38027B8222F8D40D006AC8E4 /* UploadScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B8122F8D40D006AC8E4 /* UploadScreenFactory.swift */; };
 		38027B8622F8D8D7006AC8E4 /* GeneralError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B8522F8D8D7006AC8E4 /* GeneralError.swift */; };
+		38027B8722F8F254006AC8E4 /* GeneralError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B8522F8D8D7006AC8E4 /* GeneralError.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
@@ -740,6 +741,7 @@
 				38027B1122F61B36006AC8E4 /* GalleryTest.swift in Sources */,
 				38027B6B22F86106006AC8E4 /* UIImage+CatImage.swift in Sources */,
 				38027B5B22F85CFB006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
+				38027B8722F8F254006AC8E4 /* GeneralError.swift in Sources */,
 				38027B1E22F74259006AC8E4 /* Array+ExtendingReplaceSubrange.swift in Sources */,
 				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
 				38027B2122F74552006AC8E4 /* Array+ExtendingReplaceRangeTests.swift in Sources */,

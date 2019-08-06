@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//TODO: insert [unowned self] to blocks to avoid memory leaks
 //TODO: test it
 class UploadScreenPresenter {
     
@@ -94,10 +93,8 @@ class UploadScreenPresenter {
                 
                 self.uploadScreenView?.show(message: message)
                 
-                //TODO: fix that - present after dismissing
-                #warning("UNCOMMENT")
-                //self.uploadScreenView?.showUploadModePicker()
-                self.router.go(to: .gallery)
+                //TODO: fix that - show after error dismissing
+                self.uploadScreenView?.showUploadModePicker()
             }).disposed(by: viewDisposeBag)
     }
     

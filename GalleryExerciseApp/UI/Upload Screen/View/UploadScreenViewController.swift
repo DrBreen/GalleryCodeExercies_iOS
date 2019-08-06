@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-//TODO: add tests
+//TODO: test upload from camera
 class UploadScreenViewController: UIViewController,
     UploadScreenViewProtocol,
     UIImagePickerControllerDelegate,
@@ -57,9 +57,24 @@ class UploadScreenViewController: UIViewController,
         }
     }
     
-    private func buildView() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
+        UIView.animate(withDuration: 0.2) {
+            self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        UIView.animate(withDuration: 0.1) {
+            self.view.backgroundColor = .clear
+        }
+    }
+    
+    private func buildView() {
         view.addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

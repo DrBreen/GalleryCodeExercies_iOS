@@ -11,6 +11,22 @@ import RxSwift
 import RxCocoa
 import InstantMock
 
+// MARK: UIImage
+extension UIImage: MockUsable {
+    
+    public static var anyValue: MockUsable {
+        return UIImage()
+    }
+    
+    public func equal(to: MockUsable?) -> Bool {
+        return false
+    }
+    
+    
+    
+    
+}
+
 // MARK: Data
 extension Data: MockUsable {
     

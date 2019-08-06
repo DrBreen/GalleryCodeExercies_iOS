@@ -170,7 +170,7 @@ class GalleryTest: XCTestCase {
                 
                 //randomly delay emission of images
                 let randomDelayCatObservable = Observable<Data>.just(catImageData)
-                    .delay(DispatchTimeInterval.milliseconds(Int.random(in: (50...100))), scheduler: MainScheduler.instance).debug("randomDelay", trimOutput: true)
+                    .delay(DispatchTimeInterval.milliseconds(Int.random(in: (50...100))), scheduler: MainScheduler.instance)
                 
                 stub.andReturn(randomDelayCatObservable)
             } else {
@@ -213,7 +213,7 @@ class GalleryTest: XCTestCase {
         
         //fetch and save the gallery
         let disposeBag = DisposeBag()
-        gallery.fetchImages().debug("obs", trimOutput: true)
+        gallery.fetchImages()
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { content in
             loadedContent = content

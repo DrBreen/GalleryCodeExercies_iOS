@@ -19,7 +19,7 @@ class MockGallery: Mock, GalleryProtocol {
     }
     
     func invalidateCache() {
-        return super.call()!
+        super.call()
     }
     
     

@@ -10,11 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//TODO: add test for chain of events: "started picking image", "image is incorrect, got error" -> should show error and still deliver events after second picking of correct image (and all the things with loading indicators, etc.)
-//TODO: add test for chain of events: "started picking image", "image is correct", "upload image", "got error when uploading" -> should show error and still deliver events after second picking of correct image (and all the things with loading indicators, etc.)
-//TODO: add test for chain of events: "start picking image", "image is correct", "upload image", "got correct response" -> should invalidate cache and go to gallery and hide indicator
-//TODO: add test for upload cancel: should just got to gallery
-//TODO: add test for image picker cancel - should show picker menu
 class UploadScreenPresenter {
     
     weak var uploadScreenView: UploadScreenViewProtocol? {
@@ -88,7 +83,6 @@ class UploadScreenPresenter {
         }
         
         self.uploadScreenView?.didPickImageForUpload()
-            .debug("original", trimOutput: true)
             .do(onNext: { [unowned self] result in
                 if let error = result.error {
                     errorHandler(error)
@@ -107,9 +101,8 @@ class UploadScreenPresenter {
                     .catchError { _ in Observable.empty() }
             }
             .observeOn(MainScheduler.instance)
-            .debug("test", trimOutput: true)
             .subscribe(onNext: { [unowned self] _ in
-                self.uploadScreenView?.setActivityIndicator(visible: true)
+                self.uploadScreenView?.setActivityIndicator(visible: false)
                 self.gallery.invalidateCache()
                 self.router.go(to: .gallery)
             }).disposed(by: viewDisposeBag)

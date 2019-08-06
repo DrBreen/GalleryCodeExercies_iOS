@@ -12,6 +12,7 @@ import RxSwift
 
 //TODO: find a solution to potential race condition problems
 //probably we can have some observable that blocks next one until current fetch returns
+//TODO: test that race condition
 class Gallery: GalleryProtocol {
     
     private let computationsScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)

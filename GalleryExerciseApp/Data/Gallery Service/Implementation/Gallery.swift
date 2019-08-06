@@ -11,8 +11,6 @@ import RxSwift
 
 
 //TODO: find a solution to potential race condition problems
-//TODO: add id->image cache with expiration time
-//TODO: add test for id->image cache
 //probably we can have some observable that blocks next one until current fetch returns
 class Gallery: GalleryProtocol {
     
@@ -26,7 +24,9 @@ class Gallery: GalleryProtocol {
     private let galleryService: GalleryService
     private let thumbnailSize: CGFloat
     
-    init(galleryService: GalleryService, thumbnailSize: CGFloat = Gallery.defaultThumbnailSize, cacheContent: [GalleryImage]? = nil) {
+    init(galleryService: GalleryService,
+         thumbnailSize: CGFloat = Gallery.defaultThumbnailSize,
+         cacheContent: [GalleryImage]? = nil) {
         self.galleryService = galleryService
         self.thumbnailSize = thumbnailSize
         

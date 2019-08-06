@@ -12,7 +12,7 @@ import UIKit
 //TODO: add test for galleryId -> galleryId
 //TODO: add test for galleryId -> viewImageId
 //TODO: add test for galleryId -> uploadId
-//TODO: add test for galleryId -> any other ID 
+//TODO: add test for galleryId -> any other ID
 
 //TODO: add test for editImageId -> galleryId
 //TODO: add test for editImageId -> viewImageId
@@ -35,17 +35,11 @@ class Router: RouterProtocol {
             RouterDestination.uploadId
         ],
         
-        RouterDestination.editImageId: [
-            RouterDestination.galleryId,
-            RouterDestination.viewImageId
-        ],
-        
         RouterDestination.uploadId: [
             RouterDestination.galleryId
         ],
         
         RouterDestination.viewImageId: [
-            RouterDestination.editImageId,
             RouterDestination.galleryId
         ]
         
@@ -79,9 +73,6 @@ class Router: RouterProtocol {
         case .upload:
             goToUpload()
         case .viewImage(let image):
-            //TODO: implement
-            fatalError("NOT IMPLEMENTED")
-        case .editImage(let image):
             //TODO: implement
             fatalError("NOT IMPLEMENTED")
         }

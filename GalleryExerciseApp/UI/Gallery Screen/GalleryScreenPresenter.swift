@@ -9,8 +9,6 @@
 import Foundation
 import RxSwift
 
-//TODO: don't forget about cropping/rotating
-//TODO: insert [unowned self] to blocks to avoid memory leaks
 class GalleryScreenPresenter {
     
     private let gallery: GalleryProtocol
@@ -51,9 +49,9 @@ class GalleryScreenPresenter {
             .fetchImages()
             .debounce(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { pictures in
+            .subscribe(onNext: { [unowned self] pictures in
                 self.update(pictures: pictures)
-            }, onError: { error in
+            }, onError: { [unowned self] error in
                 self.show(error: error)
             }).disposed(by: disposeBag)
     }
@@ -66,21 +64,21 @@ class GalleryScreenPresenter {
         
         view
             .didTapImage()
-            .subscribe(onNext: { image in
+            .subscribe(onNext: { [unowned self] image in
                 self.router.go(to: .viewImage(image: image))
             })
             .disposed(by: viewDisposeBag)
         
         view
             .didTapUploadImage()
-            .subscribe(onNext: {
+            .subscribe(onNext: { [unowned self] in
                 self.router.go(to: .upload)
             })
             .disposed(by: viewDisposeBag)
         
         view
             .didRequestFullReload()
-            .subscribe(onNext: {
+            .subscribe(onNext: { [unowned self] in
                 self.updateImages()
             })
             .disposed(by: viewDisposeBag)
@@ -94,18 +92,18 @@ class GalleryScreenPresenter {
     // MARK: Helpers
     private func update(pictures: [GalleryImage]) {
         //after we've got some pictures, disable loading
-        self.galleryScreenView?.show(loadingMode: .none)
+        galleryScreenView?.show(loadingMode: .none)
         
-        self.galleryScreenView?.set(pictures: pictures)
+        galleryScreenView?.set(pictures: pictures)
     }
     
     private func show(error: Error) {
-        self.galleryScreenView?.show(loadingMode: .none)
+        galleryScreenView?.show(loadingMode: .none)
         
         if let error = error as? GalleryServiceError {
-            self.galleryScreenView?.show(error: error.error)
+            galleryScreenView?.show(error: error.error)
         } else {
-            self.galleryScreenView?.show(error: "Sorry, failed to load images".localized)
+            galleryScreenView?.show(error: "Sorry, failed to load images".localized)
         }
     }
 }

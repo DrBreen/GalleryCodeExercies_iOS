@@ -10,7 +10,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//TODO: test it
+//TODO: add test for chain of events: "started picking image", "image is incorrect, got error" -> should show error and still deliver events after second picking of correct image (and all the things with loading indicators, etc.)
+//TODO: add test for chain of events: "started picking image", "image is correct", "upload image", "got error when uploading" -> should show error and still deliver events after second picking of correct image (and all the things with loading indicators, etc.)
+//TODO: add test for chain of events: "start picking image", "image is correct", "upload image", "got correct response" -> should invalidate cache and go to gallery and hide indicator
+//TODO: add test for upload cancel: should just got to gallery
+//TODO: add test for image picker cancel - should show picker menu
 class UploadScreenPresenter {
     
     weak var uploadScreenView: UploadScreenViewProtocol? {
@@ -66,35 +70,48 @@ class UploadScreenPresenter {
                 self.uploadScreenView?.showImagePicker(mode: uploadMode)
             }).disposed(by: viewDisposeBag)
         
-        view.didPickImageForUpload()
-            .do(onNext: { [unowned self] _ in
-                self.uploadScreenView?.setActivityIndicator(visible: true)
+        
+        let errorHandler = { [unowned self] (error: Error) in
+            self.uploadScreenView?.setActivityIndicator(visible: false)
+            
+            let message: String
+            if let error = error as? GalleryServiceError {
+                message = error.error
+            } else if let error = error as? GeneralError {
+                message = error.text
+            } else {
+                message = "Something went wrong, please try again".localized
+            }
+            
+            self.uploadScreenView?.show(message: message)
+            self.uploadScreenView?.showUploadModePicker()
+        }
+        
+        self.uploadScreenView?.didPickImageForUpload()
+            .debug("original", trimOutput: true)
+            .do(onNext: { [unowned self] result in
+                if let error = result.error {
+                    errorHandler(error)
+                } else {
+                    self.uploadScreenView?.setActivityIndicator(visible: true)
+                }
             })
             .observeOn(userInitiatedScheduler)
+            .filter { $0.image != nil }
+            .map { $0.image! }
             .flatMap { [unowned self] image in
-                self.galleryService.upload(image: image, name: nil)
+                //run error handler on error, and just swallow it so it will never reach downstream
+                self.galleryService
+                    .upload(image: image, name: nil)
+                    .do(onError: errorHandler)
+                    .catchError { _ in Observable.empty() }
             }
             .observeOn(MainScheduler.instance)
+            .debug("test", trimOutput: true)
             .subscribe(onNext: { [unowned self] _ in
                 self.uploadScreenView?.setActivityIndicator(visible: true)
                 self.gallery.invalidateCache()
                 self.router.go(to: .gallery)
-            }, onError: { [unowned self] error in
-                self.uploadScreenView?.setActivityIndicator(visible: false)
-                
-                let message: String
-                if let error = error as? GalleryServiceError {
-                    message = error.error
-                } else if let error = error as? GeneralError {
-                  message = error.text
-                } else {
-                    message = "Something went wrong, please try again".localized
-                }
-                
-                self.uploadScreenView?.show(message: message)
-                
-                //TODO: fix that - show after error dismissing
-                self.uploadScreenView?.showUploadModePicker()
             }).disposed(by: viewDisposeBag)
     }
     

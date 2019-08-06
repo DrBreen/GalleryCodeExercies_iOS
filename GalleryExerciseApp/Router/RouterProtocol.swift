@@ -14,12 +14,10 @@ enum RouterDestination {
     public static let galleryId: RouterDestination.Id = "gallery"
     public static let uploadId: RouterDestination.Id = "upload"
     public static let viewImageId: RouterDestination.Id = "viewImage"
-    public static let editImageId: RouterDestination.Id = "editImage"
     
     case gallery
     case upload
     case viewImage(image: GalleryImage)
-    case editImage(image: GalleryImage)
     
     var id: String {
         switch self {
@@ -29,8 +27,6 @@ enum RouterDestination {
             return RouterDestination.uploadId
         case .viewImage(_):
             return RouterDestination.viewImageId
-        case .editImage(_):
-            return RouterDestination.editImageId
         }
     }
 }

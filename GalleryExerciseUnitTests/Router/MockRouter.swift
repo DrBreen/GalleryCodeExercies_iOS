@@ -11,6 +11,8 @@ import InstantMock
 
 class MockRouter: Mock, RouterProtocol {
     
+    var validRoutes: [RouterDestination.Id: [RouterDestination.Id]] = [:]
+    
     func go(to: RouterDestination) {
         super.call(to)
     }

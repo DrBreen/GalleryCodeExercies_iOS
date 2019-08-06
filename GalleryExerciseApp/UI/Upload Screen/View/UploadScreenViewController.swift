@@ -15,12 +15,17 @@ class UploadScreenViewController: UIViewController,
     UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     
+    private enum PendingShow {
+        case uploadModePicker
+        case message(_ message: String)
+    }
+    
     //presenter and everything related
     private let uploadScreenPresenter: UploadScreenPresenter
     
     //everything reactive
     private let didCancelUploadSubject = PublishSubject<Void>()
-    private let didPickImageForUploadSubject = PublishSubject<UIImage>()
+    private let didPickImageForUploadSubject = PublishSubject<PickImageResult>()
     private let didPickUploadModeSubject = PublishSubject<UploadMode>()
     private let didCancelImagePickSubject = PublishSubject<Void>()
     
@@ -31,6 +36,12 @@ class UploadScreenViewController: UIViewController,
         indicator.hidesWhenStopped = true
         return indicator
     }()
+    
+    //state
+    private var presentingMessage = false
+    private var presentingUploadModePicker = false
+    private var showQueue = [PendingShow]()
+    
     
     init(uploadScreenPresenter: UploadScreenPresenter) {
         self.uploadScreenPresenter = uploadScreenPresenter
@@ -80,8 +91,26 @@ class UploadScreenViewController: UIViewController,
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
+    private func pollShowQueue() {
+        guard let showNow = showQueue.first else {
+            return
+        }
+        
+        switch showNow {
+        case .message(let message):
+            show(message: message)
+        case .uploadModePicker:
+            showUploadModePicker()
+        }
+    }
+    
     // MARK: UploadScreenViewProtocol
     func showUploadModePicker() {
+        guard !presentingMessage && !presentingUploadModePicker else {
+            showQueue.append(.uploadModePicker)
+            return
+        }
+        
         let picker = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         picker.addAction(UIAlertAction(title: "Take photo".localized, style: .default, handler: { _ in
@@ -125,9 +154,20 @@ class UploadScreenViewController: UIViewController,
     }
     
     func show(message: String) {
+        guard !presentingMessage && !presentingUploadModePicker else {
+            showQueue.append(.message(message))
+            return
+        }
+        
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction.init(title: "OK".localized, style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { _ in
+            self.presentingMessage = false
+            
+            self.pollShowQueue()
+        }))
+        presentingMessage = true
         present(alertController, animated: true, completion: nil)
+        
     }
     
     func didPickUploadMode() -> ControlEvent<UploadMode> {
@@ -138,8 +178,8 @@ class UploadScreenViewController: UIViewController,
         return ControlEvent(events: didCancelUploadSubject)
     }
     
-    func didPickImageForUpload() -> Observable<UIImage> {
-        return didPickImageForUploadSubject.asObservable()
+    func didPickImageForUpload() -> ControlEvent<PickImageResult> {
+        return ControlEvent(events: didPickImageForUploadSubject)
     }
     
     func didCancelImagePick() -> ControlEvent<Void> {
@@ -149,13 +189,13 @@ class UploadScreenViewController: UIViewController,
     // MARK: UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        
+    
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            didPickImageForUploadSubject.onError(GeneralError(text: "There was an error during image selection, please try again".localized))
+            didPickImageForUploadSubject.onNext(PickImageResult(image: nil, error: GeneralError(text: "There was an error during image selection, please try again".localized)))
             return
         }
         
-        didPickImageForUploadSubject.onNext(image)
+        didPickImageForUploadSubject.onNext(PickImageResult(image: image, error: nil))
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

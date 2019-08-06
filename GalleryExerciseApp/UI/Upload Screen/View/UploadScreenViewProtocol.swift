@@ -15,6 +15,11 @@ enum UploadMode {
     case pickFromGallery
 }
 
+struct PickImageResult {
+    let image: UIImage?
+    let error: Error?
+}
+
 protocol UploadScreenViewProtocol: class {
 
     /// MARK: Commands
@@ -40,7 +45,7 @@ protocol UploadScreenViewProtocol: class {
     func didCancelUpload() -> ControlEvent<Void>
     
     ///user selected image
-    func didPickImageForUpload() -> Observable<UIImage>
+    func didPickImageForUpload() -> ControlEvent<PickImageResult>
     
     ///user cancelled image picking
     func didCancelImagePick() -> ControlEvent<Void>

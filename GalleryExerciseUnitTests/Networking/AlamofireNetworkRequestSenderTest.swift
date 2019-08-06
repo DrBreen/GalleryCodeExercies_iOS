@@ -27,6 +27,10 @@ fileprivate class MockErrorMapper: NetworkRequestErrorMapper {
 
 class AlamofireNetworkRequestSenderTest: XCTestCase {
     
+    override func setUp() {
+        continueAfterFailure = false
+    }
+    
     private let sender = AlamofireNetworkRequestSender()
     
     func test_getDataSuccess() {
@@ -129,11 +133,11 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
             }
         }
         
-        let responseExpectation = XCTestExpectation()
+        let responseExpectation = XCTestExpectation(description: "responseExpectation")
         responseExpectation.assertForOverFulfill = true
         responseExpectation.expectedFulfillmentCount = 1
         
-        let errorExpectation = XCTestExpectation()
+        let errorExpectation = XCTestExpectation(description: "errorExpectation")
         errorExpectation.assertForOverFulfill = true
         errorExpectation.expectedFulfillmentCount = 1
         

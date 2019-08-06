@@ -35,5 +35,8 @@ protocol RouterProtocol {
     
     var validRoutes: [RouterDestination.Id: [RouterDestination.Id]] { get }
     
-    func go(to: RouterDestination)
+    var currentLocation: RouterDestination? { get }
+    
+    @discardableResult
+    func go(to: RouterDestination, animated: Bool) -> Bool
 }

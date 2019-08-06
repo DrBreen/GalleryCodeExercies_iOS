@@ -12,13 +12,13 @@ import XCTest
 extension XCTestCase {
     
     func expect(count: Int, _ action: (XCTestExpectation) -> Void) {
-        let expectataion = XCTestExpectation()
-        expectataion.assertForOverFulfill = true
-        expectataion.expectedFulfillmentCount = count
+        let exc = XCTestExpectation(description: "Expect \(count) fulfills")
+        exc.assertForOverFulfill = true
+        exc.expectedFulfillmentCount = count
         
-        action(expectataion)
+        action(exc)
         
-        wait(for: [expectataion], timeout: 2.0)
+        wait(for: [exc], timeout: 2.0)
     }
     
     func expectMultiple(counts: [Int], _ descriptions: [String]? = nil, _ action: ([XCTestExpectation]) -> Void) {
@@ -28,10 +28,10 @@ extension XCTestCase {
         }
         
         let expectations = counts.enumerated().map { (index: Int, count: Int) -> XCTestExpectation in
-            let expectation = XCTestExpectation(description: descriptions?[index] ?? "Expectation #\(index)")
-            expectation.assertForOverFulfill = true
-            expectation.expectedFulfillmentCount = count
-            return expectation
+            let exc = XCTestExpectation(description: descriptions?[index] ?? "Expectation #\(index)")
+            exc.assertForOverFulfill = true
+            exc.expectedFulfillmentCount = count
+            return exc
         }
         
         action(expectations)

@@ -11,6 +11,20 @@ import RxSwift
 import RxCocoa
 import InstantMock
 
+// MARK: UIViewController
+extension UIViewController: MockUsable {
+    
+    public static var anyValue: MockUsable {
+        return UIViewController(nibName: nil, bundle: nil)
+    }
+    
+    public func equal(to: MockUsable?) -> Bool {
+        return false
+    }
+    
+    
+}
+
 // MARK: UIImage
 extension UIImage: MockUsable {
     

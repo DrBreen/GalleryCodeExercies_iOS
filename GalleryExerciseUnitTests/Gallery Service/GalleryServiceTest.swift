@@ -28,6 +28,8 @@ class GalleryServiceTest: XCTestCase {
     override func setUp() {
         disposeBag = DisposeBag()
         
+        continueAfterFailure = false
+        
         //for no offset and count return ["1", "2", "3"]
         mockNetworkRequestSender.stub()
             .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
@@ -71,7 +73,7 @@ class GalleryServiceTest: XCTestCase {
     
     //should return full array
     func test_getGalleryNoOffset() {
-        let gotResponseExpectation = XCTestExpectation()
+        let gotResponseExpectation = XCTestExpectation(description: "gotResponseExpectation")
         
         galleryService.getGallery().subscribe(onNext: { imageIds in
             XCTAssertEqual(imageIds, GalleryServiceTest.noOffsetResult)
@@ -84,7 +86,7 @@ class GalleryServiceTest: XCTestCase {
     
     //should receive UIImage
     func test_image() {
-        let gotResponseExpectation = XCTestExpectation()
+        let gotResponseExpectation = XCTestExpectation(description: "gotResponseExpectation")
         
         galleryService.image(id: "testId").subscribe(onNext: { image in
             gotResponseExpectation.fulfill()
@@ -95,7 +97,7 @@ class GalleryServiceTest: XCTestCase {
     
     //should upload successfully and receive GallertServiceUploadResponse with imageId == "testId"
     func test_upload() {
-        let gotResponseExpectation = XCTestExpectation()
+        let gotResponseExpectation = XCTestExpectation(description: "gotResponseExpectation")
         
         galleryService.upload(image: UIImage.catImage, name: nil).subscribe(onNext: { response in
             XCTAssertEqual(response.imageId, "testId")
@@ -107,7 +109,7 @@ class GalleryServiceTest: XCTestCase {
     
     //should upload successfully and receive GallertServiceUploadResponse with imageId == "testId"
     func test_uploadReplace() {
-        let gotResponseExpectation = XCTestExpectation()
+        let gotResponseExpectation = XCTestExpectation(description: "gotResponseExpectation")
         
         galleryService.upload(image: UIImage.catImage, name: "testReplaceId").subscribe(onNext: { response in
             XCTAssertEqual(response.imageId, "testReplaceId")

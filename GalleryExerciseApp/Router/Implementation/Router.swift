@@ -9,28 +9,12 @@
 import Foundation
 import UIKit
 
-//TODO: add test for galleryId -> galleryId
-//TODO: add test for galleryId -> viewImageId
-//TODO: add test for galleryId -> uploadId
-//TODO: add test for galleryId -> any other ID
-
-//TODO: add test for editImageId -> galleryId
-//TODO: add test for editImageId -> viewImageId
-//TODO: add test for editImageId -> any other ID
-
-//TODO: add test for uploadId -> galleryId
-//TODO: add test for uploadId -> any other ID
-
-//TODO: add test for viewImageId -> editImageId
-//TODO: add test for viewImageId -> galleryId
-//TODO: add test for viewImageId -> any other ID
 class Router: RouterProtocol {
     
     private static let dummyImage = GalleryImage(id: "", imageThumbnail: nil, image: nil, showPlaceholder: true)
     
     var validRoutes: [RouterDestination.Id : [RouterDestination.Id]] = [
         RouterDestination.galleryId: [
-            RouterDestination.galleryId,
             RouterDestination.viewImageId,
             RouterDestination.uploadId
         ],
@@ -48,39 +32,44 @@ class Router: RouterProtocol {
     private let navigationController: UINavigationController
     private let galleryScreenFactory: GalleryScreenFactory
     private let uploadScreenFactory: UploadScreenFactory
+    private let viewImageScreenFactory: ViewImageScreenFactory
     
-    private var currentLocation: RouterDestination!
+    private(set) var currentLocation: RouterDestination?
     
     init(navigationController: UINavigationController,
          galleryScreenFactory: GalleryScreenFactory,
-         uploadScreenFactory: UploadScreenFactory) {
+         uploadScreenFactory: UploadScreenFactory,
+         viewImageScreenFactory: ViewImageScreenFactory) {
         self.navigationController = navigationController
         self.uploadScreenFactory = uploadScreenFactory
         self.galleryScreenFactory = galleryScreenFactory
+        self.viewImageScreenFactory = viewImageScreenFactory
     }
     
-    func go(to destination: RouterDestination) {
+    @discardableResult
+    func go(to destination: RouterDestination, animated: Bool) -> Bool {
         
         if let currentLocation = currentLocation {
             if !validRoutes[currentLocation.id]!.contains(destination.id) {
-                fatalError("Route \(currentLocation.id) -> \(destination.id) is not valid")
+                return false
             }
         }
         
         switch destination {
         case .gallery:
-            goToGallery()
+            goToGallery(animated: animated)
         case .upload:
-            goToUpload()
+            goToUpload(animated: animated)
         case .viewImage(let image):
-            //TODO: implement
-            fatalError("NOT IMPLEMENTED")
+            goToViewImage(image: image, animated: animated)
         }
         
         currentLocation = destination
+        
+        return true
     }
     
-    private func goToGallery() {
+    private func goToGallery(animated: Bool) {
         
         let presentedController = navigationController.visibleViewController
         
@@ -92,21 +81,26 @@ class Router: RouterProtocol {
         
         if self.navigationController.viewControllers.count == 0 {
             let controller = self.galleryScreenFactory.galleryScreenViewController
-            self.navigationController.setViewControllers([controller], animated: true)
+            self.navigationController.setViewControllers([controller], animated: animated)
         } else {
             let controllersCountToRemove = self.navigationController.viewControllers.count - 1
             var newViewControllers = self.navigationController.viewControllers
             newViewControllers.removeLast(controllersCountToRemove)
             
-            self.navigationController.setViewControllers(newViewControllers, animated: true)
+            self.navigationController.setViewControllers(newViewControllers, animated: animated)
         }
         
     }
     
-    private func goToUpload() {
+    private func goToUpload(animated: Bool) {
         let controller = uploadScreenFactory.uploadScreenViewController
         controller.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.navigationController.visibleViewController?.present(controller, animated: true, completion: nil)
+        self.navigationController.topViewController?.present(controller, animated: animated, completion: nil)
+    }
+    
+    private func goToViewImage(image: GalleryImage, animated: Bool) {
+        let controller = viewImageScreenFactory.viewImageScreenViewController
+        self.navigationController.pushViewController(controller, animated: animated)
     }
     
 }

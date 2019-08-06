@@ -21,6 +21,7 @@ class GalleryScreenPresenterTest: XCTestCase {
     private var presenter: GalleryScreenPresenter!
     
     override func setUp() {
+        continueAfterFailure = false
         presenter = GalleryScreenPresenter(gallery: mockGallery, router: mockRouter)
     }
     
@@ -120,7 +121,7 @@ class GalleryScreenPresenterTest: XCTestCase {
                 .andReturn(ControlEvent(events: Observable<Void>.just(())))
             
             mockRouter.expect()
-                .call(mockRouter.go(to: Arg.eq(RouterDestination.upload)))
+                .call(mockRouter.go(to: Arg.eq(RouterDestination.upload), animated: Arg.any()))
                 .andDo { args in
                     expectation.fulfill()
             }
@@ -134,7 +135,7 @@ class GalleryScreenPresenterTest: XCTestCase {
         expect(count: 1) { expectation in
             let image = GalleryImage(id: "test", imageThumbnail: nil, image: nil, showPlaceholder: false)
             mockView.stub().call(mockView.didTapImage()).andReturn(ControlEvent(events: Observable<GalleryImage>.just(image)))
-            mockRouter.expect().call(mockRouter.go(to: Arg.eq(RouterDestination.viewImage(image: image)))).andDo { args in
+            mockRouter.expect().call(mockRouter.go(to: Arg.eq(RouterDestination.viewImage(image: image)), animated: Arg.any())).andDo { args in
                 expectation.fulfill()
             }
             

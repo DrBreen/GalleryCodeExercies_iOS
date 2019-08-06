@@ -18,6 +18,10 @@ class RootComponent: Component {
         return UploadScreenComponentAssembly(parent: container).assemble()
     }
     
+    var viewImageScreenComponent: ViewImageScreenComponent {
+        return ViewImageScreenComponentAssembly(parent: container).assemble()
+    }
+    
     var router: RouterProtocol {
         return container.resolve(RouterProtocol.self)!
     }

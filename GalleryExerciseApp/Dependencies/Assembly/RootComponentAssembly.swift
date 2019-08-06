@@ -55,11 +55,16 @@ class RootComponentAssembly: Assembly {
             return rootComponent.uploadScreenComponent
         }
         
+        container.register(ViewImageScreenFactory.self) { _ in
+            return rootComponent.viewImageScreenComponent
+        }
+        
         container.register(RouterProtocol.self) { resolver in
             let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController as! UINavigationController
             let galleryScreenFactory = resolver.resolve(GalleryScreenFactory.self)!
             let uploadScreenFactory = resolver.resolve(UploadScreenFactory.self)!
-            return Router(navigationController: controller, galleryScreenFactory: galleryScreenFactory, uploadScreenFactory: uploadScreenFactory)
+            let viewImageScreenFactory = resolver.resolve(ViewImageScreenFactory.self)!
+            return Router(navigationController: controller, galleryScreenFactory: galleryScreenFactory, uploadScreenFactory: uploadScreenFactory, viewImageScreenFactory: viewImageScreenFactory)
             }.inObjectScope(.container)
         
         

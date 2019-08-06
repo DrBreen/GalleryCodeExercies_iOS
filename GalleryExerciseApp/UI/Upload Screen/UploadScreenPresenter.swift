@@ -52,7 +52,7 @@ class UploadScreenPresenter {
         
         view.didCancelUpload()
             .subscribe(onNext: { [unowned self] in
-                self.router.go(to: .gallery)
+                self.router.go(to: .gallery, animated: true)
             }).disposed(by: viewDisposeBag)
         
         view.didCancelImagePick()
@@ -104,7 +104,7 @@ class UploadScreenPresenter {
             .subscribe(onNext: { [unowned self] _ in
                 self.uploadScreenView?.setActivityIndicator(visible: false)
                 self.gallery.invalidateCache()
-                self.router.go(to: .gallery)
+                self.router.go(to: .gallery, animated: true)
             }).disposed(by: viewDisposeBag)
     }
     

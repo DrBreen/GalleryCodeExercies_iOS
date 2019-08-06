@@ -11,8 +11,6 @@ import RxSwift
 import RxCocoa
 import DeepDiff
 
-//TODO: empty view message
-//TODO: reload after uploading
 class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //constants
@@ -30,6 +28,16 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alwaysBounceVertical = true
         return view
+    }()
+    
+    private let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.text = "No images".localized
+        label.font = UIFont.systemFont(ofSize: 24.0)
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let refreshControl = UIRefreshControl()
@@ -92,6 +100,11 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         galleryCollectionView.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryScreenViewController.galleryCellId)
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate = self
+        
+        view.addSubview(emptyLabel)
+        emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyLabel.isHidden = true
     }
     
     // MARK: UICollectionViewDataSource
@@ -129,6 +142,13 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         galleryCollectionView.reload(changes: changes, updateData: {
             self.imageDataSource = pictures
         })
+        
+        if pictures.count > 0 {
+            emptyLabel.isHidden = true
+        } else {
+            view.bringSubviewToFront(emptyLabel)
+            emptyLabel.isHidden = false
+        }
     }
     
     func show(loadingMode: GalleryScreenLoadingMode) {

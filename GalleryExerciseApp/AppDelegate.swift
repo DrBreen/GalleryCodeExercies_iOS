@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
         
         //start the application
-        rootComponent.router.go(to: .gallery)
+        rootComponent.router.go(to: .gallery, animated: false)
  
         return true
     }

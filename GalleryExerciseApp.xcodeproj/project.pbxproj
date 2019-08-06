@@ -77,6 +77,21 @@
 		38027B9222F9E59C006AC8E4 /* UploadScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B6E22F89814006AC8E4 /* UploadScreenPresenter.swift */; };
 		38027B9422F9E5EB006AC8E4 /* MockGalleryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9322F9E5EB006AC8E4 /* MockGalleryService.swift */; };
 		38027B9622F9E759006AC8E4 /* XCTestCase+Expect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9522F9E759006AC8E4 /* XCTestCase+Expect.swift */; };
+		38027B9822F9FA15006AC8E4 /* ViewImageScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9722F9FA15006AC8E4 /* ViewImageScreenFactory.swift */; };
+		38027B9A22F9FA89006AC8E4 /* RouterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9922F9FA89006AC8E4 /* RouterTest.swift */; };
+		38027B9C22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9B22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift */; };
+		38027B9D22F9FB55006AC8E4 /* GalleryScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B7F22F8D3B4006AC8E4 /* GalleryScreenFactory.swift */; };
+		38027B9E22F9FB57006AC8E4 /* ViewImageScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B9722F9FA15006AC8E4 /* ViewImageScreenFactory.swift */; };
+		38027B9F22F9FB5A006AC8E4 /* UploadScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B8122F8D40D006AC8E4 /* UploadScreenFactory.swift */; };
+		38027BA222F9FBC9006AC8E4 /* IdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BA122F9FBC9006AC8E4 /* IdViewController.swift */; };
+		38027BA522FA097A006AC8E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B4B22F83155006AC8E4 /* Router.swift */; };
+		38027BA722FA0AB4006AC8E4 /* MockUploadScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BA622FA0AB4006AC8E4 /* MockUploadScreenFactory.swift */; };
+		38027BA922FA0AE4006AC8E4 /* MockViewImageScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BA822FA0AE4006AC8E4 /* MockViewImageScreenFactory.swift */; };
+		38027BAC22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BAB22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift */; };
+		38027BAF22FA1B63006AC8E4 /* ViewImageScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BAE22FA1B63006AC8E4 /* ViewImageScreenViewController.swift */; };
+		38027BB122FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BB022FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift */; };
+		38027BB322FA1BF1006AC8E4 /* ViewImageScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BB222FA1BF1006AC8E4 /* ViewImageScreenComponent.swift */; };
+		38027BB522FA1C52006AC8E4 /* ViewImageScreenComponentAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BB422FA1C52006AC8E4 /* ViewImageScreenComponentAssembly.swift */; };
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
@@ -151,6 +166,17 @@
 		38027B8F22F9E4E9006AC8E4 /* MockUploadScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUploadScreenView.swift; sourceTree = "<group>"; };
 		38027B9322F9E5EB006AC8E4 /* MockGalleryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGalleryService.swift; sourceTree = "<group>"; };
 		38027B9522F9E759006AC8E4 /* XCTestCase+Expect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Expect.swift"; sourceTree = "<group>"; };
+		38027B9722F9FA15006AC8E4 /* ViewImageScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenFactory.swift; sourceTree = "<group>"; };
+		38027B9922F9FA89006AC8E4 /* RouterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTest.swift; sourceTree = "<group>"; };
+		38027B9B22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGalleryScreenFactory.swift; sourceTree = "<group>"; };
+		38027BA122F9FBC9006AC8E4 /* IdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdViewController.swift; sourceTree = "<group>"; };
+		38027BA622FA0AB4006AC8E4 /* MockUploadScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUploadScreenFactory.swift; sourceTree = "<group>"; };
+		38027BA822FA0AE4006AC8E4 /* MockViewImageScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewImageScreenFactory.swift; sourceTree = "<group>"; };
+		38027BAB22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenPresenter.swift; sourceTree = "<group>"; };
+		38027BAE22FA1B63006AC8E4 /* ViewImageScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenViewController.swift; sourceTree = "<group>"; };
+		38027BB022FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenViewProtocol.swift; sourceTree = "<group>"; };
+		38027BB222FA1BF1006AC8E4 /* ViewImageScreenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenComponent.swift; sourceTree = "<group>"; };
+		38027BB422FA1C52006AC8E4 /* ViewImageScreenComponentAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenComponentAssembly.swift; sourceTree = "<group>"; };
 		3818F00222F59F93004DC09A /* GalleryExerciseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GalleryExerciseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3818F00522F59F93004DC09A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3818F00C22F59F96004DC09A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -192,7 +218,9 @@
 		38027AC522F5E27F006AC8E4 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				38027ACB22F5E86A006AC8E4 /* Sender */,
+				38027AC822F5E606006AC8E4 /* Implementation */,
+				38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */,
+				38027AC622F5E53A006AC8E4 /* NetworkRequestSender.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -204,16 +232,6 @@
 				38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */,
 			);
 			path = Implementation;
-			sourceTree = "<group>";
-		};
-		38027ACB22F5E86A006AC8E4 /* Sender */ = {
-			isa = PBXGroup;
-			children = (
-				38027AC822F5E606006AC8E4 /* Implementation */,
-				38027B1822F6FEAC006AC8E4 /* NetworkRequestErrorMapper.swift */,
-				38027AC622F5E53A006AC8E4 /* NetworkRequestSender.swift */,
-			);
-			path = Sender;
 			sourceTree = "<group>";
 		};
 		38027ACC22F5E874006AC8E4 /* Gallery Service */ = {
@@ -301,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				38027B4E22F83621006AC8E4 /* Global */,
+				38027BAA22FA1AE9006AC8E4 /* View Image Screen */,
 				38027B5722F85B46006AC8E4 /* Upload Screen */,
 				38027B0022F60D8E006AC8E4 /* Gallery Screen */,
 			);
@@ -378,6 +397,7 @@
 				38027B3822F79BE0006AC8E4 /* RootComponentAssembly.swift */,
 				38027B4922F83027006AC8E4 /* GalleryScreenComponentAssembly.swift */,
 				38027B7422F8A92C006AC8E4 /* UploadScreenComponentAssembly.swift */,
+				38027BB422FA1C52006AC8E4 /* ViewImageScreenComponentAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -389,6 +409,7 @@
 				38027B4622F7A35B006AC8E4 /* RouterProtocol.swift */,
 				38027B7F22F8D3B4006AC8E4 /* GalleryScreenFactory.swift */,
 				38027B8122F8D40D006AC8E4 /* UploadScreenFactory.swift */,
+				38027B9722F9FA15006AC8E4 /* ViewImageScreenFactory.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -430,7 +451,12 @@
 		38027B6122F85E14006AC8E4 /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				38027BA022F9FBBE006AC8E4 /* View Controller */,
 				38027B6222F85E1D006AC8E4 /* MockRouter.swift */,
+				38027B9922F9FA89006AC8E4 /* RouterTest.swift */,
+				38027B9B22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift */,
+				38027BA622FA0AB4006AC8E4 /* MockUploadScreenFactory.swift */,
+				38027BA822FA0AE4006AC8E4 /* MockViewImageScreenFactory.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -460,6 +486,7 @@
 				38027B3022F799B1006AC8E4 /* GalleryScreenComponent.swift */,
 				38027B7622F8A953006AC8E4 /* UploadScreenComponent.swift */,
 				38027B3422F79ADA006AC8E4 /* Component.swift */,
+				38027BB222FA1BF1006AC8E4 /* ViewImageScreenComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -487,6 +514,32 @@
 				38027B8F22F9E4E9006AC8E4 /* MockUploadScreenView.swift */,
 			);
 			path = "Upload Screen";
+			sourceTree = "<group>";
+		};
+		38027BA022F9FBBE006AC8E4 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				38027BA122F9FBC9006AC8E4 /* IdViewController.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		38027BAA22FA1AE9006AC8E4 /* View Image Screen */ = {
+			isa = PBXGroup;
+			children = (
+				38027BAD22FA1B56006AC8E4 /* View */,
+				38027BAB22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift */,
+			);
+			path = "View Image Screen";
+			sourceTree = "<group>";
+		};
+		38027BAD22FA1B56006AC8E4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				38027BAE22FA1B63006AC8E4 /* ViewImageScreenViewController.swift */,
+				38027BB022FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		3818EFF922F59F93004DC09A = {
@@ -741,16 +794,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38027BA522FA097A006AC8E4 /* Router.swift in Sources */,
 				38027B1322F61B51006AC8E4 /* GalleryProtocol.swift in Sources */,
 				38027B2422F74B4E006AC8E4 /* Gallery.swift in Sources */,
 				38027AF622F5F84A006AC8E4 /* Extensions.swift in Sources */,
 				38027B8E22F9E465006AC8E4 /* UploadScreenPresenterTest.swift in Sources */,
 				38027B6922F85F4A006AC8E4 /* MockGalleryScreenView.swift in Sources */,
+				38027B9D22F9FB55006AC8E4 /* GalleryScreenFactory.swift in Sources */,
 				38027B1422F61B94006AC8E4 /* GalleryImage.swift in Sources */,
 				38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */,
 				38027B1A22F718F3006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
 				38027B6322F85E1D006AC8E4 /* MockRouter.swift in Sources */,
 				38027B6022F85DF2006AC8E4 /* RouterProtocol.swift in Sources */,
+				38027B9A22F9FA89006AC8E4 /* RouterTest.swift in Sources */,
 				38027B5D22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift in Sources */,
 				38027AF322F5F3A6006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027B9022F9E4E9006AC8E4 /* MockUploadScreenView.swift in Sources */,
@@ -760,12 +816,18 @@
 				38027AF022F5F138006AC8E4 /* NetworkRequestSender.swift in Sources */,
 				38027B9122F9E50B006AC8E4 /* UploadScreenViewProtocol.swift in Sources */,
 				38027B1122F61B36006AC8E4 /* GalleryTest.swift in Sources */,
+				38027BA922FA0AE4006AC8E4 /* MockViewImageScreenFactory.swift in Sources */,
 				38027B6B22F86106006AC8E4 /* UIImage+CatImage.swift in Sources */,
+				38027BA222F9FBC9006AC8E4 /* IdViewController.swift in Sources */,
 				38027B9622F9E759006AC8E4 /* XCTestCase+Expect.swift in Sources */,
+				38027B9F22F9FB5A006AC8E4 /* UploadScreenFactory.swift in Sources */,
 				38027B5B22F85CFB006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
+				38027BA722FA0AB4006AC8E4 /* MockUploadScreenFactory.swift in Sources */,
 				38027B8722F8F254006AC8E4 /* GeneralError.swift in Sources */,
 				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
+				38027B9E22F9FB57006AC8E4 /* ViewImageScreenFactory.swift in Sources */,
 				38027AEE22F5F124006AC8E4 /* GalleryServiceTest.swift in Sources */,
+				38027B9C22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift in Sources */,
 				38027B6422F85E49006AC8E4 /* String+Localization.swift in Sources */,
 				38027B9222F9E59C006AC8E4 /* UploadScreenPresenter.swift in Sources */,
 				38027B5F22F85DEB006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
@@ -792,6 +854,7 @@
 				38027B7322F8A746006AC8E4 /* UploadScreenViewController.swift in Sources */,
 				38027B5622F84024006AC8E4 /* GalleryCell.swift in Sources */,
 				38027B8622F8D8D7006AC8E4 /* GeneralError.swift in Sources */,
+				38027BB322FA1BF1006AC8E4 /* ViewImageScreenComponent.swift in Sources */,
 				38027B4722F7A35B006AC8E4 /* RouterProtocol.swift in Sources */,
 				38027B0D22F61317006AC8E4 /* Gallery.swift in Sources */,
 				38027B8022F8D3B4006AC8E4 /* GalleryScreenFactory.swift in Sources */,
@@ -803,20 +866,25 @@
 				38027B8222F8D40D006AC8E4 /* UploadScreenFactory.swift in Sources */,
 				38027B3B22F79C56006AC8E4 /* Assembly.swift in Sources */,
 				38027AD222F5E962006AC8E4 /* GalleryServiceError.swift in Sources */,
+				38027BB522FA1C52006AC8E4 /* ViewImageScreenComponentAssembly.swift in Sources */,
 				38027B5422F83AAC006AC8E4 /* UIImage+Thumbnail.swift in Sources */,
 				38027AD722F5EADF006AC8E4 /* DefaultGalleryService.swift in Sources */,
 				38027B6F22F89814006AC8E4 /* UploadScreenPresenter.swift in Sources */,
 				38027B0222F60DB7006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
+				38027B9822F9FA15006AC8E4 /* ViewImageScreenFactory.swift in Sources */,
 				38027B2E22F79835006AC8E4 /* String+Localization.swift in Sources */,
 				38027B4222F7A0A2006AC8E4 /* GalleryScreenViewController.swift in Sources */,
+				38027BB122FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift in Sources */,
 				38027B4A22F83027006AC8E4 /* GalleryScreenComponentAssembly.swift in Sources */,
 				38027B5222F83816006AC8E4 /* GalleryServiceErrorMapper.swift in Sources */,
 				38027ACA22F5E614006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
 				38027B5922F85C50006AC8E4 /* UploadScreenViewProtocol.swift in Sources */,
+				38027BAF22FA1B63006AC8E4 /* ViewImageScreenViewController.swift in Sources */,
 				38027AD422F5E99D006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
 				38027B0A22F6121A006AC8E4 /* GalleryProtocol.swift in Sources */,
 				3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */,
 				38027B2622F76F8A006AC8E4 /* GalleryListResponse.swift in Sources */,
+				38027BAC22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

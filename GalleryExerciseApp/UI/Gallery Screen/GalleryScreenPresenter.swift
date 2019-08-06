@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 
+//TODO: reload after uploading
 class GalleryScreenPresenter {
     
     private let gallery: GalleryProtocol
@@ -65,14 +66,14 @@ class GalleryScreenPresenter {
         view
             .didTapImage()
             .subscribe(onNext: { [unowned self] image in
-                self.router.go(to: .viewImage(image: image))
+                self.router.go(to: .viewImage(image: image), animated: true)
             })
             .disposed(by: viewDisposeBag)
         
         view
             .didTapUploadImage()
             .subscribe(onNext: { [unowned self] in
-                self.router.go(to: .upload)
+                self.router.go(to: .upload, animated: true)
             })
             .disposed(by: viewDisposeBag)
         

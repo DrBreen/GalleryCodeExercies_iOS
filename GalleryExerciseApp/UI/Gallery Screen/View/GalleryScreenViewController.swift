@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 import DeepDiff
 
-//TODO: add force reload
+//TODO: empty view message
+//TODO: reload after uploading
 class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //constants
@@ -31,18 +32,14 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         return view
     }()
     
+    private let refreshControl = UIRefreshControl()
+    
     //navigation buttons
     private var uploadImageBarButtonItem: UIBarButtonItem!
     
-    private let loadingIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .whiteLarge)
-        view.color = .darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     //everything reactive to report back to presenter
-    private let reachedScreenBottomSubject = PublishSubject<Void>()
+    private let didRequestFullReloadSubject = PublishSubject<Void>()
+    private let didTapImageSubject = PublishSubject<GalleryImage>()
     
     init(galleryScreenPresenter: GalleryScreenPresenter) {
         self.galleryScreenPresenter = galleryScreenPresenter
@@ -84,12 +81,8 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
     }
     
     private func buildView() {
-        view.addSubview(loadingIndicator)
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
         view.addSubview(galleryCollectionView)
+        galleryCollectionView.addSubview(refreshControl)
         galleryCollectionView.backgroundColor = .white
         galleryCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         galleryCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -123,16 +116,10 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         return UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
     }
 
-    
-    // MARK: UIScrollViewDelegate
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let lastVisibleIndexPath = galleryCollectionView.indexPathsForVisibleItems.max() else {
-            return
-        }
-        
-        if lastVisibleIndexPath.row == imageDataSource.count - 1 {
-            reachedScreenBottomSubject.onNext(())
-        }
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let image = self.imageDataSource[indexPath.row]
+        didTapImageSubject.onNext(image)
     }
     
     // MARK: GalleryScreenViewProtocol
@@ -146,11 +133,10 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
     
     func show(loadingMode: GalleryScreenLoadingMode) {
         switch loadingMode {
-        case .initialLoading:
-            loadingIndicator.startAnimating()
-            view.bringSubviewToFront(loadingIndicator)
+        case .loading:
+            refreshControl.beginRefreshing()
         case .none:
-            loadingIndicator.stopAnimating()
+            refreshControl.endRefreshing()
         }
     }
     
@@ -160,17 +146,15 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         present(alert, animated: true, completion: nil)
     }
     
-    func reachedScreenBottom() -> ControlEvent<Void> {
-        return ControlEvent(events: reachedScreenBottomSubject)
-    }
-    
     func didTapUploadImage() -> ControlEvent<Void> {
         return uploadImageBarButtonItem.rx.tap
     }
     
     func didTapImage() -> ControlEvent<GalleryImage> {
-        //TODO: implement
-        return ControlEvent(events: Observable<GalleryImage>.never())
+        return ControlEvent(events: didTapImageSubject)
     }
     
+    func didRequestFullReload() -> ControlEvent<Void> {
+        return refreshControl.rx.controlEvent(.valueChanged)
+    }
 }

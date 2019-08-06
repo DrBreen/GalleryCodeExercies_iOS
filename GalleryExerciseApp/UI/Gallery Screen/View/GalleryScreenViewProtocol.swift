@@ -12,7 +12,7 @@ import RxCocoa
 
 enum GalleryScreenLoadingMode {
     case none
-    case initialLoading
+    case loading
 }
 
 protocol GalleryScreenViewProtocol: class {
@@ -35,4 +35,7 @@ protocol GalleryScreenViewProtocol: class {
     
     ///did tap image
     func didTapImage() -> ControlEvent<GalleryImage>
+    
+    ///did force reload
+    func didRequestFullReload() -> ControlEvent<Void>
 }

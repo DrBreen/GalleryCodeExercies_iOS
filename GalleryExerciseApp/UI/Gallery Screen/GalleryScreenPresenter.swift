@@ -40,9 +40,13 @@ class GalleryScreenPresenter {
         startObservingView()
         
         //first step is to show loading indicator
-        galleryScreenView?.show(loadingMode: .initialLoading)
+        galleryScreenView?.show(loadingMode: .loading)
         
         //now let's fetch some images
+        updateImages()
+    }
+    
+    private func updateImages() {
         gallery
             .fetchImages()
             .debounce(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
@@ -50,7 +54,7 @@ class GalleryScreenPresenter {
             .subscribe(onNext: { pictures in
                 self.update(pictures: pictures)
             }, onError: { error in
-               self.show(error: error)
+                self.show(error: error)
             }).disposed(by: disposeBag)
     }
     
@@ -71,6 +75,13 @@ class GalleryScreenPresenter {
             .didTapUploadImage()
             .subscribe(onNext: {
                 self.router.go(to: .upload)
+            })
+            .disposed(by: viewDisposeBag)
+        
+        view
+            .didRequestFullReload()
+            .subscribe(onNext: {
+                self.updateImages()
             })
             .disposed(by: viewDisposeBag)
     }

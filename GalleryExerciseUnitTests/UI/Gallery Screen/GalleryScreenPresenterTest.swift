@@ -44,6 +44,34 @@ class GalleryScreenPresenterTest: XCTestCase {
         }
     }
     
+    //test that images are loaded and set to view when full reload is requested
+    func test_loadImagesOnFullReload() {
+        
+        let galleryReturn = [
+            GalleryImage(id: "testId", imageThumbnail: .catImageThumbnail, image: .catImage, showPlaceholder: false)
+        ]
+        
+        setMockData(gallery: galleryReturn)
+        
+        expect(count: 1) { expectation in
+            
+            //delay event to simulate real reload request event
+            let delayedReloadRequest = Observable.just(()).delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
+            mockView.stub()
+                .call(mockView.didRequestFullReload())
+                .andReturn(ControlEvent(events: delayedReloadRequest))
+
+            presenter.galleryScreenView = mockView
+            
+            self.mockView.expect().call(self.mockView.set(pictures: Arg.any())).andDo { (args) in
+                let images = args[0] as! [GalleryImage]
+                XCTAssertEqual(images[0].id, galleryReturn[0].id)
+                XCTAssertEqual(images[0].showPlaceholder, galleryReturn[0].showPlaceholder)
+                expectation.fulfill()
+            }
+        }
+    }
+    
     //test that loading indicator is shown before load and is hidden after loading
     func test_showLoadingIndicatorAndHide() {
         let galleryReturn = [
@@ -51,9 +79,9 @@ class GalleryScreenPresenterTest: XCTestCase {
         ]
         setMockData(gallery: galleryReturn)
         
-        var modeSequence = [GalleryScreenLoadingMode.initialLoading, GalleryScreenLoadingMode.none]
+        var modeSequence = [GalleryScreenLoadingMode.loading, GalleryScreenLoadingMode.none]
         expect(count: 2) { expectation in
-            //expect call to show(loadingMode:) 2 times, with .initialLoading first and .none after that
+            //expect call to show(loadingMode:) 2 times, with .loading first and .none after that
             mockView.expect().call(mockView.show(loadingMode: Arg.any())).andDo { (args) in
                 let mode = args[0] as! GalleryScreenLoadingMode
                 XCTAssertEqual(modeSequence[0], mode)
@@ -94,7 +122,7 @@ class GalleryScreenPresenterTest: XCTestCase {
             mockRouter.expect()
                 .call(mockRouter.go(to: Arg.eq(RouterDestination.upload)))
                 .andDo { args in
-                expectation.fulfill()
+                    expectation.fulfill()
             }
             
             presenter.galleryScreenView = mockView
@@ -170,7 +198,7 @@ class GalleryScreenPresenterTest: XCTestCase {
     }
     
     private func expectMultiple(counts: [Int], _ descriptions: [String]? = nil, _ action: ([XCTestExpectation]) -> Void) {
-
+        
         if let descriptions = descriptions, descriptions.count != counts.count {
             fatalError("Please provide descriptions for all expectations")
         }

@@ -33,5 +33,9 @@ class MockGalleryScreenView: Mock, GalleryScreenViewProtocol {
         return super.call()!
     }
     
+    func didRequestFullReload() -> ControlEvent<Void> {
+        return super.call()!
+    }
+    
     
 }

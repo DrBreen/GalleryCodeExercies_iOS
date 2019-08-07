@@ -61,6 +61,9 @@ class Gallery: GalleryProtocol {
                 self.cache[idx].image = image
             })
             .map { _ in self.cache }
+            .do(onCompleted: {
+                self.cacheValid = true
+            })
         
         //requested the whole gallery
         //if we already reached the end of gallery, let's just return cached value

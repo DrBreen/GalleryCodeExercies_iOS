@@ -65,6 +65,7 @@ class GalleryScreenPresenter {
         
         view
             .didTapImage()
+            .filter { $0.image != nil && !$0.showPlaceholder }
             .subscribe(onNext: { [unowned self] image in
                 self.router.go(to: .viewImage(image: image), animated: true)
             })

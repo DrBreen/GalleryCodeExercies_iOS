@@ -12,8 +12,8 @@ import UIKit
 
 class MockViewImageScreenFactory: Mock, ViewImageScreenFactory {
     
-    var viewImageScreenViewController: UIViewController {
-        return super.call()!
+    func viewImageScreenViewController(image: GalleryImage) -> UIViewController {
+        return super.call(image)!
     }
     
 }

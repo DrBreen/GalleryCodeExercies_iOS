@@ -130,10 +130,10 @@ class GalleryScreenPresenterTest: XCTestCase {
         }
     }
     
-    //test that presenter instructs router to go image view screen on upload button click
+    //test that presenter instructs router to go image view screen on image click
     func test_openViewImageScreenOnImageClick() {
         expect(count: 1) { expectation in
-            let image = GalleryImage(id: "test", imageThumbnail: nil, image: nil, showPlaceholder: false)
+            let image = GalleryImage(id: "test", imageThumbnail: nil, image: .catImage, showPlaceholder: false)
             mockView.stub().call(mockView.didTapImage()).andReturn(ControlEvent(events: Observable<GalleryImage>.just(image)))
             mockRouter.expect().call(mockRouter.go(to: Arg.eq(RouterDestination.viewImage(image: image)), animated: Arg.any())).andDo { args in
                 expectation.fulfill()

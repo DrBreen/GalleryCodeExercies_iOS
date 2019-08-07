@@ -11,9 +11,27 @@ import RxSwift
 import RxCocoa
 import InstantMock
 
+// MARK: GalleryImage
+extension GalleryImage: MockUsable {
+    
+    static var anyValue: MockUsable {
+        return GalleryImage(id: "", imageThumbnail: nil, image: nil, showPlaceholder: false)
+    }
+    
+    func equal(to: MockUsable?) -> Bool {
+        guard let image = to as? GalleryImage else {
+            return false
+        }
+        
+        return image.id == id
+    }
+    
+    
+}
+
+
 // MARK: UIViewController
 extension UIViewController: MockUsable {
-    
     public static var anyValue: MockUsable {
         return UIViewController(nibName: nil, bundle: nil)
     }
@@ -21,8 +39,6 @@ extension UIViewController: MockUsable {
     public func equal(to: MockUsable?) -> Bool {
         return false
     }
-    
-    
 }
 
 // MARK: UIImage

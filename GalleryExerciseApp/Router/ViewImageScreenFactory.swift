@@ -11,6 +11,6 @@ import UIKit
 
 protocol ViewImageScreenFactory {
     
-    var viewImageScreenViewController: UIViewController { get }
+    func viewImageScreenViewController(image: GalleryImage) -> UIViewController
     
 }

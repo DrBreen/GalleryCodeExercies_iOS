@@ -1,5 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-GalleryExerciseApp-GalleryExerciseUnitTests/Pods-GalleryExerciseApp-GalleryExerciseUnitTests-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/DeepDiff/DeepDiff.framework
 ${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework
 ${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework

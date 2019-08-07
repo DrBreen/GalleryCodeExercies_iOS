@@ -99,7 +99,7 @@ class Router: RouterProtocol {
     }
     
     private func goToViewImage(image: GalleryImage, animated: Bool) {
-        let controller = viewImageScreenFactory.viewImageScreenViewController
+        let controller = viewImageScreenFactory.viewImageScreenViewController(image: image)
         self.navigationController.pushViewController(controller, animated: animated)
     }
     

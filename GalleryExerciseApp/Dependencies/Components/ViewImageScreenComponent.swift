@@ -11,8 +11,9 @@ import Swinject
 
 class ViewImageScreenComponent: Component, ViewImageScreenFactory {
     
-    var viewImageScreenViewController: UIViewController {
-        return ViewImageViewController(viewImageScreenPresenter: container.resolve(ViewImageScreenPresenter.self)!)
+    func viewImageScreenViewController(image: GalleryImage) -> UIViewController {
+        let presenter = container.resolve(ViewImageScreenPresenter.self, argument: image)!
+        return ViewImageViewController(viewImageScreenPresenter: presenter)
     }
     
 }

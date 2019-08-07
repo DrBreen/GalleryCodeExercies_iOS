@@ -9,6 +9,7 @@
 import Foundation
 import XCTest
 import RxSwift
+import InstantMock
 
 class RouterTest: XCTestCase, UINavigationControllerDelegate {
     
@@ -33,7 +34,7 @@ class RouterTest: XCTestCase, UINavigationControllerDelegate {
             IdViewController(id: RouterDestination.uploadId)
         }
         
-        mockViewImageScreenFactory.stub().call(mockViewImageScreenFactory.viewImageScreenViewController).andReturn { _ in
+        mockViewImageScreenFactory.stub().call(mockViewImageScreenFactory.viewImageScreenViewController(image: Arg.any())).andReturn { _ in
             IdViewController(id: RouterDestination.viewImageId)
         }
     }

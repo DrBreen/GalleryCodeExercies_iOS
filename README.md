@@ -1,6 +1,8 @@
 ### How to run?
 Nothing special, just clone the repo and run the code.
 
+If you want to install it on real device, change signing settings to match yours'. Just selecting correct team should work fine.
+
 ### What about the server side?
 It should connect to my server automatically.
 If you want to run it locally, change `let url = resolver.resolve(URL.self, name: "baseUrl")!` to `let url = resolver.resolve(URL.self, name: "baseUrlLocalhost")!`

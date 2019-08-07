@@ -54,7 +54,7 @@ class GalleryScreenPresenterTest: XCTestCase {
         
         setMockData(gallery: galleryReturn)
         
-        expect(count: 1) { expectation in
+        expectMultiple(counts: [1, 1], ["setPictures", "invalidate"]) { expectations in
             
             //delay event to simulate real reload request event
             let delayedReloadRequest = Observable.just(()).delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
@@ -64,11 +64,15 @@ class GalleryScreenPresenterTest: XCTestCase {
 
             presenter.galleryScreenView = mockView
             
+            self.mockGallery.expect().call(self.mockGallery.invalidateCache()).andDo { _ in
+                expectations[1].fulfill()
+            }
+            
             self.mockView.expect().call(self.mockView.set(pictures: Arg.any())).andDo { (args) in
                 let images = args[0] as! [GalleryImage]
                 XCTAssertEqual(images[0].id, galleryReturn[0].id)
                 XCTAssertEqual(images[0].showPlaceholder, galleryReturn[0].showPlaceholder)
-                expectation.fulfill()
+                expectations[0].fulfill()
             }
         }
     }

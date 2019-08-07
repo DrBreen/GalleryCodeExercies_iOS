@@ -81,6 +81,7 @@ class GalleryScreenPresenter {
         view
             .didRequestFullReload()
             .subscribe(onNext: { [unowned self] in
+                self.gallery.invalidateCache()
                 self.updateImages()
             })
             .disposed(by: viewDisposeBag)

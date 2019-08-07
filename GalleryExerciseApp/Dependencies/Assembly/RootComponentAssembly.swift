@@ -35,8 +35,7 @@ class RootComponentAssembly: Assembly {
         
         //GalleryService implementation
         container.register(GalleryService.self) { resolver in
-            #warning("TODO: change to baseUrl")
-            let url = resolver.resolve(URL.self, name: "baseUrlLocalhost")!
+            let url = resolver.resolve(URL.self, name: "baseUrl")!
             let networkRequestSender = resolver.resolve(NetworkRequestSender.self)!
             
             return DefaultGalleryService(galleryServiceURL: url, networkRequestSender: networkRequestSender)

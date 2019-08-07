@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 
-//TODO: add "opened" callback
 class GalleryScreenPresenter {
     
     private let gallery: GalleryProtocol
@@ -35,6 +34,16 @@ class GalleryScreenPresenter {
     }
     
     private func didAttachView() {
+        
+        //on every navigation to gallery - refetch images
+        router.didGoTo()
+            .observeOn(MainScheduler.instance)
+            .filter { destination in destination.id == RouterDestination.galleryId }
+            .filter { [unowned self] _ in self.galleryScreenView != nil }
+            .subscribe(onNext: { [unowned self] _ in
+                self.updateImages()
+            }).disposed(by: disposeBag)
+        
         //let's subscribe to various view events
         startObservingView()
         

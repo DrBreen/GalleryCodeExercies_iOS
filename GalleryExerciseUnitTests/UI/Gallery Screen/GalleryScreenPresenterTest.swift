@@ -25,6 +25,32 @@ class GalleryScreenPresenterTest: XCTestCase {
         presenter = GalleryScreenPresenter(gallery: mockGallery, router: mockRouter)
     }
     
+    //test that images are loaded and set to view when gallery is opened
+    func test_loadImagesNavigation() {
+        let galleryReturn = [
+            GalleryImage(id: "testId", imageThumbnail: .catImageThumbnail, image: .catImage, showPlaceholder: false)
+        ]
+        
+        setMockData(gallery: galleryReturn)
+        
+        expect(count: 1) { expectation in
+ 
+            let didGoToRelay = PublishRelay<RouterDestination>()
+            mockRouter.stub().call(mockRouter.didGoTo()).andReturn(didGoToRelay.asObservable())
+            
+            presenter.galleryScreenView = mockView
+            
+            mockView.expect().call(mockView.set(pictures: Arg.any())).andDo { (args) in
+                let images = args[0] as! [GalleryImage]
+                XCTAssertEqual(images[0].id, galleryReturn[0].id)
+                XCTAssertEqual(images[0].showPlaceholder, galleryReturn[0].showPlaceholder)
+                expectation.fulfill()
+            }
+            
+            didGoToRelay.accept(RouterDestination.gallery)
+        }
+    }
+    
     //test that images are loaded and set to view when view is attached
     func test_loadImagesOnViewAttach() {
         let galleryReturn = [
@@ -190,6 +216,17 @@ class GalleryScreenPresenterTest: XCTestCase {
     private func setMockData(galleryError: Error) {
         mockGallery.resetStubs()
         mockGallery.stub().call(mockGallery.fetchImages()).andReturn(Observable<[GalleryImage]>.error(galleryError))
+    }
+    
+    private func reset() {
+        mockRouter.resetStubs()
+        mockRouter.resetExpectations()
+        
+        mockGallery.resetStubs()
+        mockGallery.resetExpectations()
+        
+        mockView.resetStubs()
+        mockView.resetExpectations()
     }
 
 }

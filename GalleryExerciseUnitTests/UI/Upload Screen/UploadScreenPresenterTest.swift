@@ -190,10 +190,10 @@ class UploadScreenPresenterTest: XCTestCase {
             //now let's send the pick event
             imagePickSubject.onNext(imagePickResult)
 
-            Thread.sleep(forTimeInterval: 0.1)
-            
-            //and then send next one
-            imagePickSubject.onNext(imagePickResult)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                //and then send next one
+                imagePickSubject.onNext(imagePickResult)
+            }
         }
     }
     

@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//TODO: add tests
 class ViewImageScreenPresenter {
     
     private let galleryImage: GalleryImage
@@ -97,7 +96,7 @@ class ViewImageScreenPresenter {
                     }
             }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (image: UIImage, response: GalleryServiceUploadResponse) in
+            .subscribe(onNext: { (image: UIImage, _: GalleryServiceUploadResponse) in
                 self.gallery.invalidateCache()
                 self.viewImageScreenView?.set(image: image)
                 self.viewImageScreenView?.setActivityIndicator(visible: false)

@@ -23,7 +23,9 @@ class ViewImageScreenComponentAssembly: Assembly {
     func assemble() -> ViewImageScreenComponent {
         container.register(ViewImageScreenPresenter.self) { (resolver: Resolver, image: GalleryImage) -> ViewImageScreenPresenter in
             let router = resolver.resolve(RouterProtocol.self)!
-            let presenter = ViewImageScreenPresenter(galleryImage: image, router: router)
+            let galleryService = resolver.resolve(GalleryService.self)!
+            let gallery = resolver.resolve(GalleryProtocol.self)!
+            let presenter = ViewImageScreenPresenter(galleryImage: image, galleryService: galleryService, gallery: gallery, router: router)
             return presenter
         }.inObjectScope(.transient)
         

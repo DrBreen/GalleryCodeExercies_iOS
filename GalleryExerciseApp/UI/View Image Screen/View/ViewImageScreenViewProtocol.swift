@@ -15,10 +15,13 @@ protocol ViewImageScreenViewProtocol: class {
     
     // MARK: Commands
     
-    ///display given image
-    func setImage(image: UIImage)
+    //display message
+    func show(message: String)
     
-    ///display/hide edit controls
+    ///display given image
+    func set(image: UIImage)
+    
+    ///show edit controls
     func set(editing: Bool)
     
     ///show activity indicator

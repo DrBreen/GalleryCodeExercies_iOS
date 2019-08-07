@@ -85,7 +85,7 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.barTintColor = .themeColor
         navigationController?.navigationBar.isTranslucent = false
-        title = "Gallery"
+        title = "Gallery".localized
     }
     
     private func buildView() {

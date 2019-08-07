@@ -11,20 +11,22 @@ import RxSwift
 import RxCocoa
 
 //TODO: add tests
-//TODO: implement
-//TODO: after editing the image, present edited version
 class ViewImageScreenPresenter {
     
     private let galleryImage: GalleryImage
     private let router: RouterProtocol
+    private let galleryService: GalleryService
+    private let gallery: GalleryProtocol
     
     //everything reactive
     private let disposeBag = DisposeBag()
     private var viewDisposeBag = DisposeBag()
     
-    init(galleryImage: GalleryImage, router: RouterProtocol) {
+    init(galleryImage: GalleryImage, galleryService: GalleryService, gallery: GalleryProtocol, router: RouterProtocol) {
         self.galleryImage = galleryImage
         self.router = router
+        self.galleryService = galleryService
+        self.gallery = gallery
         
         guard galleryImage.image != nil else {
             fatalError("ViewImageScreenPresenter can not handle nil images")
@@ -42,7 +44,7 @@ class ViewImageScreenPresenter {
     }
     
     private func didAttachView() {
-        viewImageScreenView?.setImage(image: galleryImage.image!)
+        viewImageScreenView?.set(image: galleryImage.image!)
         
         startObservingView()
     }
@@ -57,6 +59,50 @@ class ViewImageScreenPresenter {
             .subscribe(onNext: { [unowned self] in
                 self.viewImageScreenView?.set(editing: true)
             }).disposed(by: viewDisposeBag)
+        
+        viewImageScreenView?.didCancelEditing()
+            .subscribe(onNext: { [unowned self] in
+                self.viewImageScreenView?.set(editing: false)
+            }).disposed(by: viewDisposeBag)
+        
+        
+        let errorHandler: (Error) -> Void = { [unowned self] (error: Error) in
+            self.viewImageScreenView?.setActivityIndicator(visible: false)
+            
+            let message: String
+            if let error = error as? GalleryServiceError {
+                message = error.error
+            } else if let error = error as? GeneralError {
+                message = error.text
+            } else {
+                message = "Something went wrong, please try again".localized
+            }
+            
+            self.viewImageScreenView?.show(message: message)
+        }
+        
+        viewImageScreenView?.didFinishEditing()
+            .do(onNext: { _ in
+                self.viewImageScreenView?.set(editing: false)
+                self.viewImageScreenView?.setActivityIndicator(visible: true)
+            })
+            .flatMap { [unowned self] image in
+                self.galleryService
+                    .upload(image: image, name: self.galleryImage.id)
+                    .observeOn(MainScheduler.instance)
+                    .do(onError: errorHandler)
+                    .catchError { _ in Observable.empty() }
+                    .map { response in
+                        return (image: image, response: response)
+                    }
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (image: UIImage, response: GalleryServiceUploadResponse) in
+                self.gallery.invalidateCache()
+                self.viewImageScreenView?.set(image: image)
+                self.viewImageScreenView?.setActivityIndicator(visible: false)
+            }).disposed(by: viewDisposeBag)
+        
     }
     
     private func didDetachView() {

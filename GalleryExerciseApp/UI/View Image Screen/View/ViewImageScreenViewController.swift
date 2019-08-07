@@ -11,11 +11,10 @@ import RxSwift
 import RxCocoa
 import CropViewController
 
-//TODO: add double tap
 class ViewImageViewController: UIViewController,
     ViewImageScreenViewProtocol,
     UIScrollViewDelegate,
-CropViewControllerDelegate {
+    CropViewControllerDelegate {
     
     //views
     private let imageView: UIImageView = {
@@ -33,6 +32,27 @@ CropViewControllerDelegate {
         return scrollView
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = false
+        activityIndicator.color = .darkGray
+        return activityIndicator
+    }()
+    
+    private lazy var fullScreenActivityIndicator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
+        view.backgroundColor = .white
+        view.isHidden = true
+        
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        return view
+    }()
+    
     //presenter
     private let viewImageScreenPresenter: ViewImageScreenPresenter
     
@@ -45,6 +65,13 @@ CropViewControllerDelegate {
     private var bottomImageConstraint: NSLayoutConstraint!
     private var leadingImageConstraint: NSLayoutConstraint!
     private var trailingImageConstraint: NSLayoutConstraint!
+    
+    //reactive
+    private let didCancelEditingRelay = PublishRelay<Void>()
+    private let didFinishEditingRelay = PublishRelay<UIImage>()
+    
+    //state
+    private var pendingMessage: String?
     
     init(viewImageScreenPresenter: ViewImageScreenPresenter) {
         self.viewImageScreenPresenter = viewImageScreenPresenter
@@ -61,6 +88,8 @@ CropViewControllerDelegate {
         
         buildView()
         buildNavigationBar()
+        
+        viewImageScreenPresenter.viewImageScreenView = self
     }
     
     private func buildView() {
@@ -84,6 +113,14 @@ CropViewControllerDelegate {
         bottomImageConstraint = scrollView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
         
         NSLayoutConstraint.activate([bottomImageConstraint, topImageConstraint, leadingImageConstraint, trailingImageConstraint])
+        
+        view.addSubview(fullScreenActivityIndicator)
+        NSLayoutConstraint.activate([
+            fullScreenActivityIndicator.widthAnchor.constraint(equalTo: view.widthAnchor),
+            fullScreenActivityIndicator.heightAnchor.constraint(equalTo: view.heightAnchor),
+            fullScreenActivityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fullScreenActivityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
     }
     
     private func buildNavigationBar() {
@@ -99,18 +136,6 @@ CropViewControllerDelegate {
         editButton = UIBarButtonItem(title: "Edit".localized, style: .plain, target: nil, action: nil)
         editButton.tintColor = .white
         self.navigationItem.rightBarButtonItem = editButton
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewImageScreenPresenter.viewImageScreenView = self
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        viewImageScreenPresenter.viewImageScreenView = nil
     }
     
     // MARK: UIScrollViewDelegate
@@ -136,7 +161,7 @@ CropViewControllerDelegate {
     }
     
     // MARK: ViewImageScreenViewProtocol
-    func setImage(image: UIImage) {
+    func set(image: UIImage) {
         imageView.image = image
         
         view.setNeedsLayout()
@@ -157,10 +182,17 @@ CropViewControllerDelegate {
             }
             
             let cropViewController = CropViewController(image: image)
+            cropViewController.delegate = self
             present(cropViewController, animated: true, completion: nil)
         } else {
             if let cropViewController = presentedViewController as? CropViewController {
-                cropViewController.dismiss(animated: true, completion: nil)
+                cropViewController.dismiss(animated: true, completion: {
+                    if let pendingMessage = self.pendingMessage {
+                        self.pendingMessage = nil
+                        
+                        self.show(message: pendingMessage)
+                    }
+                })
             }
         }
     }
@@ -174,17 +206,45 @@ CropViewControllerDelegate {
     }
     
     func didFinishEditing() -> ControlEvent<UIImage> {
-        //TODO: implement
-        return ControlEvent(events: Observable.never())
+        return ControlEvent(events: didFinishEditingRelay.asObservable())
     }
     
     func didCancelEditing() -> ControlEvent<Void> {
-        //TODO: implement
-        return ControlEvent(events: Observable.never())
+        return ControlEvent(events: didCancelEditingRelay.asObservable())
     }
     
     func setActivityIndicator(visible: Bool) {
-        //TODO: implement
+        if visible {
+            activityIndicator.startAnimating()
+            view.bringSubviewToFront(fullScreenActivityIndicator)
+            fullScreenActivityIndicator.isHidden = false
+        } else {
+            fullScreenActivityIndicator.isHidden = true
+            activityIndicator.stopAnimating()
+        }
     }
     
+    func show(message: String) {
+        guard presentedViewController == nil else {
+            pendingMessage = message
+            return
+        }
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    // MARK: CropViewControllerDelegate
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        cropViewController.dismiss(animated: true, completion: {
+            if cancelled {
+                self.didCancelEditingRelay.accept(())
+            }
+        })
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        self.didFinishEditingRelay.accept(image)
+    }
 }

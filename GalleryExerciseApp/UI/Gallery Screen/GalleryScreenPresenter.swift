@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-//TODO: reload after uploading
+//TODO: add "opened" callback
 class GalleryScreenPresenter {
     
     private let gallery: GalleryProtocol

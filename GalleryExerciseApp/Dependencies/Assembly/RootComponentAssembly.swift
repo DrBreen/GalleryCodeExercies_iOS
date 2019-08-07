@@ -20,8 +20,11 @@ class RootComponentAssembly: Assembly {
         
         //base service URL
         container
-            .register(URL.self, name: "baseUrl") { _ in URL(string: "http://localhost:4555")! }
+            .register(URL.self, name: "baseUrlLocalhost") { _ in URL(string: "http://localhost:4555")! }
             .inObjectScope(.container)
+        
+        container
+            .register(URL.self, name: "baseUrl") { _ in URL(string: "http://142.93.165.77:4555")! }
         
         //NetworkRequestSender implementation
         container.register(NetworkRequestSender.self) { _ in
@@ -32,7 +35,8 @@ class RootComponentAssembly: Assembly {
         
         //GalleryService implementation
         container.register(GalleryService.self) { resolver in
-            let url = resolver.resolve(URL.self, name: "baseUrl")!
+            #warning("TODO: change to baseUrl")
+            let url = resolver.resolve(URL.self, name: "baseUrlLocalhost")!
             let networkRequestSender = resolver.resolve(NetworkRequestSender.self)!
             
             return DefaultGalleryService(galleryServiceURL: url, networkRequestSender: networkRequestSender)

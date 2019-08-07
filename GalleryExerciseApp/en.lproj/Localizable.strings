@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  GalleryExerciseApp
+
+  Created by Alexander Leontev on 07/08/2019.
+  Copyright © 2019 Alexander Leontev. All rights reserved.
+*/
+
+"Invalid image, please select another one" = "Invalid image, please select another one";
+"Image viewer" = "Image viewer";
+"Back" = "Back";
+"Edit" = "Edit";
+"OK" = "OK";
+"Gallery" = "Gallery";
+"Something went wrong, please try again" = "Something went wrong, please try again";
+"Take photo" = "Take photo";
+"Select from gallery" = "Select from gallery";
+"Cancel" = "Cancel";
+"There was an error during image selection, please try again" = "Cancel";
+"Error" = "Error";
+"Sorry, failed to load images" = "Sorry, failed to load images";

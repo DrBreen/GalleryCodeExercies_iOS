@@ -95,6 +95,7 @@
 		3818F00622F59F93004DC09A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3818F00522F59F93004DC09A /* AppDelegate.swift */; };
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
+		382486ED22FADA6400F1E30A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 382486EF22FADA6400F1E30A /* Localizable.strings */; };
 		69667785609B82D42B33E82C /* Pods_GalleryExerciseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D68F13C91E434E4C47760D2 /* Pods_GalleryExerciseApp.framework */; };
 		73410EF084EC3DACA66B1A7C /* Pods_GalleryExerciseApp_GalleryExerciseUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B6BE12249657459293D0ED /* Pods_GalleryExerciseApp_GalleryExerciseUnitTests.framework */; };
 /* End PBXBuildFile section */
@@ -182,6 +183,7 @@
 		3818F00C22F59F96004DC09A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3818F00F22F59F96004DC09A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3818F01122F59F96004DC09A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		382486EE22FADA6400F1E30A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		41C831A21D8085448C8932A6 /* Pods-GalleryExerciseApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryExerciseApp.debug.xcconfig"; path = "Target Support Files/Pods-GalleryExerciseApp/Pods-GalleryExerciseApp.debug.xcconfig"; sourceTree = "<group>"; };
 		691DB7DC51093BFA4D840CE5 /* Pods_GalleryExerciseAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GalleryExerciseAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74A4C8FB3B9B8E4A63BDE2A3 /* Pods-GalleryExerciseUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryExerciseUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-GalleryExerciseUnitTests/Pods-GalleryExerciseUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 				3818F00522F59F93004DC09A /* AppDelegate.swift */,
 				3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */,
 				3818F01122F59F96004DC09A /* Info.plist */,
+				382486EF22FADA6400F1E30A /* Localizable.strings */,
 			);
 			path = GalleryExerciseApp;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38027B8B22F9D37C006AC8E4 /* README.md in Resources */,
+				382486ED22FADA6400F1E30A /* Localizable.strings in Resources */,
 				3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */,
 				3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */,
 			);
@@ -905,6 +909,14 @@
 				3818F00F22F59F96004DC09A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		382486EF22FADA6400F1E30A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				382486EE22FADA6400F1E30A /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

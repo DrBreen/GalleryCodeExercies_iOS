@@ -8,8 +8,13 @@
 
 import Foundation
 import InstantMock
+import RxSwift
 
-class MockRouter: Mock, RouterProtocol {    
+class MockRouter: Mock, RouterProtocol {
+    
+    func didGoTo() -> Observable<RouterDestination> {
+        return super.call()!
+    }
     
     var validRoutes: [RouterDestination.Id: [RouterDestination.Id]] = [:]
     

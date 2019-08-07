@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
 class Router: RouterProtocol {
     
@@ -34,7 +36,16 @@ class Router: RouterProtocol {
     private let uploadScreenFactory: UploadScreenFactory
     private let viewImageScreenFactory: ViewImageScreenFactory
     
-    private(set) var currentLocation: RouterDestination?
+    private let didGoToRelay = PublishRelay<RouterDestination>()
+    private(set) var currentLocation: RouterDestination? {
+        didSet {
+            guard let currentLocation = currentLocation else {
+                return
+            }
+            
+            didGoToRelay.accept(currentLocation)
+        }
+    }
     
     init(navigationController: UINavigationController,
          galleryScreenFactory: GalleryScreenFactory,
@@ -67,6 +78,10 @@ class Router: RouterProtocol {
         currentLocation = destination
         
         return true
+    }
+    
+    func didGoTo() -> Observable<RouterDestination> {
+        return didGoToRelay.asObservable()
     }
     
     private func goToGallery(animated: Bool) {

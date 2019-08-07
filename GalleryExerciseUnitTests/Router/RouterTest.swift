@@ -172,6 +172,7 @@ class RouterTest: XCTestCase, UINavigationControllerDelegate {
     private func performTest(path: [RouterDestination], expectTerminalError: Bool = false, verifier: @escaping (Router, UINavigationController) -> Void) {
         
         let disposeBag = DisposeBag()
+        
         let expectation = XCTestExpectation()
         expectation.assertForOverFulfill = true
         expectation.expectedFulfillmentCount = path.count
@@ -182,6 +183,22 @@ class RouterTest: XCTestCase, UINavigationControllerDelegate {
         window.makeKeyAndVisible()
         
         router = Router(navigationController: navigationController, galleryScreenFactory: mockGalleryScreenFactory, uploadScreenFactory: mockUploadScreenFactory, viewImageScreenFactory: mockViewImageScreenFactory)
+        
+        //verify that observable works
+        //map route destinations to their ids, and if we expect terminal error - remove last (as we won't move there)
+        var expectedIds = path.map { $0.id }
+        if expectTerminalError {
+            expectedIds.removeLast()
+        }
+        
+        let routeObservableExpectation = XCTestExpectation(description: "Router didGoTo expectation")
+        routeObservableExpectation.assertForOverFulfill = true
+        routeObservableExpectation.expectedFulfillmentCount = expectedIds.count
+        router.didGoTo().map { $0.id }.subscribe(onNext: { id in
+            XCTAssertEqual(id, expectedIds[0])
+            expectedIds.removeFirst()
+            routeObservableExpectation.fulfill()
+        }).disposed(by: disposeBag)
         
         Observable<(offset: Int, element: RouterDestination)>.from(path.enumerated())
             .map { (offset: Int, element: RouterDestination) in
@@ -205,7 +222,7 @@ class RouterTest: XCTestCase, UINavigationControllerDelegate {
                 expectation.fulfill()
             }).disposed(by: disposeBag)
         
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation, routeObservableExpectation], timeout: 2.0)
         
         let waitExpectation = XCTestExpectation()
         

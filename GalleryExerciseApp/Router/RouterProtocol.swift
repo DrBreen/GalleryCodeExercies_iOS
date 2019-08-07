@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 enum RouterDestination {
     typealias Id = String
@@ -39,4 +40,6 @@ protocol RouterProtocol {
     
     @discardableResult
     func go(to: RouterDestination, animated: Bool) -> Bool
+    
+    func didGoTo() -> Observable<RouterDestination>
 }

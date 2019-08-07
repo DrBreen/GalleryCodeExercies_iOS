@@ -157,6 +157,7 @@ class GalleryScreenViewController: UIViewController, GalleryScreenViewProtocol, 
             refreshControl.beginRefreshing()
         case .none:
             refreshControl.endRefreshing()
+            self.galleryCollectionView.setContentOffset(.zero, animated: true)
         }
     }
     

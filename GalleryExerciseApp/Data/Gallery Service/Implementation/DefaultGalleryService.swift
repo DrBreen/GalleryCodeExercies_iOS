@@ -86,7 +86,6 @@ class DefaultGalleryService: GalleryService {
                 
                 return response
             }
-            .delay(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
     }
     
     func image(id: String) -> Observable<UIImage> {

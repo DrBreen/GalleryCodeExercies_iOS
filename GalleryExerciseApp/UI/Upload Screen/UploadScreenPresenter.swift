@@ -97,6 +97,7 @@ class UploadScreenPresenter {
                 //run error handler on error, and just swallow it so it will never reach downstream
                 self.galleryService
                     .upload(image: image, name: nil)
+                    .observeOn(MainScheduler.instance)
                     .do(onError: errorHandler)
                     .catchError { _ in Observable.empty() }
             }

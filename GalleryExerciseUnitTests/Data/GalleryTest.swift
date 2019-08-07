@@ -89,7 +89,7 @@ class GalleryTest: XCTestCase {
         let gallery = ["t1", "t2", "t3", "t4", "t5"].map {
             GalleryImage(id: $0, imageThumbnail: UIImage.catImageThumbnail, image: UIImage.catImage, showPlaceholder: false)
         }
-        performTestFetch(cache: gallery, expectedUpdatesCount: 1, expectComplete: true, expectError: false)
+        performTestFetch(cache: gallery, expectedUpdatesCount: 1)
     }
     
     
@@ -118,6 +118,40 @@ class GalleryTest: XCTestCase {
         })?.map { $0.id }
 
         XCTAssertEqual(["t1", "t2"], result)
+    }
+    
+    //test that concurrent fetch will wait for previous one to complete
+    func test_concurrentFetch() {        
+        let disposeBag = DisposeBag()
+        let gallery = createMockGallery()
+        
+        var concurrentActive = 0
+        
+        mockNetworkRequestSender.stub()
+            .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
+                                                   query: Arg.any(),
+                                                   headers: Arg.any()))
+            .andReturn { _ in
+                Observable<Data>.error(GalleryServiceError(error: "Error!"))
+                    .delay(RxTimeInterval.milliseconds(Int.random(in: (10..<250))), scheduler: MainScheduler.instance)
+                    .do(onSubscribe: {
+                        concurrentActive += 1
+                    })
+            }
+        
+        //let's run multiple fetches
+        let parallelFetches = 10
+        
+        expect(count: parallelFetches, timeout: 10.0) { expectation in
+            for _ in (0..<parallelFetches) {
+                gallery.fetchImages()
+                    .subscribe(onError: { error in
+                        XCTAssertEqual(concurrentActive, 1)
+                        concurrentActive -= 1
+                        expectation.fulfill()
+                    }).disposed(by: disposeBag)
+            }
+        }
     }
     
     // MARK: Helpers
@@ -218,7 +252,7 @@ class GalleryTest: XCTestCase {
             .subscribe(onNext: { content in
             loadedContent = content
             gotResponseExpectation.fulfill()
-        }, onError: { _ in
+        }, onError: { error in
             observableErrorsOutExpectation.fulfill()
         }, onCompleted: {
             observableCompletesExpectation.fulfill()
@@ -243,7 +277,7 @@ class GalleryTest: XCTestCase {
             imageVerifier?($0)
         }
         
-        return loadedContent
+        return loadedContent ?? []
     }
 
     

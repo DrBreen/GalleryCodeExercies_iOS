@@ -10,10 +10,10 @@ import Foundation
 import RxSwift
 
 
-//TODO: find a solution to potential race condition problems
-//probably we can have some observable that blocks next one until current fetch returns
-//TODO: test that race condition
 class Gallery: GalleryProtocol {
+    
+    //semaphore to allow only one fetch at a time
+    private let fetchSemaphore = DispatchSemaphore(value: 1)
     
     private let computationsScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
     
@@ -47,7 +47,9 @@ class Gallery: GalleryProtocol {
             .flatMap { (galleryImage: GalleryImage) -> Observable<(String?, UIImage?)> in
                 //send request to server and transform response to pair of ID/Image so we'll know what image to update
                 let id = galleryImage.id
-                return self.galleryService.image(id: id).map { img -> (String?, UIImage?) in (id, img) }.catchErrorJustReturn((id, nil))
+                return self.galleryService.image(id: id)
+                    .map { img -> (String?, UIImage?) in (id, img) }
+                    .catchErrorJustReturn((id, nil))
             }
             .observeOn(computationsScheduler)
             .do(onNext: { (id: String?, image: UIImage?) in
@@ -59,11 +61,10 @@ class Gallery: GalleryProtocol {
                 self.cache[idx].imageThumbnail = image?.scaled(toWidth: self.thumbnailSize)
                 self.cache[idx].showPlaceholder = false
                 self.cache[idx].image = image
-            })
-            .map { _ in self.cache }
-            .do(onCompleted: {
+            }, onCompleted: {
                 self.cacheValid = true
             })
+            .map { _ in self.cache }
         
         //requested the whole gallery
         //if we already reached the end of gallery, let's just return cached value
@@ -88,11 +89,31 @@ class Gallery: GalleryProtocol {
         //this observable will emit:
         //1) Immediately after fetching of image list - it will emit placeholders
         //2) After every image update
-        return galleryObservable.concat(updatesObservable)
+        return lockObservable()
+            .concat(galleryObservable.concat(updatesObservable))
+            .do(onDispose: {
+                self.fetchSemaphore.signal()
+            })
     }
     
     func invalidateCache() {
         cacheValid = false
+    }
+    
+    //waits until fetch is done, and then completes. If no fetch is in progress, simply completes immediately
+    private func lockObservable() -> Observable<[GalleryImage]> {
+        return Observable<[GalleryImage]>.create { [weak self] observer in
+            
+            guard let semaphore = self?.fetchSemaphore else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            semaphore.wait()
+            observer.onCompleted()
+            
+            return Disposables.create()
+        }.subscribeOn(computationsScheduler)
     }
 }
 

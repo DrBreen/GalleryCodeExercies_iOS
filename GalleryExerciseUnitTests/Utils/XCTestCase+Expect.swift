@@ -11,17 +11,17 @@ import XCTest
 
 extension XCTestCase {
     
-    func expect(count: Int, _ action: (XCTestExpectation) -> Void) {
+    func expect(count: Int, timeout: TimeInterval = 2.0, _ action: (XCTestExpectation) -> Void) {
         let exc = XCTestExpectation(description: "Expect \(count) fulfills")
         exc.assertForOverFulfill = true
         exc.expectedFulfillmentCount = count
         
         action(exc)
         
-        wait(for: [exc], timeout: 2.0)
+        wait(for: [exc], timeout: timeout)
     }
     
-    func expectMultiple(counts: [Int], _ descriptions: [String]? = nil, _ action: ([XCTestExpectation]) -> Void) {
+    func expectMultiple(counts: [Int], timeout: TimeInterval = 2.0, _ descriptions: [String]? = nil, _ action: ([XCTestExpectation]) -> Void) {
         
         if let descriptions = descriptions, descriptions.count != counts.count {
             fatalError("Please provide descriptions for all expectations")
@@ -36,7 +36,7 @@ extension XCTestCase {
         
         action(expectations)
         
-        wait(for: expectations, timeout: 2.0)
+        wait(for: expectations, timeout: timeout)
     }
     
 }

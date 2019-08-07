@@ -11,6 +11,7 @@ import RxSwift
 
 protocol GalleryProtocol {
     
+    //fetch images. Will send gallery update on every change, such as "got response from server", "loaded image"
     func fetchImages() -> Observable<[GalleryImage]>
     
     func invalidateCache()

@@ -96,6 +96,12 @@
 		3818F00D22F59F96004DC09A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00C22F59F96004DC09A /* Assets.xcassets */; };
 		3818F01022F59F96004DC09A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3818F00E22F59F96004DC09A /* LaunchScreen.storyboard */; };
 		382486ED22FADA6400F1E30A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 382486EF22FADA6400F1E30A /* Localizable.strings */; };
+		382486F122FAF0D600F1E30A /* GalleryServiceErrorMapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382486F022FAF0D600F1E30A /* GalleryServiceErrorMapperTest.swift */; };
+		382486F222FAF10D00F1E30A /* GalleryServiceErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027B5122F83816006AC8E4 /* GalleryServiceErrorMapper.swift */; };
+		382486F522FAF2F300F1E30A /* MockViewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382486F422FAF2F300F1E30A /* MockViewImageView.swift */; };
+		382486F622FAF30E00F1E30A /* ViewImageScreenViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BB022FA1B7C006AC8E4 /* ViewImageScreenViewProtocol.swift */; };
+		382486F822FAF38200F1E30A /* ViewImageScreenPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382486F722FAF38200F1E30A /* ViewImageScreenPresenterTest.swift */; };
+		382486F922FAF5ED00F1E30A /* ViewImageScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38027BAB22FA1B14006AC8E4 /* ViewImageScreenPresenter.swift */; };
 		69667785609B82D42B33E82C /* Pods_GalleryExerciseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D68F13C91E434E4C47760D2 /* Pods_GalleryExerciseApp.framework */; };
 		73410EF084EC3DACA66B1A7C /* Pods_GalleryExerciseApp_GalleryExerciseUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B6BE12249657459293D0ED /* Pods_GalleryExerciseApp_GalleryExerciseUnitTests.framework */; };
 /* End PBXBuildFile section */
@@ -184,6 +190,9 @@
 		3818F00F22F59F96004DC09A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3818F01122F59F96004DC09A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		382486EE22FADA6400F1E30A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		382486F022FAF0D600F1E30A /* GalleryServiceErrorMapperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryServiceErrorMapperTest.swift; sourceTree = "<group>"; };
+		382486F422FAF2F300F1E30A /* MockViewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewImageView.swift; sourceTree = "<group>"; };
+		382486F722FAF38200F1E30A /* ViewImageScreenPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewImageScreenPresenterTest.swift; sourceTree = "<group>"; };
 		41C831A21D8085448C8932A6 /* Pods-GalleryExerciseApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryExerciseApp.debug.xcconfig"; path = "Target Support Files/Pods-GalleryExerciseApp/Pods-GalleryExerciseApp.debug.xcconfig"; sourceTree = "<group>"; };
 		691DB7DC51093BFA4D840CE5 /* Pods_GalleryExerciseAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GalleryExerciseAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74A4C8FB3B9B8E4A63BDE2A3 /* Pods-GalleryExerciseUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryExerciseUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-GalleryExerciseUnitTests/Pods-GalleryExerciseUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -281,6 +290,7 @@
 			children = (
 				38027ADD22F5EE39006AC8E4 /* MockNetworkRequestSender.swift */,
 				38027B2822F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift */,
+				382486F022FAF0D600F1E30A /* GalleryServiceErrorMapperTest.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -444,6 +454,7 @@
 		38027B5A22F85C7F006AC8E4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				382486F322FAF2C800F1E30A /* View Image Screen */,
 				38027B8C22F9D6E4006AC8E4 /* Upload Screen */,
 				38027B6722F85F32006AC8E4 /* Gallery Screen */,
 			);
@@ -484,10 +495,10 @@
 		38027B7922F8D2E3006AC8E4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				38027B3422F79ADA006AC8E4 /* Component.swift */,
 				38027B3C22F79CB0006AC8E4 /* RootComponent.swift */,
 				38027B3022F799B1006AC8E4 /* GalleryScreenComponent.swift */,
 				38027B7622F8A953006AC8E4 /* UploadScreenComponent.swift */,
-				38027B3422F79ADA006AC8E4 /* Component.swift */,
 				38027BB222FA1BF1006AC8E4 /* ViewImageScreenComponent.swift */,
 			);
 			path = Components;
@@ -581,6 +592,15 @@
 				382486EF22FADA6400F1E30A /* Localizable.strings */,
 			);
 			path = GalleryExerciseApp;
+			sourceTree = "<group>";
+		};
+		382486F322FAF2C800F1E30A /* View Image Screen */ = {
+			isa = PBXGroup;
+			children = (
+				382486F422FAF2F300F1E30A /* MockViewImageView.swift */,
+				382486F722FAF38200F1E30A /* ViewImageScreenPresenterTest.swift */,
+			);
+			path = "View Image Screen";
 			sourceTree = "<group>";
 		};
 		755A53BBE8F88372D90A3646 /* Frameworks */ = {
@@ -809,10 +829,13 @@
 				38027B1722F6FE64006AC8E4 /* GalleryServiceError.swift in Sources */,
 				38027B1A22F718F3006AC8E4 /* NetworkRequestErrorMapper.swift in Sources */,
 				38027B6322F85E1D006AC8E4 /* MockRouter.swift in Sources */,
+				382486F522FAF2F300F1E30A /* MockViewImageView.swift in Sources */,
 				38027B6022F85DF2006AC8E4 /* RouterProtocol.swift in Sources */,
 				38027B9A22F9FA89006AC8E4 /* RouterTest.swift in Sources */,
 				38027B5D22F85DA9006AC8E4 /* GalleryScreenPresenterTest.swift in Sources */,
+				382486F922FAF5ED00F1E30A /* ViewImageScreenPresenter.swift in Sources */,
 				38027AF322F5F3A6006AC8E4 /* GalleryServiceUploadResponse.swift in Sources */,
+				382486F122FAF0D600F1E30A /* GalleryServiceErrorMapperTest.swift in Sources */,
 				38027B9022F9E4E9006AC8E4 /* MockUploadScreenView.swift in Sources */,
 				38027AF122F5F278006AC8E4 /* GalleryService.swift in Sources */,
 				38027B2A22F77F58006AC8E4 /* AlamofireNetworkRequestSender.swift in Sources */,
@@ -831,13 +854,16 @@
 				38027B2922F77EAB006AC8E4 /* AlamofireNetworkRequestSenderTest.swift in Sources */,
 				38027B9E22F9FB57006AC8E4 /* ViewImageScreenFactory.swift in Sources */,
 				38027AEE22F5F124006AC8E4 /* GalleryServiceTest.swift in Sources */,
+				382486F222FAF10D00F1E30A /* GalleryServiceErrorMapper.swift in Sources */,
 				38027B9C22F9FB20006AC8E4 /* MockGalleryScreenFactory.swift in Sources */,
 				38027B6422F85E49006AC8E4 /* String+Localization.swift in Sources */,
 				38027B9222F9E59C006AC8E4 /* UploadScreenPresenter.swift in Sources */,
+				382486F822FAF38200F1E30A /* ViewImageScreenPresenterTest.swift in Sources */,
 				38027B5F22F85DEB006AC8E4 /* GalleryScreenViewProtocol.swift in Sources */,
 				38027B5E22F85DB4006AC8E4 /* GalleryScreenPresenter.swift in Sources */,
 				38027AEF22F5F127006AC8E4 /* MockNetworkRequestSender.swift in Sources */,
 				38027AF222F5F27D006AC8E4 /* DefaultGalleryService.swift in Sources */,
+				382486F622FAF30E00F1E30A /* ViewImageScreenViewProtocol.swift in Sources */,
 				38027B9422F9E5EB006AC8E4 /* MockGalleryService.swift in Sources */,
 				38027B2722F7718D006AC8E4 /* GalleryListResponse.swift in Sources */,
 			);

@@ -14,13 +14,4 @@ struct GalleryListResponse: Codable {
     let comments: [String : String]
 }
 
-extension GalleryListResponse {
-    
-    //TODO: remove this
-    init(count: Int, imageIds: [String]) {
-        self.init(count: count, imageIds: imageIds, comments: [:])
-    }
-
-}
-
 extension GalleryListResponse: Equatable {}

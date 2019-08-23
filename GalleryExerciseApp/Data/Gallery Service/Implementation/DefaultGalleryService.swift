@@ -33,7 +33,7 @@ class DefaultGalleryService: GalleryService {
             .getData(url: url(path: DefaultGalleryService.galleryPath), query: nil, headers: nil)
             .map { response in
                 let decoder = JSONDecoder()
-                return (try? decoder.decode(GalleryListResponse.self, from: response)) ?? GalleryListResponse(count: 0, imageIds: [], comments: [:])
+                return try decoder.decode(GalleryListResponse.self, from: response)
             }
     }
     

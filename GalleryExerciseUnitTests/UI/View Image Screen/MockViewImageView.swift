@@ -13,6 +13,14 @@ import RxCocoa
 
 class MockViewImageScreenView: Mock, ViewImageScreenViewProtocol {
     
+    func set(comment: String?) {
+        super.call(comment)
+    }
+    
+    func didRequestToSaveComment() -> ControlEvent<String?> {
+        return super.call()!
+    }
+    
     func show(message: String) {
         super.call(message)
     }

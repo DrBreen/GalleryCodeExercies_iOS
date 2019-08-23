@@ -11,6 +11,18 @@ import RxSwift
 import RxCocoa
 import InstantMock
 
+// MARK: Single
+extension Single: MockUsable {
+    
+    public static var anyValue: MockUsable {
+        return Single<Element>.never()
+    }
+    
+    public func equal(to: MockUsable?) -> Bool {
+        return false
+    }
+}
+
 // MARK: GalleryImage
 extension GalleryImage: MockUsable {
     

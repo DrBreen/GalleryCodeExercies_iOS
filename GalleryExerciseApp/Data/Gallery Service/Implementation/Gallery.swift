@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-
+//TODO: fix bug that does not update the comment after going back to gallery
 class Gallery: GalleryProtocol {
     
     //semaphore to allow only one fetch at a time

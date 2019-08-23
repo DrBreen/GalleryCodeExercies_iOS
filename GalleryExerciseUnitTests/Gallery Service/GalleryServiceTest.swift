@@ -12,10 +12,9 @@ import InstantMock
 
 class GalleryServiceTest: XCTestCase {
     
-    private static let offsetResult = GalleryListResponse(count: 3, imageIds: ["1", "2", "3"])
-    private static let offsetResultJson = try! JSONSerialization.data(withJSONObject: ["count": 3, "imageIds": ["1", "2", "3"]], options: [])
-    private static let noOffsetResult = GalleryListResponse(count: 1, imageIds: ["2"])
-    private static let noOffsetResultJson = try! JSONSerialization.data(withJSONObject: ["count": 1, "imageIds": ["2"]], options: []) 
+    private static let noOffsetResult = GalleryListResponse(count: 3, imageIds: ["1", "2", "3"], comments: ["1": "testComment"])
+    private static let noOffsetResultJson = try! JSONSerialization.data(withJSONObject: ["count": 3, "imageIds": ["1", "2", "3"], "comments": ["1": "testComment"]], options: [])
+    
     
     var disposeBag: DisposeBag?
     
@@ -41,7 +40,7 @@ class GalleryServiceTest: XCTestCase {
             .call(mockNetworkRequestSender.getData(url: Arg.eq(URL(string: "https://test.com/gallery")!),
                                                query: Arg.eq(["offset" : 1, "count" : 1]),
                                                headers: Arg.any()))
-            .andReturn(Observable<Data>.just(GalleryServiceTest.offsetResultJson))
+            .andReturn(Observable<Data>.just(GalleryServiceTest.noOffsetResultJson))
         
         //for /gallery/testId return data that is an image
         let catImage = UIImage(named: "cat", in: Bundle(for: type(of: self)), compatibleWith: nil)!
@@ -75,7 +74,7 @@ class GalleryServiceTest: XCTestCase {
     func test_getGalleryNoOffset() {
         let gotResponseExpectation = XCTestExpectation(description: "gotResponseExpectation")
         
-        galleryService.getGallery().subscribe(onNext: { imageIds in
+        galleryService.getGallery().debug().subscribe(onNext: { imageIds in
             XCTAssertEqual(imageIds, GalleryServiceTest.noOffsetResult)
             gotResponseExpectation.fulfill()
         }).disposed(by: disposeBag!)

@@ -26,6 +26,7 @@ CropViewControllerDelegate {
     
     private let saveCommentButton: UIButton = {
         let button = UIButton()
+        button.setContentHuggingPriority(UILayoutPriority(751), for: .horizontal)
         button.setTitleColor(.blue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
@@ -120,13 +121,14 @@ CropViewControllerDelegate {
         scrollView.zoomScale = 1.0
         scrollView.addSubview(imageView)
         
-        saveCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        saveCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        saveCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8.0).isActive = true
+        saveCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0).isActive = true
         
-        commentTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        commentTextField.trailingAnchor.constraint(equalTo: saveCommentButton.leadingAnchor).isActive = true
+        commentTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8.0).isActive = true
+        commentTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0).isActive = true
+        commentTextField.trailingAnchor.constraint(equalTo: saveCommentButton.leadingAnchor, constant: -16.0).isActive = true
         commentTextField.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        commentTextField.borderStyle = .roundedRect
         
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

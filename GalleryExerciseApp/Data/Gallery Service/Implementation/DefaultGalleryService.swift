@@ -14,6 +14,7 @@ class DefaultGalleryService: GalleryService {
     private static let maximumImageSize: CGFloat = 1024.0
     
     private static let galleryPath = "gallery"
+    private static let commentsPath = "comments"
     
     private let networkRequestSender: NetworkRequestSender
     private let galleryServiceURL: URL
@@ -32,8 +33,14 @@ class DefaultGalleryService: GalleryService {
             .getData(url: url(path: DefaultGalleryService.galleryPath), query: nil, headers: nil)
             .map { response in
                 let decoder = JSONDecoder()
-                return (try? decoder.decode(GalleryListResponse.self, from: response)) ?? GalleryListResponse(count: 0, imageIds: [])
+                return (try? decoder.decode(GalleryListResponse.self, from: response)) ?? GalleryListResponse(count: 0, imageIds: [], comments: [:])
             }
+    }
+    
+    func addComment(name: String, comment: String?) -> Single<Void> {
+        return networkRequestSender.put(url: url(path: DefaultGalleryService.commentsPath, name), body: [
+            "comment" : comment ?? ""
+            ], headers: nil).map { _ in () }
     }
     
     func upload(image: UIImage, name: String?) -> Observable<GalleryServiceUploadResponse> {

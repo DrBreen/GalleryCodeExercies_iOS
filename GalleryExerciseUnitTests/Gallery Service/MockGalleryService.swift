@@ -21,6 +21,10 @@ class MockGalleryService: Mock, GalleryService {
         return super.call(image, name)!
     }
     
+    func addComment(name: String, comment: String?) -> Single<Void> {
+        return super.call(name, comment)!
+    }
+    
     func image(id: String) -> Observable<UIImage> {
         return super.call(id)!
     }

@@ -14,9 +14,24 @@ import CropViewController
 class ViewImageViewController: UIViewController,
     ViewImageScreenViewProtocol,
     UIScrollViewDelegate,
-    CropViewControllerDelegate {
+CropViewControllerDelegate {
     
     //views
+    private let commentTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = NSLocalizedString("Comment...", comment: "Comment...")
+        return textField
+    }()
+    
+    private let saveCommentButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.blue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
+        return button
+    }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +110,9 @@ class ViewImageViewController: UIViewController,
     private func buildView() {
         view.backgroundColor = .white
         
+        view.addSubview(commentTextField)
+        view.addSubview(saveCommentButton)
+        
         view.addSubview(scrollView)
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
@@ -102,10 +120,18 @@ class ViewImageViewController: UIViewController,
         scrollView.zoomScale = 1.0
         scrollView.addSubview(imageView)
         
-        scrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        saveCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        saveCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        commentTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        commentTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        commentTextField.trailingAnchor.constraint(equalTo: saveCommentButton.leadingAnchor).isActive = true
+        commentTextField.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: commentTextField.topAnchor).isActive = true
         
         leadingImageConstraint = scrollView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         trailingImageConstraint = scrollView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
@@ -233,6 +259,16 @@ class ViewImageViewController: UIViewController,
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func set(comment: String?) {
+        commentTextField.text = comment
+    }
+    
+    func didRequestToSaveComment() -> ControlEvent<String?> {
+        return ControlEvent(events: saveCommentButton.rx.tap.map { [unowned self] in
+            self.commentTextField.text
+        })
     }
     
     // MARK: CropViewControllerDelegate

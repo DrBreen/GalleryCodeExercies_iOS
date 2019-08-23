@@ -27,6 +27,9 @@ protocol ViewImageScreenViewProtocol: class {
     ///show activity indicator
     func setActivityIndicator(visible: Bool)
     
+    ///set current visible comment
+    func set(comment: String?)
+    
     // MARK: Events
     
     ///user did request to leave this screen
@@ -41,6 +44,8 @@ protocol ViewImageScreenViewProtocol: class {
     ///user did cancel image editing
     func didCancelEditing() -> ControlEvent<Void>
     
+    ///user did confirm he wants to save the comment
+    func didRequestToSaveComment() -> ControlEvent<String?>
     
     
 }

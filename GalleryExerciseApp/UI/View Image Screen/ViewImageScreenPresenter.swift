@@ -44,6 +44,7 @@ class ViewImageScreenPresenter {
     
     private func didAttachView() {
         viewImageScreenView?.set(image: galleryImage.image!)
+        viewImageScreenView?.set(comment: galleryImage.comment)
         
         startObservingView()
     }
@@ -64,7 +65,6 @@ class ViewImageScreenPresenter {
                 self.viewImageScreenView?.set(editing: false)
             }).disposed(by: viewDisposeBag)
         
-        
         let errorHandler: (Error) -> Void = { [unowned self] (error: Error) in
             self.viewImageScreenView?.setActivityIndicator(visible: false)
             
@@ -80,6 +80,21 @@ class ViewImageScreenPresenter {
             self.viewImageScreenView?.show(message: message)
         }
         
+        viewImageScreenView?.didRequestToSaveComment()
+            .do(onNext: { [unowned self] _ in
+                self.viewImageScreenView?.setActivityIndicator(visible: true)
+            })
+            .flatMapLatest { [unowned self] comment in
+                self.galleryService.addComment(name: self.galleryImage.id, comment: comment)
+                    .do(onError: errorHandler)
+                    .catchError { _ in Single.never() }
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: {
+                self.viewImageScreenView?.setActivityIndicator(visible: false)
+            }).disposed(by: viewDisposeBag)
+        
+        
         viewImageScreenView?.didFinishEditing()
             .do(onNext: { _ in
                 self.viewImageScreenView?.set(editing: false)
@@ -93,7 +108,7 @@ class ViewImageScreenPresenter {
                     .catchError { _ in Observable.empty() }
                     .map { response in
                         return (image: image, response: response)
-                    }
+                }
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (image: UIImage, _: GalleryServiceUploadResponse) in

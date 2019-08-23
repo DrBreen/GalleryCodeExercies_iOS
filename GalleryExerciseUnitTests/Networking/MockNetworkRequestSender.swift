@@ -12,7 +12,7 @@ import RxSwift
 
 class MockNetworkRequestSender: Mock, NetworkRequestSender {
     
-    func put(url: URL, body: [String : Any], headers: [String : String]?) -> Single<Any> {
+    func put(url: URL, body: [String : Any], headers: [String : String]?) -> Single<Data> {
         return super.call(url, body, headers)!
     }
     

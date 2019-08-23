@@ -118,8 +118,8 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
         }
     }
     
-    func put(url: URL, body: [String : Any], headers: [String: String]?) -> Single<Any> {
-        return Single<Any>.create { observer in
+    func put(url: URL, body: [String : Any], headers: [String: String]?) -> Single<Data> {
+        return Single<Data>.create { observer in
             
             let callback = AlamofireNetworkRequestSender.createDataCallback(onNext: {
                 observer(SingleEvent.success($0))

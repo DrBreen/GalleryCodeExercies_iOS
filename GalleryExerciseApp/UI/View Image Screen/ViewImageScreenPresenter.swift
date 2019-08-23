@@ -91,6 +91,7 @@ class ViewImageScreenPresenter {
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
+                self.gallery.invalidateCache()
                 self.viewImageScreenView?.setActivityIndicator(visible: false)
             }).disposed(by: viewDisposeBag)
         

@@ -13,7 +13,7 @@ import RxCocoa
 
 class Router: RouterProtocol {
     
-    private static let dummyImage = GalleryImage(id: "", imageThumbnail: nil, image: nil, showPlaceholder: true)
+    private static let dummyImage = GalleryImage(id: "", imageThumbnail: nil, image: nil, showPlaceholder: true, comment: nil)
     
     var validRoutes: [RouterDestination.Id : [RouterDestination.Id]] = [
         RouterDestination.galleryId: [

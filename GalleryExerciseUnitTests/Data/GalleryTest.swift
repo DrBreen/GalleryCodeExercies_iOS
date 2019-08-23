@@ -177,7 +177,8 @@ class GalleryTest: XCTestCase {
             
             let json: [String: Any] = [
                 "count" : totalCount,
-                "imageIds" : gallery
+                "imageIds" : gallery,
+                "comments" : [:]
             ]
             
             let data = try! JSONSerialization.data(withJSONObject: json, options: [])

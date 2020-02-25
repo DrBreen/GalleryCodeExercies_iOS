@@ -20,12 +20,15 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
     
     var errorMapper: NetworkRequestErrorMapper?
     
-    private static func createJSONCallback(observer: AnyObserver<Any>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Any>) -> Void) {
+    private static func createJSONCallback(onNext: @escaping (Any) -> Void,
+                                           onError: @escaping (Error) -> Void,
+                                           onCompleted: @escaping () -> Void,
+                                           errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Any>) -> Void) {
         return { response in
             switch response.result {
             case .success(let json):
-                observer.onNext(json)
-                observer.onCompleted()
+                onNext(json)
+                onCompleted()
             case .failure(let error):
                 let reportedError: Error
                 if let errorMapper = errorMapper {
@@ -34,28 +37,53 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
                     reportedError = error
                 }
                 
-                observer.onError(reportedError)
+                onError(reportedError)
+            }
+        }
+    }
+    
+    private static func createJSONCallback(observer: AnyObserver<Any>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Any>) -> Void) {
+        
+        return createJSONCallback(onNext: {
+            observer.onNext($0)
+        }, onError: {
+            observer.onError($0)
+        }, onCompleted: {
+            observer.onCompleted()
+        }, errorMapper: errorMapper)
+        
+    }
+    
+    private static func createDataCallback(onNext: @escaping (Data) -> Void,
+                                           onError: @escaping (Error) -> Void,
+                                           onCompleted: @escaping () -> Void,
+                                           errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Data>) -> Void) {
+        return { response in
+            switch response.result {
+            case .success(let data):
+                onNext(data)
+                onCompleted()
+            case .failure(let error):
+                let reportedError: Error
+                if let errorMapper = errorMapper {
+                    reportedError = errorMapper.map(error, data: response.data)
+                } else {
+                    reportedError = error
+                }
+                
+                onError(reportedError)
             }
         }
     }
     
     private static func createDataCallback(observer: AnyObserver<Data>, errorMapper: NetworkRequestErrorMapper?) -> ((DataResponse<Data>) -> Void) {
-        return { response in
-            switch response.result {
-            case .success(let data):
-                observer.onNext(data)
-                observer.onCompleted()
-            case .failure(let error):
-                let reportedError: Error
-                if let errorMapper = errorMapper {
-                    reportedError = errorMapper.map(error, data: response.data)
-                } else {
-                    reportedError = error
-                }
-                
-                observer.onError(reportedError)
-            }
-        }
+        return createDataCallback(onNext: {
+            observer.onNext($0)
+        }, onError: {
+            observer.onError($0)
+        }, onCompleted: {
+            observer.onCompleted()
+        }, errorMapper: errorMapper)
     }
     
     func getData(url: URL, query: [String: Any]?, headers: [String: String]?) -> Observable<Data> {
@@ -87,6 +115,25 @@ class AlamofireNetworkRequestSender: NetworkRequestSender {
             let request = self.sessionManager.upload(multipartData, to: url, headers: ["Content-Type" : multipart.contentType]).validate(statusCode: 200..<300).responseJSON(completionHandler: AlamofireNetworkRequestSender.createJSONCallback(observer: observer, errorMapper: self.errorMapper))
             
             return Disposables.create { request.cancel() }
+        }
+    }
+    
+    func put(url: URL, body: [String : Any], headers: [String: String]?) -> Single<Data> {
+        return Single<Data>.create { observer in
+            
+            let callback = AlamofireNetworkRequestSender.createDataCallback(onNext: {
+                observer(SingleEvent.success($0))
+            }, onError: {
+                observer(SingleEvent.error($0))
+            }, onCompleted: {}, errorMapper: self.errorMapper)
+            
+            let request = self.sessionManager.request(url, method: .put, parameters: body, encoding: URLEncoding.httpBody, headers: headers).responseData(completionHandler: callback)
+            
+            
+            
+            return Disposables.create {
+                request.cancel()
+            }
         }
     }
     

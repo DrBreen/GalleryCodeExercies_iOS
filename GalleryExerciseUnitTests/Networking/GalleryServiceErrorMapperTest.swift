@@ -38,7 +38,7 @@ class GalleryServiceErrorMapperTest: XCTestCase {
         let error = GeneralError(text: "Test")
         
         let mappedError = mapper.map(error, data: nil)
-        XCTAssertTrue(error is GeneralError)
+        XCTAssertTrue(mappedError is GeneralError)
         XCTAssertEqual((mappedError as! GeneralError).text, error.text)
     }
     

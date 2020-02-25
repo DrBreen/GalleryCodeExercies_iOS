@@ -18,6 +18,7 @@ struct GalleryImage: DiffAware {
     var imageThumbnail: UIImage?
     var image: UIImage?
     var showPlaceholder: Bool
+    var comment: String?
     
     var diffId: GalleryImage.DiffId {
         return id
@@ -39,4 +40,15 @@ struct GalleryImage: DiffAware {
         
         return true
     }
+}
+
+extension GalleryImage {
+    
+    init(id: String,
+    imageThumbnail: UIImage?,
+    image: UIImage?,
+        showPlaceholder: Bool) {
+        self.init(id: id, imageThumbnail: imageThumbnail, image: image, showPlaceholder: showPlaceholder, comment: nil)
+    }
+    
 }

@@ -160,6 +160,74 @@ class ViewImageScreenPresenterTest: XCTestCase {
         }
     }
     
+    //test edit comment fail
+    func test_saveCommentFailed() {
+        reset()
+        
+        expectMultiple(counts: [2, 1], ["setActivityIndicator", "showMessage"]) { expectations in
+            mockGalleryService.stub()
+                .call(mockGalleryService.addComment(name: Arg.any(), comment: Arg.any())) .andReturn(Single<Void>.error(GalleryServiceError(error: "Test error")))
+            
+            var expectedSequence = [true, false]
+            mockView.expect()
+                .call(mockView.setActivityIndicator(visible: Arg.any()))
+                .andDo { args in
+                    let value = args[0] as! Bool
+                    
+                    XCTAssert(expectedSequence.count > 0)
+                    XCTAssertEqual(expectedSequence[0], value)
+                    expectedSequence.remove(at: 0)
+                    expectations[0].fulfill()
+            }
+            
+            mockView.expect()
+                .call(mockView.show(message: Arg.eq("Test error")))
+                .andDo { _ in
+                    expectations[1].fulfill()
+            }
+            
+            
+            let didRequestToSaveCommentRelay = PublishRelay<String?>()
+            mockView.stub().call(mockView.didRequestToSaveComment()).andReturn(ControlEvent<String?>(events: didRequestToSaveCommentRelay))
+            
+            presenter.viewImageScreenView = mockView
+            didRequestToSaveCommentRelay.accept("test comment")
+        }
+    }
+    
+    func test_saveCommentSuccess() {
+        reset()
+        
+        expectMultiple(counts: [2, 1], ["setActivityIndicator", "invalidateCache"]) { expectations in
+            
+            mockGalleryService.stub()
+                .call(mockGalleryService.addComment(name: Arg.any(), comment: Arg.any())) .andReturn(Single<Void>.just(()))
+            
+            
+            let didRequestToSaveCommentRelay = PublishRelay<String?>()
+            mockView.stub().call(mockView.didRequestToSaveComment()).andReturn(ControlEvent<String?>(events: didRequestToSaveCommentRelay))
+            
+            var expectedSequence = [true, false]
+            mockView.expect()
+                .call(mockView.setActivityIndicator(visible: Arg.any()))
+                .andDo { args in
+                    let value = args[0] as! Bool
+                    
+                    XCTAssert(expectedSequence.count > 0)
+                    XCTAssertEqual(expectedSequence[0], value)
+                    expectedSequence.remove(at: 0)
+                    expectations[0].fulfill()
+            }
+            
+            mockGallery.expect().call(mockGallery.invalidateCache()).andDo { _ in
+                expectations[1].fulfill()
+            }
+            
+            presenter.viewImageScreenView = mockView
+            didRequestToSaveCommentRelay.accept("Test comment")
+        }
+    }
+    
     //test edit success
     func test_editSuccess() {
         reset()

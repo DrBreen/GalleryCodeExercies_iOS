@@ -12,6 +12,10 @@ import RxSwift
 
 class MockNetworkRequestSender: Mock, NetworkRequestSender {
     
+    func put(url: URL, body: [String : Any], headers: [String : String]?) -> Single<Data> {
+        return super.call(url, body, headers)!
+    }
+    
     var errorMapper: NetworkRequestErrorMapper?
     
     func getData(url: URL, query: [String : Any]?, headers: [String : String]?) -> Observable<Data> {

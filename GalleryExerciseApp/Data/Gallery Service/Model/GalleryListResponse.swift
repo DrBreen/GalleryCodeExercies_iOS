@@ -8,12 +8,10 @@
 
 import Foundation
 
-struct GalleryListResponse: Codable, Equatable {
-    
-    static func == (lhs: GalleryListResponse, rhs: GalleryListResponse) -> Bool {
-        return lhs.count == rhs.count && lhs.imageIds == rhs.imageIds
-    }
-    
+struct GalleryListResponse: Codable {
     let count: Int
     let imageIds: [String]
+    let comments: [String : String]
 }
+
+extension GalleryListResponse: Equatable {}

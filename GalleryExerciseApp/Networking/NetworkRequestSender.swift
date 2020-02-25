@@ -27,4 +27,6 @@ protocol NetworkRequestSender {
                 body: [String : MultipartFormDataDescription],
                 headers: [String: String]?) -> Observable<Any>
     
+    func put(url: URL, body: [String : Any], headers: [String: String]?) -> Single<Data>
+    
 }

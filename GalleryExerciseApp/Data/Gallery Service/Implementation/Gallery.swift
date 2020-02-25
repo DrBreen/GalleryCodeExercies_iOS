@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 
-
 class Gallery: GalleryProtocol {
     
     //semaphore to allow only one fetch at a time
@@ -80,8 +79,13 @@ class Gallery: GalleryProtocol {
             .do(onNext: { galleryListResponse in
                 self.cache = []
                 
+                let comments = galleryListResponse.comments
                 for id in galleryListResponse.imageIds {
-                    self.cache.append(GalleryImage(id: id, imageThumbnail: nil, image: nil, showPlaceholder: true))
+                    self.cache.append(GalleryImage(id: id,
+                                                   imageThumbnail: nil,
+                                                   image: nil,
+                                                   showPlaceholder: true,
+                                                   comment: comments[id]))
                 }
             })
             .map { _ in self.cache  } //this is needed so that we'll return first update with all images as placeholders

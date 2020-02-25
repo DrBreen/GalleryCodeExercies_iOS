@@ -27,17 +27,32 @@ fileprivate class MockErrorMapper: NetworkRequestErrorMapper {
 
 class AlamofireNetworkRequestSenderTest: XCTestCase {
     
+    fileprivate enum TestType {
+        case get
+        case upload
+        case put
+    }
+    
     override func setUp() {
         continueAfterFailure = false
     }
     
     private let sender = AlamofireNetworkRequestSender()
     
+    func test_putDataSuccess() {
+        sender.errorMapper = nil
+        
+        let mockedData = "testData".data(using: .utf8)!
+        performTest(testType: .put, mockedData: mockedData, verifier: { (data: Data?, error: Error?) in
+            XCTAssertEqual(mockedData, data)
+        }, expectResponse: true)
+    }
+    
     func test_getDataSuccess() {
         sender.errorMapper = nil
         
         let mockedData = "testData".data(using: .utf8)!
-        performTest(mockedData: mockedData, verifier: { (data: Data?, error: Error?) in
+        performTest(testType: .get, mockedData: mockedData, verifier: { (data: Data?, error: Error?) in
             XCTAssertEqual(mockedData, data)
         }, expectResponse: true)
     }
@@ -46,7 +61,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         sender.errorMapper = nil
         
         let error = NSError(domain: "testDomain", code: 1, userInfo: nil)
-        performTest(mockedError: error, verifier: { (data: Data?, responseError: Error?) in
+        performTest(testType: .get, mockedError: error, verifier: { (data: Data?, responseError: Error?) in
             XCTAssertNotNil(responseError)
             
             let nsError = responseError! as NSError
@@ -60,7 +75,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         sender.errorMapper = MockErrorMapper()
         
         let errorData = "errorTestData".data(using: .utf8)!
-        performTest(mockedData: errorData, mockedStatus: 400, verifier: { (_: Data?, error: Error?) in
+        performTest(testType: .get, mockedData: errorData, mockedStatus: 400, verifier: { (_: Data?, error: Error?) in
             XCTAssertNotNil(error)
             
             let nsError = error! as NSError
@@ -76,7 +91,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         
         let mockedObject = ["objet" : "d'Art"]
         let mockedData = try! JSONSerialization.data(withJSONObject: mockedObject, options: [])
-        performTest(mockedData: mockedData, verifier: { (data: Any?, error: Error?) in
+        performTest(testType: .upload, mockedData: mockedData, verifier: { (data: Any?, error: Error?) in
             XCTAssertTrue(data is [String: String])
             
             let dictionary = data as! [String: String]
@@ -88,7 +103,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         sender.errorMapper = nil
         
         let error = NSError(domain: "testDomain", code: 1, userInfo: nil)
-        performTest(mockedError: error, verifier: { (data: Any?, responseError: Error?) in
+        performTest(testType: .upload, mockedError: error, verifier: { (data: Any?, responseError: Error?) in
             XCTAssertNotNil(responseError)
             
             let nsError = responseError! as NSError
@@ -102,7 +117,7 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         sender.errorMapper = MockErrorMapper()
         
         let errorData = "errorTestData".data(using: .utf8)!
-        performTest(mockedData: errorData, mockedStatus: 400, verifier: { (_: Any?, error: Error?) in
+        performTest(testType: .upload, mockedData: errorData, mockedStatus: 400, verifier: { (_: Any?, error: Error?) in
             XCTAssertNotNil(error)
             
             let nsError = error! as NSError
@@ -113,7 +128,8 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         }, expectResponse: false, expectError: true)
     }
     
-    func performTest<T>(mockedData: Data? = nil,
+    fileprivate func performTest<T>(testType: TestType,
+                        mockedData: Data? = nil,
                         mockedError: Error? = nil,
                         mockedStatus: Int32 = 200,
                         verifier: ((T?, Error?) -> Void)? = nil,
@@ -144,10 +160,12 @@ class AlamofireNetworkRequestSenderTest: XCTestCase {
         let disposeBag = DisposeBag()
         
         let observable: Observable<T>
-        if T.self == Any.self {
+        if testType == .upload {
             observable = sender.upload(url: URL(string: "http://test.com")!, body: [:], headers: nil) as! Observable<T>
-        } else if T.self == Data.self {
+        } else if testType == .get {
             observable = sender.getData(url: URL(string: "http://test.com")!, query: nil, headers: nil) as! Observable<T>
+        } else if testType == .put {
+            observable = sender.put(url: URL(string: "http://test.com")!, body: [:], headers: nil).asObservable() as! Observable<T>
         } else {
             fatalError("Unsupported type of response")
         }
